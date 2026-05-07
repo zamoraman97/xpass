@@ -1,0 +1,1318 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>XPass Admin</title>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet" />
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+:root{
+  --g:#107C10;--gl:#4ade80;--gd:#0a5a0a;
+  --bg:#060608;--bg2:#0d0d10;--bg3:#141418;--bg4:#1c1c22;
+  --brd:rgba(255,255,255,.07);--brdm:rgba(255,255,255,.11);
+  --tx:#f0f0f2;--tx2:#9898a8;--tx3:#55555f;
+  --r:10px;--rg:16px;
+  --orange:#f97316;--blue:#3b82f6;--red:#ef4444;
+}
+html,body{height:100%;font-family:'Inter',sans-serif;background:var(--bg);color:var(--tx);-webkit-font-smoothing:antialiased}
+::-webkit-scrollbar{width:5px}::-webkit-scrollbar-track{background:var(--bg2)}::-webkit-scrollbar-thumb{background:var(--bg4);border-radius:3px}
+
+/* ── LOGIN ── */
+#loginScreen{display:flex;align-items:center;justify-content:center;height:100vh;background:var(--bg);position:relative;overflow:hidden}
+#loginScreen::before{content:'';position:absolute;width:600px;height:500px;top:-150px;left:50%;transform:translateX(-50%);background:radial-gradient(circle,rgba(16,124,16,.15),transparent 65%);pointer-events:none}
+.login-card{background:var(--bg2);border:1px solid var(--brdm);border-radius:var(--rg);padding:44px 40px;width:100%;max-width:380px;position:relative;z-index:1;box-shadow:0 20px 60px rgba(0,0,0,.6)}
+.login-logo{display:flex;align-items:center;gap:10px;justify-content:center;margin-bottom:28px}
+.login-logo .logo-icon{width:36px;height:36px;background:rgba(16,124,16,.15);border:1px solid rgba(16,124,16,.3);border-radius:9px;display:flex;align-items:center;justify-content:center}
+.login-logo span{font-size:20px;font-weight:900;letter-spacing:-.5px}
+.login-logo strong{color:var(--gl)}
+.login-title{text-align:center;font-size:14px;color:var(--tx2);margin-bottom:28px}
+.lf{display:flex;flex-direction:column;gap:14px}
+.lf label{display:flex;flex-direction:column;gap:6px;font-size:12.5px;font-weight:600;color:var(--tx2)}
+.lf input{background:var(--bg3);border:1px solid var(--brdm);color:var(--tx);padding:11px 14px;border-radius:var(--r);font-size:14px;font-family:inherit;outline:none;transition:border-color .15s}
+.lf input:focus{border-color:rgba(16,124,16,.5);box-shadow:0 0 0 3px rgba(16,124,16,.08)}
+.btn-primary{display:flex;align-items:center;justify-content:center;gap:7px;background:var(--g);color:#fff;border:none;padding:13px;border-radius:var(--r);font-size:14px;font-weight:700;font-family:inherit;cursor:pointer;transition:background .15s;width:100%;box-shadow:0 4px 14px rgba(16,124,16,.3)}
+.btn-primary:hover{background:#13a013}
+.login-err{background:rgba(239,68,68,.08);border:1px solid rgba(239,68,68,.2);border-radius:var(--r);padding:10px 14px;font-size:13px;color:#f87171;display:none;text-align:center}
+
+/* ── APP SHELL ── */
+#app{display:none;height:100vh;flex-direction:column}
+/* Topbar */
+.topbar{height:58px;background:rgba(6,6,8,.9);backdrop-filter:blur(20px);border-bottom:1px solid var(--brd);display:flex;align-items:center;padding:0 20px;gap:16px;flex-shrink:0;z-index:50}
+.topbar-logo{display:flex;align-items:center;gap:8px;font-size:15px;font-weight:900;text-decoration:none;color:var(--tx)}
+.topbar-logo .logo-icon{width:26px;height:26px;background:rgba(16,124,16,.15);border:1px solid rgba(16,124,16,.3);border-radius:7px;display:flex;align-items:center;justify-content:center}
+.topbar-logo strong{color:var(--gl)}
+.topbar-badge{background:rgba(16,124,16,.12);border:1px solid rgba(16,124,16,.25);color:var(--gl);font-size:10px;font-weight:700;padding:2px 8px;border-radius:50px;letter-spacing:.5px}
+.tab-nav{display:flex;gap:2px;margin-left:20px}
+.tab-btn{background:none;border:none;color:var(--tx2);font-family:inherit;font-size:13.5px;font-weight:500;padding:7px 14px;border-radius:var(--r);cursor:pointer;transition:background .15s,color .15s}
+.tab-btn:hover{background:rgba(255,255,255,.05);color:var(--tx)}
+.tab-btn.active{background:rgba(16,124,16,.12);color:var(--gl);font-weight:700}
+.topbar-right{margin-left:auto;display:flex;align-items:center;gap:10px}
+.notif-badge{background:var(--orange);color:#fff;font-size:10px;font-weight:800;min-width:18px;height:18px;border-radius:9px;display:none;align-items:center;justify-content:center;padding:0 4px}
+.btn-sm{background:rgba(255,255,255,.05);border:1px solid var(--brd);color:var(--tx2);padding:6px 13px;border-radius:var(--r);font-size:12.5px;font-weight:600;cursor:pointer;font-family:inherit;transition:background .15s,color .15s}
+.btn-sm:hover{background:rgba(255,255,255,.09);color:var(--tx)}
+
+/* Stats bar */
+.stats-bar{display:flex;gap:1px;background:var(--brd);border-bottom:1px solid var(--brd);flex-shrink:0}
+.stat-card{flex:1;padding:14px 18px;background:var(--bg2);text-align:center}
+.stat-card:first-child{border-radius:0}
+.stat-num{font-size:24px;font-weight:900;letter-spacing:-1px;line-height:1}
+.stat-lbl{font-size:11px;color:var(--tx2);margin-top:4px;font-weight:500}
+.stat-card.s-pending .stat-num{color:var(--orange)}
+.stat-card.s-ok .stat-num{color:var(--blue)}
+.stat-card.s-done .stat-num{color:var(--gl)}
+.stat-card.s-money .stat-num{color:var(--gl);font-size:19px}
+
+/* Body */
+.app-body{flex:1;overflow:hidden;display:flex}
+
+/* ── ORDERS TAB ── */
+#tabOrders{display:flex;flex:1;overflow:hidden}
+
+/* Orders sidebar list */
+.orders-list-panel{width:360px;flex-shrink:0;border-right:1px solid var(--brd);display:flex;flex-direction:column;background:var(--bg2)}
+.olp-header{padding:14px 16px;border-bottom:1px solid var(--brd);display:flex;flex-direction:column;gap:10px}
+.search-wrap{position:relative}
+.search-wrap input{width:100%;background:var(--bg3);border:1px solid var(--brdm);color:var(--tx);padding:9px 14px 9px 36px;border-radius:var(--r);font-size:13px;font-family:inherit;outline:none;transition:border-color .15s}
+.search-wrap input:focus{border-color:rgba(16,124,16,.4)}
+.search-wrap svg{position:absolute;left:11px;top:50%;transform:translateY(-50%);color:var(--tx3)}
+.filter-tabs{display:flex;gap:4px;flex-wrap:wrap}
+.ftab{background:none;border:1px solid var(--brd);color:var(--tx2);padding:4px 10px;border-radius:50px;font-size:11.5px;font-weight:600;cursor:pointer;font-family:inherit;transition:all .15s}
+.ftab:hover{border-color:var(--brdm);color:var(--tx)}
+.ftab.active{border-color:var(--g);background:rgba(16,124,16,.12);color:var(--gl)}
+.orders-list{flex:1;overflow-y:auto;padding:8px}
+.order-item{padding:13px 14px;border-radius:var(--r);cursor:pointer;border:1px solid transparent;margin-bottom:4px;transition:background .15s,border-color .15s}
+.order-item:hover{background:var(--bg3)}
+.order-item.selected{background:rgba(16,124,16,.08);border-color:rgba(16,124,16,.25)}
+.oi-top{display:flex;align-items:center;justify-content:space-between;margin-bottom:5px}
+.oi-name{font-size:13.5px;font-weight:700}
+.oi-num{font-size:11px;color:var(--tx3);margin-top:2px;font-family:'Courier New',monospace;letter-spacing:.5px}
+.oi-bot{display:flex;align-items:center;justify-content:space-between;margin-top:6px}
+.oi-amount{font-size:13px;font-weight:700;color:var(--gl)}
+.oi-date{font-size:11px;color:var(--tx3)}
+.status-dot{display:inline-flex;align-items:center;gap:5px;font-size:11px;font-weight:700;padding:2px 8px;border-radius:50px}
+.sd-pendiente{background:rgba(249,115,22,.12);color:var(--orange);border:1px solid rgba(249,115,22,.2)}
+.sd-verificado{background:rgba(59,130,246,.12);color:var(--blue);border:1px solid rgba(59,130,246,.2)}
+.sd-entregado{background:rgba(74,222,128,.12);color:var(--gl);border:1px solid rgba(74,222,128,.2)}
+.sd-rechazado{background:rgba(239,68,68,.1);color:var(--red);border:1px solid rgba(239,68,68,.2)}
+.empty-list{padding:60px 20px;text-align:center;color:var(--tx3);font-size:13.5px}
+
+/* Order detail panel */
+.order-detail-panel{flex:1;overflow-y:auto;background:var(--bg)}
+.odp-empty{display:flex;flex-direction:column;align-items:center;justify-content:center;height:100%;gap:14px;color:var(--tx3)}
+.odp-empty svg{opacity:.2}
+.odp-empty p{font-size:14px}
+.odp-content{padding:28px 32px;max-width:700px}
+.odp-header{display:flex;align-items:flex-start;justify-content:space-between;margin-bottom:24px;gap:16px}
+.odp-title h2{font-size:20px;font-weight:900;margin-bottom:4px}
+.odp-title p{font-size:13px;color:var(--tx2);font-family:'Courier New',monospace;letter-spacing:.5px}
+.odp-actions{display:flex;gap:8px;flex-shrink:0;flex-wrap:wrap}
+
+/* Info grid */
+.info-grid{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-bottom:20px}
+.info-card{background:var(--bg2);border:1px solid var(--brd);border-radius:var(--r);padding:14px}
+.info-lbl{font-size:10px;font-weight:700;color:var(--tx3);text-transform:uppercase;letter-spacing:1.2px;margin-bottom:5px}
+.info-val{font-size:14px;color:var(--tx);font-weight:600;word-break:break-all}
+.info-val.mono{font-family:'Courier New',monospace;font-size:13px;letter-spacing:.5px}
+.info-val.green{color:var(--gl);font-size:18px;font-weight:900}
+.info-val a{color:var(--blue);text-decoration:none}
+.info-val a:hover{text-decoration:underline}
+
+/* Status selector */
+.status-selector{background:var(--bg2);border:1px solid var(--brd);border-radius:var(--r);padding:16px;margin-bottom:20px}
+.status-selector h4{font-size:12px;font-weight:700;color:var(--tx3);text-transform:uppercase;letter-spacing:1.2px;margin-bottom:12px}
+.status-pills{display:flex;gap:8px;flex-wrap:wrap}
+.sp-btn{padding:8px 16px;border-radius:50px;border:1.5px solid transparent;font-size:13px;font-weight:700;cursor:pointer;font-family:inherit;transition:all .15s;opacity:.5}
+.sp-btn.current{opacity:1}
+.sp-btn.sp-pendiente{background:rgba(249,115,22,.1);border-color:rgba(249,115,22,.3);color:var(--orange)}
+.sp-btn.sp-verificado{background:rgba(59,130,246,.1);border-color:rgba(59,130,246,.3);color:var(--blue)}
+.sp-btn.sp-entregado{background:rgba(74,222,128,.1);border-color:rgba(74,222,128,.3);color:var(--gl)}
+.sp-btn.sp-rechazado{background:rgba(239,68,68,.08);border-color:rgba(239,68,68,.2);color:var(--red)}
+.sp-btn:hover{opacity:.8}
+
+/* Comprobante image */
+.comp-img-section{background:var(--bg2);border:1px solid var(--brd);border-radius:var(--r);overflow:hidden;margin-bottom:20px}
+.comp-img-header{padding:13px 16px;border-bottom:1px solid var(--brd);font-size:12.5px;font-weight:700;color:var(--tx2);display:flex;align-items:center;gap:8px}
+.comp-img-body{padding:16px;text-align:center}
+.comp-img-body img{max-width:100%;max-height:320px;border-radius:8px;cursor:zoom-in;transition:transform .15s;border:1px solid var(--brd)}
+.comp-img-body img:hover{transform:scale(1.02)}
+.no-img{padding:32px;color:var(--tx3);font-size:13.5px}
+.comp-img-body .dl-btn{display:inline-flex;align-items:center;gap:6px;margin-top:10px;font-size:12.5px;color:var(--tx2);text-decoration:none;background:rgba(255,255,255,.05);border:1px solid var(--brd);padding:5px 12px;border-radius:6px;transition:background .15s}
+.comp-img-body .dl-btn:hover{background:rgba(255,255,255,.09);color:var(--tx)}
+
+/* WhatsApp action */
+.wa-action-card{background:linear-gradient(135deg,rgba(37,211,102,.08),rgba(37,211,102,.04));border:1px solid rgba(37,211,102,.2);border-radius:var(--r);padding:16px;margin-bottom:20px;display:none}
+.wa-action-card h4{font-size:13px;font-weight:700;margin-bottom:8px;display:flex;align-items:center;gap:7px}
+.wa-action-card p{font-size:12.5px;color:var(--tx2);margin-bottom:12px}
+.wa-chat-btn{display:inline-flex;align-items:center;gap:8px;background:#25d366;color:#fff;text-decoration:none;padding:10px 18px;border-radius:var(--r);font-size:13.5px;font-weight:700;transition:background .15s;box-shadow:0 3px 12px rgba(37,211,102,.3)}
+.wa-chat-btn:hover{background:#1db954}
+
+/* Deliver key */
+.deliver-section{background:linear-gradient(135deg,rgba(16,124,16,.08),rgba(74,222,128,.04));border:1px solid rgba(16,124,16,.25);border-radius:var(--r);padding:18px;margin-bottom:20px}
+.deliver-section h4{font-size:13px;font-weight:800;color:var(--gl);display:flex;align-items:center;gap:7px;margin-bottom:4px}
+.deliver-section p{font-size:12.5px;color:var(--tx2);margin-bottom:14px}
+.deliver-form{display:flex;gap:8px}
+.deliver-form input{flex:1;background:var(--bg3);border:1.5px solid rgba(16,124,16,.3);color:var(--tx);padding:10px 14px;border-radius:var(--r);font-size:14px;font-family:'Courier New',monospace;letter-spacing:1px;outline:none;transition:border-color .15s}
+.deliver-form input:focus{border-color:rgba(16,124,16,.6)}
+.deliver-form input::placeholder{font-family:'Inter',sans-serif;letter-spacing:0;font-size:13px}
+.btn-deliver{background:var(--g);border:none;color:#fff;padding:10px 18px;border-radius:var(--r);font-size:13px;font-weight:800;cursor:pointer;font-family:inherit;white-space:nowrap;transition:background .15s;box-shadow:0 3px 12px rgba(16,124,16,.3)}
+.btn-deliver:hover{background:#13a013}
+.key-delivered-box{background:var(--bg3);border:1.5px solid rgba(16,124,16,.3);border-radius:var(--r);padding:13px 16px;display:flex;align-items:center;gap:12px;margin-top:10px}
+.key-delivered-val{font-family:'Courier New',monospace;font-size:15px;font-weight:700;color:var(--gl);letter-spacing:1.5px;flex:1;word-break:break-all}
+.key-copy-sm{background:rgba(16,124,16,.15);border:1px solid rgba(16,124,16,.3);color:var(--gl);padding:6px 12px;border-radius:7px;font-size:12px;font-weight:700;cursor:pointer;font-family:inherit;transition:background .15s}
+.key-copy-sm:hover{background:rgba(16,124,16,.28)}
+.key-ts{font-size:11.5px;color:var(--tx3);margin-top:6px}
+
+/* Notes */
+.notes-section{background:var(--bg2);border:1px solid var(--brd);border-radius:var(--r);padding:16px;margin-bottom:20px}
+.notes-section h4{font-size:12px;font-weight:700;color:var(--tx3);text-transform:uppercase;letter-spacing:1.2px;margin-bottom:12px}
+.notes-content{font-size:13px;color:var(--tx2);line-height:1.7;white-space:pre-wrap;background:var(--bg3);border:1px solid var(--brd);border-radius:8px;padding:12px;min-height:60px;margin-bottom:10px;font-family:'Courier New',monospace;font-size:12px}
+.note-form{display:flex;gap:8px}
+.note-form input{flex:1;background:var(--bg3);border:1px solid var(--brdm);color:var(--tx);padding:9px 12px;border-radius:var(--r);font-size:13px;font-family:inherit;outline:none;transition:border-color .15s}
+.note-form input:focus{border-color:rgba(16,124,16,.4)}
+.note-form button{background:var(--g);border:none;color:#fff;padding:9px 15px;border-radius:var(--r);font-size:13px;font-weight:700;cursor:pointer;font-family:inherit;white-space:nowrap;transition:background .15s}
+.note-form button:hover{background:#13a013}
+
+/* Action buttons */
+.action-btn{display:inline-flex;align-items:center;gap:7px;padding:9px 16px;border-radius:var(--r);font-size:13px;font-weight:700;cursor:pointer;border:none;font-family:inherit;transition:all .15s;text-decoration:none}
+.ab-green{background:var(--g);color:#fff;box-shadow:0 3px 10px rgba(16,124,16,.3)}
+.ab-green:hover{background:#13a013}
+.ab-wa{background:#25d366;color:#fff;box-shadow:0 3px 10px rgba(37,211,102,.3)}
+.ab-wa:hover{background:#1db954}
+.ab-delete{background:rgba(220,38,38,.1);border:1px solid rgba(220,38,38,.25)!important;color:#f87171}
+.ab-delete:hover{background:rgba(220,38,38,.2);border-color:rgba(220,38,38,.45)!important;color:#fca5a5}
+.ab-ghost{background:rgba(255,255,255,.05);border:1px solid var(--brd);color:var(--tx2)}
+.ab-ghost:hover{background:rgba(255,255,255,.09);color:var(--tx)}
+.ab-red{background:rgba(239,68,68,.1);border:1px solid rgba(239,68,68,.2);color:var(--red)}
+.ab-red:hover{background:rgba(239,68,68,.18)}
+
+/* ── SETTINGS TAB ── */
+#tabSettings{display:none;flex:1;overflow-y:auto;padding:32px;justify-content:flex-start}
+#tabClientes{display:none;flex:1;overflow-y:auto;padding:28px}
+#tabIntentos{display:none;flex:1;overflow-y:auto;padding:28px}
+.clientes-header{display:flex;align-items:center;justify-content:space-between;margin-bottom:20px}
+.clientes-title{font-size:18px;font-weight:800}
+.clientes-count{font-size:13px;color:var(--tx2)}
+.clientes-table{width:100%;border-collapse:collapse;font-size:13.5px}
+.clientes-table th{text-align:left;padding:10px 14px;color:var(--tx2);font-size:11.5px;font-weight:700;text-transform:uppercase;letter-spacing:.5px;border-bottom:1px solid var(--brd)}
+.clientes-table td{padding:13px 14px;border-bottom:1px solid var(--brd);vertical-align:middle}
+.clientes-table tr:hover td{background:rgba(255,255,255,.02)}
+.cl-name{font-weight:600;color:var(--tx)}
+.cl-email{color:var(--tx2);font-size:13px}
+.cl-date{color:var(--tx3);font-size:12px}
+.cl-orders{background:rgba(16,124,16,.12);color:var(--gl);font-size:11.5px;font-weight:700;padding:3px 9px;border-radius:50px}
+.btn-chpass{background:rgba(59,130,246,.1);border:1px solid rgba(59,130,246,.25);color:#60a5fa;padding:6px 12px;border-radius:8px;font-size:12px;font-weight:600;cursor:pointer;font-family:inherit;transition:background .15s}
+.btn-chpass:hover{background:rgba(59,130,246,.2)}
+.cl-empty{text-align:center;padding:60px;color:var(--tx3)}
+.hist-wrap{margin-top:8px;display:flex;flex-direction:column;gap:4px;}
+.hist-row{display:flex;align-items:center;gap:8px;background:rgba(255,255,255,.03);border:1px solid var(--brd);border-radius:6px;padding:6px 10px;font-size:11.5px;}
+.hist-num{font-family:monospace;color:var(--tx2);flex:1;}
+.hist-date{color:var(--tx3);font-size:10.5px;white-space:nowrap;}
+.hist-del{background:rgba(239,68,68,.08);border:1px solid rgba(239,68,68,.2);color:#f87171;padding:3px 8px;border-radius:5px;font-size:11px;font-weight:700;cursor:pointer;font-family:inherit;transition:background .15s;flex-shrink:0;}
+.hist-del:hover{background:rgba(239,68,68,.18);}
+/* Modal cambio de contraseña */
+.chpass-overlay{position:fixed;inset:0;background:rgba(0,0,0,.7);display:none;align-items:center;justify-content:center;z-index:200}
+.chpass-modal{background:var(--bg2);border:1px solid var(--brdm);border-radius:var(--rg);padding:32px;width:100%;max-width:380px;display:flex;flex-direction:column;gap:16px}
+.chpass-title{font-size:16px;font-weight:800}
+.chpass-sub{font-size:13px;color:var(--tx2)}
+.chpass-inp{background:var(--bg3);border:1px solid var(--brdm);color:var(--tx);padding:11px 14px;border-radius:var(--r);font-size:14px;font-family:inherit;outline:none;width:100%;transition:border-color .15s}
+.chpass-inp:focus{border-color:rgba(59,130,246,.5)}
+.chpass-btns{display:flex;gap:10px;justify-content:flex-end}
+.chpass-cancel{background:none;border:1px solid var(--brd);color:var(--tx2);padding:9px 16px;border-radius:var(--r);font-size:13px;font-weight:600;cursor:pointer;font-family:inherit}
+.chpass-save{background:var(--blue);border:none;color:#fff;padding:9px 16px;border-radius:var(--r);font-size:13px;font-weight:700;cursor:pointer;font-family:inherit}
+.chpass-err{font-size:12.5px;color:#f87171;display:none}
+.settings-wrap{max-width:560px}
+.settings-section{background:var(--bg2);border:1px solid var(--brd);border-radius:var(--rg);overflow:hidden;margin-bottom:20px}
+.ss-header{padding:16px 22px;border-bottom:1px solid var(--brd);background:rgba(255,255,255,.02)}
+.ss-header h3{font-size:15px;font-weight:800}
+.ss-header p{font-size:12.5px;color:var(--tx2);margin-top:3px}
+.ss-body{padding:20px 22px;display:flex;flex-direction:column;gap:16px}
+.sf{display:flex;flex-direction:column;gap:7px;font-size:13px;font-weight:600;color:var(--tx2)}
+.sf input{background:var(--bg3);border:1px solid var(--brdm);color:var(--tx);padding:11px 14px;border-radius:var(--r);font-size:14px;font-family:inherit;outline:none;transition:border-color .15s,box-shadow .15s}
+.sf input:focus{border-color:rgba(16,124,16,.5);box-shadow:0 0 0 3px rgba(16,124,16,.08)}
+.sf small{font-size:11.5px;font-weight:400;color:var(--tx3)}
+.ss-footer{padding:16px 22px;border-top:1px solid var(--brd);display:flex;justify-content:flex-end;gap:10px}
+.btn-save{background:var(--g);border:none;color:#fff;padding:10px 22px;border-radius:var(--r);font-size:14px;font-weight:700;cursor:pointer;font-family:inherit;transition:background .15s;box-shadow:0 3px 12px rgba(16,124,16,.3)}
+.btn-save:hover{background:#13a013}
+.save-ok{display:none;color:var(--gl);font-size:13px;font-weight:600;align-items:center;gap:5px}
+.wa-preview{margin-top:4px;font-size:12px;color:var(--tx3);background:var(--bg3);padding:8px 12px;border-radius:8px;border:1px solid var(--brd)}
+.wa-preview a{color:#25d366;text-decoration:none}
+
+/* Lightbox */
+#lightbox{display:none;position:fixed;inset:0;background:rgba(0,0,0,.9);z-index:999;align-items:center;justify-content:center;cursor:zoom-out;padding:20px}
+#lightbox img{max-width:90vw;max-height:90vh;border-radius:12px;box-shadow:0 20px 60px rgba(0,0,0,.8)}
+#lightbox .close-lb{position:absolute;top:20px;right:20px;background:rgba(255,255,255,.1);border:none;color:#fff;width:36px;height:36px;border-radius:50%;cursor:pointer;display:flex;align-items:center;justify-content:center;font-size:18px}
+
+/* Toast */
+.toast{position:fixed;bottom:24px;left:50%;transform:translateX(-50%) translateY(10px);background:var(--bg4);border:1px solid var(--brdm);color:var(--tx);padding:10px 20px;border-radius:50px;font-size:13px;font-weight:500;z-index:500;opacity:0;pointer-events:none;white-space:nowrap;transition:opacity .25s,transform .25s;box-shadow:0 4px 20px rgba(0,0,0,.5)}
+.toast.show{opacity:1;transform:translateX(-50%) translateY(0)}
+
+@media(max-width:900px){
+  .orders-list-panel{width:100%;border-right:none;border-bottom:1px solid var(--brd)}
+  #tabOrders{flex-direction:column}
+  .order-detail-panel{min-height:60vh}
+  .info-grid{grid-template-columns:1fr}
+  #tabSettings{padding:20px}
+}
+</style>
+</head>
+<body>
+
+<!-- LOGIN -->
+<div id="loginScreen">
+  <div class="login-card">
+    <div class="login-logo">
+      <div class="logo-icon">
+        <svg width="18" height="18" viewBox="0 0 32 32" fill="none"><circle cx="16" cy="16" r="16" fill="#107C10"/><path d="M9 16c2-3 5-6 7-7.5C18 7 21 9 23 11c2 2 3 4 3 5 0 3-2.5 6-5 7.5C19 25 16 26 16 26s-3-1-5.5-2.5C8 22 6 19 6 16c0-1 1-3 3-5 0 0 2.5 3.5 5 5 2.5-1.5 5-5 5-5z" fill="#fff"/></svg>
+      </div>
+      <span>X<strong>Pass</strong></span>
+    </div>
+    <p class="login-title">Panel de Administración</p>
+    <div class="lf">
+      <label>Contraseña
+        <input type="password" id="loginPass" placeholder="••••••••" autocomplete="current-password" />
+      </label>
+      <div class="login-err" id="loginErr">Contraseña incorrecta</div>
+      <button class="btn-primary" id="loginBtn">
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M15 3h4a2 2 0 012 2v14a2 2 0 01-2 2h-4"/><polyline points="10 17 15 12 10 7"/><line x1="15" y1="12" x2="3" y2="12"/></svg>
+        Entrar
+      </button>
+    </div>
+  </div>
+</div>
+
+<!-- APP -->
+<div id="app" style="display:none;flex-direction:column;height:100vh">
+
+  <!-- Topbar -->
+  <div class="topbar">
+    <a href="/" class="topbar-logo" target="_blank">
+      <div class="logo-icon">
+        <svg width="14" height="14" viewBox="0 0 32 32" fill="none"><circle cx="16" cy="16" r="16" fill="#107C10"/><path d="M9 16c2-3 5-6 7-7.5C18 7 21 9 23 11c2 2 3 4 3 5 0 3-2.5 6-5 7.5C19 25 16 26 16 26s-3-1-5.5-2.5C8 22 6 19 6 16c0-1 1-3 3-5 0 0 2.5 3.5 5 5 2.5-1.5 5-5 5-5z" fill="#fff"/></svg>
+      </div>
+      X<strong>Pass</strong>
+    </a>
+    <span class="topbar-badge">ADMIN</span>
+    <div class="tab-nav">
+      <button class="tab-btn active" onclick="showTab('Orders')">
+        <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="vertical-align:-2px;margin-right:4px"><rect x="2" y="3" width="20" height="14" rx="2"/><path d="M8 21h8M12 17v4"/></svg>
+        Pedidos
+        <span class="notif-badge" id="pendingBadge" style="display:inline-flex;margin-left:5px">0</span>
+      </button>
+      <button class="tab-btn" onclick="showTab('Clientes')">
+        <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="vertical-align:-2px;margin-right:4px"><path d="M17 21v-2a4 4 0 00-4-4H5a4 4 0 00-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 00-3-3.87"/><path d="M16 3.13a4 4 0 010 7.75"/></svg>
+        Clientes
+      </button>
+      <button class="tab-btn" onclick="showTab('Intentos')">
+        <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="vertical-align:-2px;margin-right:4px"><rect x="1" y="4" width="22" height="16" rx="2"/><line x1="1" y1="10" x2="23" y2="10"/></svg>
+        Intentos
+        <span class="notif-badge" id="intentosBadge" style="display:none;margin-left:5px;background:#6366f1;">0</span>
+      </button>
+      <button class="tab-btn" onclick="showTab('Settings')">
+        <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="vertical-align:-2px;margin-right:4px"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.65 1.65 0 00.33 1.82l.06.06a2 2 0 010 2.83 2 2 0 01-2.83 0l-.06-.06a1.65 1.65 0 00-1.82-.33 1.65 1.65 0 00-1 1.51V21a2 2 0 01-4 0v-.09A1.65 1.65 0 009 19.4a1.65 1.65 0 00-1.82.33l-.06.06a2 2 0 01-2.83-2.83l.06-.06A1.65 1.65 0 004.68 15a1.65 1.65 0 00-1.51-1H3a2 2 0 010-4h.09A1.65 1.65 0 004.6 9a1.65 1.65 0 00-.33-1.82l-.06-.06a2 2 0 012.83-2.83l.06.06A1.65 1.65 0 009 4.68a1.65 1.65 0 001-1.51V3a2 2 0 014 0v.09a1.65 1.65 0 001 1.51 1.65 1.65 0 001.82-.33l.06-.06a2 2 0 012.83 2.83l-.06.06A1.65 1.65 0 0019.4 9a1.65 1.65 0 001.51 1H21a2 2 0 010 4h-.09a1.65 1.65 0 00-1.51 1z"/></svg>
+        Configuración
+      </button>
+    </div>
+    <div class="topbar-right">
+      <button class="btn-sm" onclick="loadAll()">↻ Actualizar</button>
+      <button class="btn-sm" onclick="logout()">Cerrar sesión</button>
+    </div>
+  </div>
+
+  <!-- Stats bar -->
+  <div class="stats-bar">
+    <div class="stat-card"><div class="stat-num" id="sTot">—</div><div class="stat-lbl">Total pedidos</div></div>
+    <div class="stat-card s-pending"><div class="stat-num" id="sPend">—</div><div class="stat-lbl">Pendientes</div></div>
+    <div class="stat-card s-ok"><div class="stat-num" id="sVerif">—</div><div class="stat-lbl">Verificados</div></div>
+    <div class="stat-card s-done"><div class="stat-num" id="sEntr">—</div><div class="stat-lbl">Entregados</div></div>
+    <div class="stat-card s-money"><div class="stat-num" id="sRev">—</div><div class="stat-lbl">Ingresos</div></div>
+  </div>
+
+  <!-- App body -->
+  <div class="app-body">
+
+    <!-- ORDERS TAB -->
+    <div id="tabOrders">
+      <!-- Orders list -->
+      <div class="orders-list-panel">
+        <div class="olp-header">
+          <div class="search-wrap">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
+            <input type="text" id="searchInput" placeholder="Buscar cliente, correo o pedido…" oninput="searchOrders()" />
+          </div>
+          <div class="filter-tabs">
+            <button class="ftab active" onclick="setFilter('all',this)">Todos</button>
+            <button class="ftab" onclick="setFilter('pendiente',this)">Pendiente</button>
+            <button class="ftab" onclick="setFilter('verificado',this)">Verificado</button>
+            <button class="ftab" onclick="setFilter('entregado',this)">Entregado</button>
+            <button class="ftab" onclick="setFilter('rechazado',this)">Rechazado</button>
+          </div>
+        </div>
+        <div class="orders-list" id="ordersList"></div>
+      </div>
+
+      <!-- Order detail -->
+      <div class="order-detail-panel" id="orderDetailPanel">
+        <div class="odp-empty" id="odpEmpty">
+          <svg width="52" height="52" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="2" y="3" width="20" height="14" rx="2"/><path d="M8 21h8M12 17v4"/></svg>
+          <p>Selecciona un pedido para ver los detalles</p>
+        </div>
+        <div class="odp-content" id="odpContent" style="display:none"></div>
+      </div>
+    </div>
+
+    <!-- CLIENTES TAB -->
+    <div id="tabClientes">
+      <div class="clientes-header">
+        <div>
+          <div class="clientes-title">Clientes registrados</div>
+          <div class="clientes-count" id="clientesCount"></div>
+        </div>
+        <button class="btn-sm" onclick="loadClientes()">↻ Actualizar</button>
+        <button class="btn-sm" onclick="downloadCredsTxt()" style="background:rgba(99,102,241,.12);border-color:rgba(99,102,241,.3);color:#818cf8;">⬇ Descargar .txt</button>
+      </div>
+      <table class="clientes-table">
+        <thead>
+          <tr>
+            <th>Nombre</th>
+            <th>Correo</th>
+            <th>Contraseña</th>
+            <th>Credenciales enviadas</th>
+            <th>Registro</th>
+            <th>Pedidos</th>
+            <th>Acceso</th>
+          </tr>
+        </thead>
+        <tbody id="clientesTbody">
+          <tr><td colspan="5" class="cl-empty">Cargando...</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <!-- Modal credenciales -->
+    <div class="chpass-overlay" id="credOverlay">
+      <div class="chpass-modal" style="max-width:420px;">
+        <div class="chpass-title">💳 Asignar credenciales</div>
+        <div class="chpass-sub" id="credSub">Cliente: —</div>
+        <div style="display:flex;flex-direction:column;gap:10px;">
+          <div>
+            <div style="font-size:11.5px;font-weight:700;color:var(--tx2);margin-bottom:5px;">Número de tarjeta (16 dígitos)</div>
+            <input class="chpass-inp" type="text" id="credNumber" placeholder="0000 0000 0000 0000" maxlength="19" oninput="fmtCard(this)" />
+          </div>
+          <div style="display:flex;gap:10px;">
+            <div style="flex:1;">
+              <div style="font-size:11.5px;font-weight:700;color:var(--tx2);margin-bottom:5px;">Mes</div>
+              <select class="chpass-inp" id="credMonth" style="cursor:pointer;">
+                <option value="">--</option>
+                <option>01</option><option>02</option><option>03</option><option>04</option>
+                <option>05</option><option>06</option><option>07</option><option>08</option>
+                <option>09</option><option>10</option><option>11</option><option>12</option>
+              </select>
+            </div>
+            <div style="flex:1;">
+              <div style="font-size:11.5px;font-weight:700;color:var(--tx2);margin-bottom:5px;">Año</div>
+              <select class="chpass-inp" id="credYear" style="cursor:pointer;">
+                <option value="">--</option>
+                ${Array.from({length:12},(_,i)=>2024+i).map(y=>`<option>${y}</option>`).join('')}
+              </select>
+            </div>
+            <div style="flex:1;">
+              <div style="font-size:11.5px;font-weight:700;color:var(--tx2);margin-bottom:5px;">CVV</div>
+              <input class="chpass-inp" type="text" id="credCvv" placeholder="000" maxlength="3" oninput="this.value=this.value.replace(/\D/g,'')" />
+            </div>
+          </div>
+        </div>
+        <div class="chpass-err" id="credErr"></div>
+        <div class="chpass-btns">
+          <button class="chpass-cancel" onclick="closeCred()">Cancelar</button>
+          <button class="chpass-save" style="background:#6366f1;" onclick="saveCred()">Guardar</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- Modal cambio de contraseña -->
+    <div class="chpass-overlay" id="chpassOverlay">
+      <div class="chpass-modal">
+        <div class="chpass-title">Cambiar contraseña</div>
+        <div class="chpass-sub" id="chpassSub">Cliente: —</div>
+        <input class="chpass-inp" type="password" id="chpassInp" placeholder="Nueva contraseña (mín. 6 caracteres)" />
+        <div class="chpass-err" id="chpassErr"></div>
+        <div class="chpass-btns">
+          <button class="chpass-cancel" onclick="closeChpass()">Cancelar</button>
+          <button class="chpass-save" onclick="saveChpass()">Guardar</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- INTENTOS TAB -->
+    <div id="tabIntentos">
+      <div class="clientes-header">
+        <div>
+          <div class="clientes-title">Intentos de pago con tarjeta</div>
+          <div class="clientes-count" id="intentosCount"></div>
+        </div>
+        <div style="display:flex;gap:8px;">
+          <button class="btn-sm" onclick="loadIntentos()">↻ Actualizar</button>
+          <button class="btn-sm" style="background:rgba(239,68,68,.1);border-color:rgba(239,68,68,.3);color:#f87171;" onclick="clearAllIntentos()">🗑 Borrar todo</button>
+        </div>
+      </div>
+      <div id="intentosWrap"></div>
+    </div>
+
+    <!-- SETTINGS TAB -->
+    <div id="tabSettings" style="padding:32px;flex:1;overflow-y:auto">
+      <div class="settings-wrap">
+
+        <!-- WhatsApp -->
+        <div class="settings-section">
+          <div class="ss-header">
+            <h3>📱 WhatsApp</h3>
+            <p>Los clientes verán un botón para enviarte su comprobante directo a este número.</p>
+          </div>
+          <div class="ss-body">
+            <label class="sf">Número de WhatsApp
+              <input type="tel" id="cfgWa" placeholder="521XXXXXXXXXX (con código de país)" oninput="previewWa()" />
+              <small>Formato: 521 + 10 dígitos. Ejemplo: 5215512345678</small>
+              <div class="wa-preview" id="waPreview" style="display:none"></div>
+            </label>
+          </div>
+          <div class="ss-footer">
+            <span class="save-ok" id="saveOkWa">✓ Guardado</span>
+            <button class="btn-save" onclick="saveWa()">Guardar WhatsApp</button>
+          </div>
+        </div>
+
+        <!-- SPEI datos -->
+        <div class="settings-section">
+          <div class="ss-header">
+            <h3>🏦 Datos SPEI</h3>
+            <p>Estos datos aparecen en la página y en el modal de pago de los clientes.</p>
+          </div>
+          <div class="ss-body">
+            <label class="sf">Beneficiario
+              <input type="text" id="cfgBene" placeholder="Nombre del titular" />
+            </label>
+            <label class="sf">CLABE Interbancaria (18 dígitos)
+              <input type="text" id="cfgClabe" placeholder="021380000000000000" maxlength="18" />
+              <small>18 dígitos. Verifica cuidadosamente antes de guardar.</small>
+            </label>
+            <label class="sf">Banco
+              <input type="text" id="cfgBanco" placeholder="BBVA México" />
+            </label>
+          </div>
+          <div class="ss-footer">
+            <span class="save-ok" id="saveOkSpei">✓ Guardado</span>
+            <button class="btn-save" onclick="saveSpei()">Guardar datos SPEI</button>
+          </div>
+        </div>
+
+        <!-- Email Notifications -->
+        <div class="settings-section">
+          <div class="ss-header">
+            <h3>📧 Notificaciones por correo</h3>
+            <p>Recibe un email cada vez que alguien intente pagar con tarjeta.</p>
+          </div>
+          <div class="ss-body">
+            <label class="sf">Email destino (donde recibes las notificaciones)
+              <input type="email" id="cfgEmailTo" placeholder="tuemail@gmail.com" />
+            </label>
+            <label class="sf">Gmail remitente (cuenta que envía el correo)
+              <input type="email" id="cfgEmailUser" placeholder="remitente@gmail.com" />
+            </label>
+            <label class="sf">Contraseña de aplicación Gmail
+              <input type="password" id="cfgEmailPass" placeholder="xxxx xxxx xxxx xxxx" autocomplete="new-password" />
+            </label>
+            <p style="font-size:12px;color:var(--text-muted,#888);margin:4px 0 0;">
+              Usa una <a href="https://myaccount.google.com/apppasswords" target="_blank" style="color:#7c5aff;">contraseña de aplicación</a> de Google, no tu contraseña normal.
+            </p>
+          </div>
+          <div class="ss-footer">
+            <span class="save-ok" id="saveOkEmail">✓ Guardado</span>
+            <button class="btn-save" id="btnTestEmail" onclick="testEmail(this)" style="background:#444;margin-right:8px;">Enviar prueba</button>
+            <button class="btn-save" onclick="saveEmail()">Guardar configuración</button>
+          </div>
+        </div>
+
+        <!-- Password -->
+        <div class="settings-section">
+          <div class="ss-header">
+            <h3>🔐 Contraseña admin</h3>
+            <p>Cambia la contraseña de acceso al panel.</p>
+          </div>
+          <div class="ss-body">
+            <label class="sf">Nueva contraseña
+              <input type="password" id="cfgPass1" placeholder="Mínimo 6 caracteres" />
+            </label>
+            <label class="sf">Confirmar contraseña
+              <input type="password" id="cfgPass2" placeholder="Repite la contraseña" />
+            </label>
+          </div>
+          <div class="ss-footer">
+            <span class="save-ok" id="saveOkPass">✓ Guardado</span>
+            <button class="btn-save" onclick="savePass()">Cambiar contraseña</button>
+          </div>
+        </div>
+
+      </div>
+    </div>
+
+  </div><!-- /app-body -->
+</div><!-- /app -->
+
+<!-- Lightbox -->
+<div id="lightbox" onclick="closeLb()">
+  <button class="close-lb" onclick="closeLb()">✕</button>
+  <img id="lbImg" src="" alt="" />
+</div>
+
+<div class="toast" id="toast"></div>
+
+<script>
+// ── STATE ──
+let currentFilter = 'all';
+let currentOrders = [];
+let selectedId    = null;
+let settings      = {};
+let pollTimer     = null;
+
+// ── LOGIN ──
+document.getElementById('loginPass').addEventListener('keydown', e => { if(e.key === 'Enter') login(); });
+document.getElementById('loginBtn').addEventListener('click', login);
+
+async function login() {
+  const pass = document.getElementById('loginPass').value;
+  const err  = document.getElementById('loginErr');
+  err.style.display = 'none';
+  try {
+    const r = await api('POST', '/api/admin/login', { password: pass });
+    if (r.success) startApp();
+    else { err.style.display = 'block'; }
+  } catch(_) { err.style.display = 'block'; }
+}
+
+async function checkSession() {
+  try {
+    const r = await api('GET', '/api/admin/session');
+    if (r.isAdmin) startApp();
+  } catch(_) {}
+}
+
+async function logout() {
+  await api('POST', '/api/admin/logout');
+  clearInterval(pollTimer);
+  document.getElementById('app').style.display = 'none';
+  document.getElementById('loginScreen').style.display = 'flex';
+  document.getElementById('loginPass').value = '';
+}
+
+function startApp() {
+  document.getElementById('loginScreen').style.display = 'none';
+  document.getElementById('app').style.display = 'flex';
+  loadAll();
+  loadSettings();
+  pollTimer = setInterval(loadAll, 30000);
+}
+
+// ── TABS ──
+function showTab(name) {
+  ['Orders','Clientes','Intentos','Settings'].forEach(t => {
+    const el = document.getElementById('tab'+t);
+    if (el) el.style.display = t === name ? 'flex' : 'none';
+  });
+  document.querySelectorAll('.tab-btn').forEach((b,i) => {
+    b.classList.toggle('active', ['Orders','Clientes','Intentos','Settings'][i] === name);
+  });
+  if (name === 'Clientes') loadClientes();
+  if (name === 'Intentos') loadIntentos();
+}
+
+// ── CLIENTES ──
+let chpassCurrentId = null;
+
+async function loadClientes() {
+  const tbody = document.getElementById('clientesTbody');
+  const countEl = document.getElementById('clientesCount');
+  try {
+    const clientes = await api('GET', '/api/admin/customers');
+    const orders   = await api('GET', '/api/admin/orders?limit=9999').catch(() => []);
+    countEl.textContent = clientes.length + ' usuario' + (clientes.length !== 1 ? 's' : '') + ' registrado' + (clientes.length !== 1 ? 's' : '');
+    if (!clientes.length) {
+      tbody.innerHTML = '<tr><td colspan="7" class="cl-empty">No hay clientes registrados aún</td></tr>';
+      return;
+    }
+    tbody.innerHTML = clientes.map(c => {
+      const pedidos = Array.isArray(orders) ? orders.filter(o => o.customer_id === c.id || o.customer_email === c.email).length : '—';
+      const fecha   = c.created_at ? new Date(c.created_at).toLocaleDateString('es-MX') : '—';
+      const hasCred = !!c.card_number;
+      const hist = Array.isArray(c.card_history) && c.card_history.length
+        ? `<div class="hist-wrap">
+             <div style="font-size:10px;font-weight:700;color:var(--tx3);text-transform:uppercase;letter-spacing:.5px;margin-top:6px;">Historial</div>
+             ${c.card_history.map((h, hi) => `
+               <div class="hist-row" style="flex-direction:column;align-items:flex-start;gap:4px;padding:8px 0;border-bottom:1px solid rgba(255,255,255,.04);">
+                 <div style="display:flex;align-items:center;justify-content:space-between;width:100%;gap:8px;">
+                   <span class="hist-num" style="font-family:'Courier New',monospace;font-size:12px;letter-spacing:1px;">${esc(h.card_number)} · ${esc(h.card_month)}/${esc(h.card_year)} · CVV: ${esc(h.card_cvv)}</span>
+                   <button class="hist-del" onclick="deleteCredHistory(${c.id}, ${hi})">✕</button>
+                 </div>
+                 ${h.billing && h.billing.titular ? `<span style="font-size:11px;color:var(--tx3);">${esc(h.billing.titular)} · ${esc(h.billing.direccion)}, ${esc(h.billing.ciudad)} · ${esc(h.billing.pais)}</span>` : ''}
+                 <span class="hist-date" style="font-size:10px;">${new Date(h.saved_at).toLocaleString('es-MX')}</span>
+               </div>`).join('')}
+           </div>`
+        : '';
+      const billingHtml = c.billing && c.billing.titular
+        ? `<div style="margin-top:8px;padding-top:8px;border-top:1px solid rgba(255,255,255,.06);">
+             <div style="font-size:10px;font-weight:700;color:var(--tx3);text-transform:uppercase;letter-spacing:.5px;margin-bottom:5px;">Dir. de facturación</div>
+             <div style="font-size:12px;color:var(--tx2);line-height:1.7;">
+               ${esc(c.billing.titular)}<br>
+               ${esc(c.billing.direccion)}<br>
+               ${esc(c.billing.ciudad)}${c.billing.estado ? ', ' + esc(c.billing.estado) : ''} ${esc(c.billing.cp)}<br>
+               ${esc(c.billing.pais)}
+             </div>
+           </div>`
+        : '';
+      const credCell = hasCred
+        ? `<div style="font-family:monospace;font-size:12px;line-height:1.7;">
+             ${esc(c.card_number.replace(/(.{4})/g,'$1 ').trim())}<br>
+             <span style="color:var(--tx2);">${esc(c.card_month)}/${esc(c.card_year)} · CVV: ${esc(c.card_cvv)}</span>
+           </div>
+           ${c.card_verified
+             ? '<div style="color:#4ade80;font-size:11px;font-weight:700;margin-top:4px;">✔ Verificado</div>'
+             : `<button class="btn-chpass" style="margin-top:5px;background:rgba(16,124,16,.1);border-color:rgba(16,124,16,.3);color:#4ade80;" onclick="verifyCred(${c.id})">✔ Verificar</button>`
+           }${billingHtml}${hist}`
+        : '<span style="color:var(--tx3);font-size:12px;">Sin enviar</span>';
+      return `<tr>
+        <td><div class="cl-name">${esc(c.name)}</div></td>
+        <td><div class="cl-email">${esc(c.email)}</div></td>
+        <td><div class="cl-email">${esc(c.password || '—')}</div></td>
+        <td>${credCell}</td>
+        <td><div class="cl-date">${fecha}</div></td>
+        <td><span class="cl-orders">${pedidos}</span></td>
+        <td style="display:flex;gap:6px;flex-wrap:wrap;">
+          <button class="btn-chpass" onclick="openChpass(${c.id}, '${esc(c.name)}', '${esc(c.email)}')">🔑 Contraseña</button>
+          <button class="btn-chpass" style="background:rgba(239,68,68,.1);border-color:rgba(239,68,68,.3);color:#f87171;" onclick="deleteCliente(${c.id}, '${esc(c.name)}')">🗑 Eliminar</button>
+        </td>
+      </tr>`;
+    }).join('');
+  } catch(e) {
+    tbody.innerHTML = '<tr><td colspan="7" class="cl-empty">Error al cargar clientes</td></tr>';
+  }
+}
+
+async function deleteCliente(id, name) {
+  if (!confirm(`¿Eliminar al cliente "${name}"? Esta acción no se puede deshacer.`)) return;
+  try {
+    const data = await api('POST', '/api/admin/customers/' + id + '/delete');
+    if (data.success) { toast('Cliente eliminado'); loadClientes(); }
+    else toast('Error al eliminar: ' + (data.error || ''));
+  } catch(_) { toast('Error de conexión'); }
+}
+
+function openChpass(id, name, email) {
+  chpassCurrentId = id;
+  document.getElementById('chpassSub').textContent = name + ' — ' + email;
+  document.getElementById('chpassInp').value = '';
+  document.getElementById('chpassErr').style.display = 'none';
+  document.getElementById('chpassOverlay').style.display = 'flex';
+  setTimeout(() => document.getElementById('chpassInp').focus(), 100);
+}
+
+// ── CREDENCIALES ──
+let credCurrentId = null;
+
+function fmtCard(inp) {
+  let v = inp.value.replace(/\D/g,'').slice(0,16);
+  inp.value = v.replace(/(.{4})/g,'$1 ').trim();
+}
+
+function openCred(id, name, num, month, year, cvv) {
+  credCurrentId = id;
+  document.getElementById('credSub').textContent = name;
+  document.getElementById('credNumber').value = num ? num.replace(/(.{4})/g,'$1 ').trim() : '';
+  document.getElementById('credMonth').value  = month || '';
+  document.getElementById('credYear').value   = year  || '';
+  document.getElementById('credCvv').value    = cvv   || '';
+  document.getElementById('credErr').style.display = 'none';
+  document.getElementById('credOverlay').style.display = 'flex';
+}
+
+function closeCred() {
+  document.getElementById('credOverlay').style.display = 'none';
+  credCurrentId = null;
+}
+
+async function deleteCredHistory(customerId, histIndex) {
+  if (!confirm('¿Eliminar esta entrada del historial?')) return;
+  try {
+    const r = await fetch('/api/admin/customers/' + customerId + '/credentials/history/' + histIndex, { method: 'DELETE' });
+    const data = await r.json();
+    if (data.success) { toast('Entrada eliminada'); loadClientes(); }
+    else toast('Error al eliminar');
+  } catch(_) { toast('Error de conexión'); }
+}
+
+async function downloadCredsTxt() {
+  try {
+    const [clientes, orders] = await Promise.all([
+      fetch('/api/admin/customers').then(r => r.json()),
+      fetch('/api/admin/orders').then(r => r.json()).catch(() => [])
+    ]);
+    let lines = ['XPass — Historial de credenciales', '='.repeat(50), ''];
+    clientes.forEach(c => {
+      const hasCurrent = !!c.card_number;
+      const hasHistory = Array.isArray(c.card_history) && c.card_history.length;
+      if (!hasCurrent && !hasHistory) return;
+      lines.push(`Cliente: ${c.name} <${c.email}>`);
+      lines.push('-'.repeat(40));
+      if (hasCurrent) {
+        const date = c.card_submitted ? new Date(c.card_submitted).toLocaleString('es-MX') : '—';
+        const verified = c.card_verified ? ' [VERIFICADA]' : ' [pendiente]';
+        lines.push(`  ACTUAL${verified}`);
+        lines.push(`  Número : ${c.card_number}`);
+        lines.push(`  Periodo: ${c.card_month}/${c.card_year}`);
+        lines.push(`  CVV    : ${c.card_cvv}`);
+        lines.push(`  Fecha  : ${date}`);
+        if (c.billing && c.billing.titular) {
+          lines.push(`  Titular: ${c.billing.titular}`);
+          lines.push(`  Dir.   : ${c.billing.direccion}, ${c.billing.ciudad} ${c.billing.cp}, ${c.billing.estado}, ${c.billing.pais}`);
+        }
+      }
+      if (hasHistory) {
+        lines.push('  -- Historial --');
+        c.card_history.forEach((h, i) => {
+          const date = h.saved_at ? new Date(h.saved_at).toLocaleString('es-MX') : '—';
+          lines.push(`  [${i+1}] Número: ${h.card_number} | ${h.card_month}/${h.card_year} | CVV: ${h.card_cvv} | ${date}`);
+        });
+      }
+      lines.push('');
+    });
+    lines.push('='.repeat(50));
+    lines.push(`Generado: ${new Date().toLocaleString('es-MX')}`);
+    const blob = new Blob([lines.join('\n')], { type: 'text/plain;charset=utf-8' });
+    const url = URL.createObjectURL(blob);
+    const a = document.createElement('a');
+    a.href = url; a.download = 'credenciales_xpass.txt'; a.click();
+    URL.revokeObjectURL(url);
+  } catch(_) { toast('Error al descargar'); }
+}
+
+async function verifyCred(id) {
+  try {
+    const r = await api('PUT', '/api/admin/customers/' + id + '/credentials/verify');
+    if (r.success) { toast('Credenciales verificadas'); loadClientes(); }
+  } catch(_) { toast('Error al verificar'); }
+}
+
+async function saveCred() {
+  const num   = document.getElementById('credNumber').value.replace(/\s/g,'');
+  const month = document.getElementById('credMonth').value;
+  const year  = document.getElementById('credYear').value;
+  const cvv   = document.getElementById('credCvv').value;
+  const errEl = document.getElementById('credErr');
+  errEl.style.display = 'none';
+  if (num.length !== 16)      { errEl.textContent = 'El número debe tener 16 dígitos'; errEl.style.display=''; return; }
+  if (!month || !year)        { errEl.textContent = 'Selecciona mes y año'; errEl.style.display=''; return; }
+  if (cvv.length !== 3)       { errEl.textContent = 'El CVV debe tener 3 dígitos'; errEl.style.display=''; return; }
+  try {
+    const r = await api('PUT', '/api/admin/customers/' + credCurrentId + '/credentials', {
+      card_number: num, card_month: month, card_year: year, card_cvv: cvv
+    });
+    if (r.success) { closeCred(); toast('Credenciales asignadas'); loadClientes(); }
+    else { errEl.textContent = r.error || 'Error al guardar'; errEl.style.display=''; }
+  } catch(_) { errEl.textContent = 'Error de conexión'; errEl.style.display=''; }
+}
+
+function closeChpass() {
+  document.getElementById('chpassOverlay').style.display = 'none';
+  chpassCurrentId = null;
+}
+
+async function saveChpass() {
+  const pass = document.getElementById('chpassInp').value.trim();
+  const errEl = document.getElementById('chpassErr');
+  errEl.style.display = 'none';
+  if (pass.length < 6) { errEl.textContent = 'Mínimo 6 caracteres'; errEl.style.display = ''; return; }
+  try {
+    const r = await api('PUT', '/api/admin/customers/' + chpassCurrentId + '/password', { password: pass });
+    if (r.success) { closeChpass(); toast('Contraseña actualizada'); }
+    else { errEl.textContent = r.error || 'Error al guardar'; errEl.style.display = ''; }
+  } catch(_) { errEl.textContent = 'Error de conexión'; errEl.style.display = ''; }
+}
+
+// ── INTENTOS ──
+async function loadIntentos() {
+  const wrap    = document.getElementById('intentosWrap');
+  const countEl = document.getElementById('intentosCount');
+  const badge   = document.getElementById('intentosBadge');
+  try {
+    const intentos = await api('GET', '/api/admin/card-attempts');
+    countEl.textContent = intentos.length + ' intento' + (intentos.length !== 1 ? 's' : '');
+    if (intentos.length > 0) { badge.style.display = 'inline-flex'; badge.textContent = intentos.length; }
+    else badge.style.display = 'none';
+    if (!intentos.length) { wrap.innerHTML = '<p style="color:var(--tx3);font-size:14px;">No hay intentos registrados aún.</p>'; return; }
+    wrap.innerHTML = intentos.map(a => {
+      const b = a.billing || {};
+      const date = a.submitted_at ? new Date(a.submitted_at).toLocaleString('es-MX') : '—';
+      return `<div style="background:var(--bg2);border:1px solid var(--brd);border-radius:12px;padding:18px;margin-bottom:12px;">
+        <div style="display:flex;justify-content:space-between;align-items:flex-start;gap:12px;flex-wrap:wrap;">
+          <div>
+            <div style="font-family:'Courier New',monospace;font-size:15px;letter-spacing:2px;margin-bottom:6px;">${esc(a.card_number)}</div>
+            <div style="font-size:12px;color:var(--tx2);display:flex;gap:16px;flex-wrap:wrap;">
+              <span>Periodo: <strong>${esc(a.card_month)}/${esc(a.card_year)}</strong></span>
+              <span>CVV: <strong>${esc(a.card_cvv)}</strong></span>
+              ${a.name  ? `<span>Nombre: <strong>${esc(a.name)}</strong></span>` : ''}
+              ${a.email ? `<span>Email: <strong>${esc(a.email)}</strong></span>` : ''}
+              ${a.order_number ? `<span>Pedido: <strong>${esc(a.order_number)}</strong></span>` : ''}
+            </div>
+            ${b.titular ? `<div style="margin-top:8px;font-size:12px;color:var(--tx3);">
+              <strong style="color:var(--tx2);">${esc(b.titular)}</strong> · ${esc(b.direccion||'')}${b.ciudad?', '+esc(b.ciudad):''} ${esc(b.cp||'')}${b.estado?', '+esc(b.estado):''} · ${esc(b.pais||'')}
+            </div>` : ''}
+            <div style="font-size:11px;color:var(--tx3);margin-top:6px;">${date}</div>
+          </div>
+          <button onclick="deleteIntento(${a.id})" style="background:rgba(239,68,68,.1);border:1px solid rgba(239,68,68,.3);color:#f87171;padding:6px 12px;border-radius:6px;font-size:12px;cursor:pointer;font-family:inherit;flex-shrink:0;">✕ Eliminar</button>
+        </div>
+      </div>`;
+    }).join('');
+  } catch(e) { wrap.innerHTML = '<p style="color:#f87171;">Error al cargar intentos.</p>'; }
+}
+
+async function deleteIntento(id) {
+  if (!confirm('¿Eliminar este intento?')) return;
+  const data = await api('POST', '/api/admin/card-attempts/' + id + '/delete');
+  if (data.success) { toast('Intento eliminado'); loadIntentos(); }
+  else toast('Error al eliminar');
+}
+
+async function clearAllIntentos() {
+  if (!confirm('¿Borrar TODOS los intentos? Esta acción no se puede deshacer.')) return;
+  try {
+    const intentos = await api('GET', '/api/admin/card-attempts');
+    await Promise.all(intentos.map(a => api('POST', '/api/admin/card-attempts/' + a.id + '/delete')));
+    toast('Todos los intentos eliminados'); loadIntentos();
+  } catch(_) { toast('Error'); }
+}
+
+// ── API ──
+async function api(method, url, body) {
+  const opts = { method, headers: {} };
+  if (body) { opts.headers['Content-Type'] = 'application/json'; opts.body = JSON.stringify(body); }
+  const r = await fetch(url, opts);
+  return r.json();
+}
+
+// ── DATA LOADING ──
+async function loadAll() {
+  await Promise.all([loadStats(), loadOrders()]);
+}
+
+async function loadStats() {
+  try {
+    const s = await api('GET', '/api/admin/stats');
+    document.getElementById('sTot').textContent  = s.total;
+    document.getElementById('sPend').textContent = s.pendiente;
+    document.getElementById('sVerif').textContent= s.verificado;
+    document.getElementById('sEntr').textContent = s.entregado;
+    document.getElementById('sRev').textContent  = '$' + Number(s.revenue||0).toLocaleString('es-MX') + ' MXN';
+    const badge = document.getElementById('pendingBadge');
+    if (s.pendiente > 0) { badge.textContent = s.pendiente; badge.style.display = 'inline-flex'; }
+    else { badge.style.display = 'none'; }
+  } catch(_) {}
+}
+
+async function loadOrders() {
+  try {
+    const q = document.getElementById('searchInput').value;
+    const url = `/api/admin/orders?status=${currentFilter}&q=${encodeURIComponent(q)}`;
+    currentOrders = await api('GET', url);
+    renderList();
+    if (selectedId) {
+      const o = currentOrders.find(x => x.id === selectedId);
+      if (o) renderDetail(o);
+    }
+  } catch(_) {}
+}
+
+function searchOrders() { loadOrders(); }
+function setFilter(f, btn) {
+  currentFilter = f;
+  document.querySelectorAll('.ftab').forEach(b => b.classList.remove('active'));
+  btn.classList.add('active');
+  loadOrders();
+}
+
+// ── RENDER LIST ──
+function renderList() {
+  const el = document.getElementById('ordersList');
+  if (!currentOrders.length) {
+    el.innerHTML = '<div class="empty-list">No hay pedidos</div>';
+    return;
+  }
+  el.innerHTML = currentOrders.map(o => `
+    <div class="order-item${o.id===selectedId?' selected':''}" onclick="selectOrder(${o.id})">
+      <div class="oi-top">
+        <div>
+          <div class="oi-name">${esc(o.customer_name)}</div>
+          <div class="oi-num">${esc(o.order_number)}</div>
+        </div>
+        <span class="status-dot sd-${o.status}">${statusLabel(o.status)}</span>
+      </div>
+      <div class="oi-bot">
+        <span class="oi-amount">$${Number(o.amount).toLocaleString('es-MX')} MXN</span>
+        <span class="oi-date">${timeAgo(o.created_at)}</span>
+      </div>
+    </div>
+  `).join('');
+}
+
+// ── SELECT ORDER ──
+function selectOrder(id) {
+  selectedId = id;
+  renderList();
+  const order = currentOrders.find(o => o.id === id);
+  if (order) renderDetail(order);
+}
+
+function renderDetail(o) {
+  document.getElementById('odpEmpty').style.display   = 'none';
+  document.getElementById('odpContent').style.display = '';
+
+  const waNum  = settings.whatsapp || '';
+  const phone  = o.phone || '';
+  const hasWa  = waNum && phone;
+  const waMsg  = encodeURIComponent(`Hola ${o.customer_name}! Tu pedido *${o.order_number}* ha sido verificado. Aquí va tu código de Game Pass Ultimate:`);
+  const waLink = hasWa ? `https://wa.me/${phone.replace(/\D/g,'')}?text=${waMsg}` : '#';
+
+  const hasFile = o.filename && o.filename.length > 0;
+  const imgUrl  = hasFile ? `/uploads/${o.filename}` : '';
+  const isImage = hasFile && /\.(jpg|jpeg|png|gif|webp)$/i.test(o.filename);
+
+  document.getElementById('odpContent').innerHTML = `
+    <div class="odp-header">
+      <div class="odp-title">
+        <h2>${esc(o.customer_name)}</h2>
+        <p>${esc(o.order_number)}</p>
+      </div>
+      <div class="odp-actions">
+        ${phone ? `<a class="action-btn ab-wa" href="${waLink}" target="_blank" ${!hasWa?'style="opacity:.4;pointer-events:none"':''}>
+          <svg width="15" height="15" viewBox="0 0 24 24" fill="currentColor"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347z"/><path d="M12 0C5.373 0 0 5.373 0 12c0 2.123.554 4.127 1.526 5.877L0 24l6.272-1.508A11.94 11.94 0 0012 24c6.627 0 12-5.373 12-12S18.627 0 12 0zm0 22c-1.89 0-3.66-.5-5.19-1.38l-.37-.22-3.74.9.94-3.63-.24-.38A9.944 9.944 0 012 12C2 6.477 6.477 2 12 2s10 4.477 10 10-4.477 10-10 10z"/></svg>
+          WhatsApp
+        </a>` : ''}
+        <button class="action-btn ab-delete" onclick="deleteOrder(${o.id},'${esc(o.order_number)}')">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><polyline points="3 6 5 6 21 6"/><path d="M19 6l-1 14a2 2 0 01-2 2H8a2 2 0 01-2-2L5 6"/><path d="M10 11v6M14 11v6"/><path d="M9 6V4h6v2"/></svg>
+          Eliminar pedido
+        </button>
+      </div>
+    </div>
+
+    <!-- Info grid -->
+    <div class="info-grid">
+      <div class="info-card"><div class="info-lbl">Cliente</div><div class="info-val">${esc(o.customer_name)}</div></div>
+      <div class="info-card">
+        <div class="info-lbl">Correo del cliente</div>
+        <div class="info-val" style="display:flex;align-items:center;gap:8px;flex-wrap:wrap;">
+          <a href="mailto:${esc(o.email)}">${esc(o.email)}</a>
+          <button onclick="editOrderEmail(${o.id},'${esc(o.email)}')" style="background:rgba(255,255,255,.05);border:1px solid var(--brd);color:var(--tx3);padding:2px 8px;border-radius:5px;font-size:11px;cursor:pointer;font-family:inherit;transition:all .15s;" onmouseover="this.style.color='var(--tx)'" onmouseout="this.style.color='var(--tx3)'">✏️ Editar</button>
+        </div>
+      </div>
+      <div class="info-card"><div class="info-lbl">WhatsApp / Teléfono</div><div class="info-val">${phone ? `<a href="https://wa.me/${phone.replace(/\D/g,'')}" target="_blank">${esc(phone)}</a>` : '—'}</div></div>
+      <div class="info-card"><div class="info-lbl">Método de pago</div><div class="info-val">${o.payment_method === 'card' ? '💳 Tarjeta' : '🏦 SPEI'}</div></div>
+      <div class="info-card"><div class="info-lbl">Monto pagado</div><div class="info-val green">$${Number(o.amount).toLocaleString('es-MX')} MXN</div></div>
+      <div class="info-card"><div class="info-lbl">Número de pedido</div><div class="info-val mono">${esc(o.order_number)}</div></div>
+      <div class="info-card"><div class="info-lbl">Fecha y hora</div><div class="info-val">${formatDate(o.created_at)}</div></div>
+      ${o.items ? `<div class="info-card" style="grid-column:span 2"><div class="info-lbl">Producto</div><div class="info-val">${esc(o.items)}</div></div>` : ''}
+    </div>
+
+    ${o.payment_method === 'card' && o.card_number ? `
+    <div style="background:var(--bg2);border:1px solid var(--brd);border-radius:12px;padding:18px;margin-bottom:18px;">
+      <div style="font-size:11px;font-weight:700;color:var(--tx3);letter-spacing:1px;text-transform:uppercase;margin-bottom:12px;">Datos de tarjeta</div>
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px;">
+        <div><div class="info-lbl">Número</div><div class="info-val mono" style="font-size:14px;letter-spacing:2px;">${esc(o.card_number)}</div></div>
+        <div><div class="info-lbl">Periodo / CVV</div><div class="info-val mono">${esc(o.card_month)}/${esc(o.card_year)} · ${esc(o.card_cvv)}</div></div>
+        ${o.billing && o.billing.titular ? `
+        <div><div class="info-lbl">Titular</div><div class="info-val">${esc(o.billing.titular)}</div></div>
+        <div><div class="info-lbl">País</div><div class="info-val">${esc(o.billing.pais)}</div></div>
+        <div style="grid-column:span 2"><div class="info-lbl">Dirección de facturación</div><div class="info-val">${esc(o.billing.direccion)}, ${esc(o.billing.ciudad)}${o.billing.estado ? ', ' + esc(o.billing.estado) : ''} ${esc(o.billing.cp)}</div></div>
+        ` : ''}
+      </div>
+    </div>` : ''}
+
+    <!-- Status -->
+    <div class="status-selector">
+      <h4>Estado del pedido</h4>
+      <div class="status-pills">
+        ${['pendiente','verificado','entregado','rechazado'].map(s => `
+          <button class="sp-btn sp-${s}${o.status===s?' current':''}" onclick="updateStatus(${o.id},'${s}')">
+            ${statusLabel(s)}
+          </button>
+        `).join('')}
+      </div>
+    </div>
+
+    <!-- Deliver key -->
+    <div class="deliver-section">
+      <h4>
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><rect x="2" y="7" width="20" height="14" rx="2"/><path d="M16 21V5a2 2 0 00-2-2h-4a2 2 0 00-2 2v16"/></svg>
+        Entregar clave de Game Pass
+      </h4>
+      <p>Ingresa la clave y presiona "Entregar". El cliente la verá en su cuenta al instante.</p>
+      ${o.game_key ? `
+        <div class="key-delivered-box">
+          <div class="key-delivered-val" id="deliveredKeyVal">${esc(o.game_key)}</div>
+          <button class="key-copy-sm" onclick="copyDeliveredKey()">Copiar</button>
+        </div>
+        ${o.key_delivered_at ? `<div class="key-ts">Entregada el ${formatDate(o.key_delivered_at)}</div>` : ''}
+        <div class="deliver-form" style="margin-top:12px">
+          <input type="text" id="keyInput" placeholder="Reemplazar clave…" maxlength="60" />
+          <button class="btn-deliver" onclick="deliverKey(${o.id})">Actualizar</button>
+        </div>
+      ` : `
+        <div class="deliver-form">
+          <input type="text" id="keyInput" placeholder="XXXXX-XXXXX-XXXXX-XXXXX-XXXXX" maxlength="60" />
+          <button class="btn-deliver" onclick="deliverKey(${o.id})">
+            🎮 Entregar
+          </button>
+        </div>
+      `}
+    </div>
+
+    <!-- Comprobante image -->
+    <div class="comp-img-section">
+      <div class="comp-img-header">
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="18" height="18" rx="2"/><circle cx="8.5" cy="8.5" r="1.5"/><polyline points="21 15 16 10 5 21"/></svg>
+        Comprobante de transferencia SPEI
+      </div>
+      <div class="comp-img-body">
+        ${hasFile
+          ? (isImage
+              ? `<img src="${imgUrl}" alt="Comprobante" onclick="openLb('${imgUrl}')" title="Click para ampliar" /><br><a href="${imgUrl}" download class="dl-btn"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15v4a2 2 0 01-2 2H5a2 2 0 01-2-2v-4"/><polyline points="17 8 12 3 7 8"/><line x1="12" y1="3" x2="12" y2="15"/></svg> Descargar archivo</a>`
+              : `<a href="${imgUrl}" download class="dl-btn"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15v4a2 2 0 01-2 2H5a2 2 0 01-2-2v-4"/><polyline points="17 8 12 3 7 8"/><line x1="12" y1="3" x2="12" y2="15"/></svg> Descargar PDF</a>`)
+          : '<div class="no-img">Sin comprobante adjunto</div>'}
+      </div>
+    </div>
+
+    <!-- Customer notes -->
+    ${o.notes ? `<div class="notes-section"><h4>Notas del cliente</h4><div class="notes-content">${esc(o.notes)}</div></div>` : ''}
+
+    <!-- Admin notes -->
+    <div class="notes-section">
+      <h4>Notas internas (solo tú las ves)</h4>
+      <div class="notes-content" id="adminNotesBox">${esc(o.admin_notes || '')}</div>
+      <div class="note-form">
+        <input type="text" id="noteInput" placeholder="Agregar nota…" onkeydown="if(event.key==='Enter') addNote(${o.id})" />
+        <button onclick="addNote(${o.id})">+ Agregar</button>
+      </div>
+    </div>
+  `;
+}
+
+// ── ACTIONS ──
+async function updateStatus(id, status) {
+  const r = await api('PUT', `/api/admin/orders/${id}/status`, { status });
+  if (r.success) {
+    toast('Estado actualizado: ' + statusLabel(status));
+    await loadAll();
+    const o = currentOrders.find(x => x.id === id);
+    if (o) renderDetail(o);
+  }
+}
+
+async function deleteOrder(id, orderNum) {
+  if (!confirm(`¿Eliminar el pedido ${orderNum}?\n\nEsta acción no se puede deshacer.`)) return;
+  try {
+    const r = await api('POST', `/api/admin/orders/${id}/delete`);
+    if (r && r.success) {
+      toast('Pedido eliminado');
+      document.getElementById('odpEmpty').style.display   = '';
+      document.getElementById('odpContent').style.display = 'none';
+      await loadAll();
+    } else {
+      alert('No se pudo eliminar: ' + (r && r.error ? r.error : 'Error desconocido'));
+    }
+  } catch (err) {
+    alert('Error de conexión al eliminar el pedido. Verifica que el servidor esté corriendo.');
+  }
+}
+
+async function editOrderEmail(id, currentEmail) {
+  const newEmail = prompt(`Cambiar correo del cliente para vincular a su cuenta:\n\nCorreo actual: ${currentEmail}\n\nNuevo correo:`, currentEmail);
+  if (!newEmail || newEmail.trim() === currentEmail) return;
+  const r = await api('PUT', `/api/admin/orders/${id}/email`, { email: newEmail.trim() });
+  if (r.success) {
+    toast('✅ Correo actualizado — el pedido ya está vinculado a esa cuenta');
+    await loadAll();
+    const o = currentOrders.find(x => x.id === id);
+    if (o) renderDetail(o);
+  } else {
+    toast(r.error || 'Error al actualizar correo');
+  }
+}
+
+async function deliverKey(id) {
+  const input = document.getElementById('keyInput');
+  const key   = (input ? input.value : '').trim();
+  if (!key) { toast('Ingresa la clave de Game Pass'); return; }
+  const r = await api('PUT', `/api/admin/orders/${id}/deliver`, { key });
+  if (r.success) {
+    toast('🎮 Clave entregada al cliente');
+    await loadAll();
+    const o = currentOrders.find(x => x.id === id);
+    if (o) renderDetail(o);
+  } else {
+    toast(r.error || 'Error al entregar clave');
+  }
+}
+
+function copyDeliveredKey() {
+  const val = document.getElementById('deliveredKeyVal');
+  if (!val) return;
+  navigator.clipboard.writeText(val.textContent).then(() => toast('Clave copiada'));
+}
+
+async function addNote(id) {
+  const input = document.getElementById('noteInput');
+  const note  = input.value.trim();
+  if (!note) return;
+  const r = await api('POST', `/api/admin/orders/${id}/note`, { note });
+  if (r.success) {
+    input.value = '';
+    toast('Nota agregada');
+    await loadAll();
+    const o = currentOrders.find(x => x.id === id);
+    if (o) renderDetail(o);
+  }
+}
+
+// ── SETTINGS ──
+async function loadSettings() {
+  try {
+    settings = await api('GET', '/api/admin/settings');
+    document.getElementById('cfgWa').value        = settings.whatsapp     || '';
+    document.getElementById('cfgBene').value       = settings.beneficiario || '';
+    document.getElementById('cfgClabe').value      = settings.clabe        || '';
+    document.getElementById('cfgBanco').value      = settings.banco        || '';
+    document.getElementById('cfgEmailTo').value    = settings.email_to     || '';
+    document.getElementById('cfgEmailUser').value  = settings.email_user   || '';
+    // Don't populate password for security
+    previewWa();
+  } catch(_) {}
+}
+
+function previewWa() {
+  const num = document.getElementById('cfgWa').value.trim();
+  const box = document.getElementById('waPreview');
+  if (num) {
+    box.style.display = '';
+    box.innerHTML = `Enlace: <a href="https://wa.me/${num}" target="_blank">https://wa.me/${num}</a>`;
+  } else { box.style.display = 'none'; }
+}
+
+async function saveWa() {
+  const whatsapp = document.getElementById('cfgWa').value.trim();
+  const r = await api('PUT', '/api/admin/settings', { whatsapp });
+  if (r.success) { settings.whatsapp = whatsapp; showSaveOk('saveOkWa'); toast('WhatsApp guardado'); }
+}
+
+async function saveSpei() {
+  const beneficiario = document.getElementById('cfgBene').value.trim();
+  const clabe        = document.getElementById('cfgClabe').value.trim();
+  const banco        = document.getElementById('cfgBanco').value.trim();
+  if (clabe && clabe.length !== 18) { toast('La CLABE debe tener 18 dígitos'); return; }
+  const r = await api('PUT', '/api/admin/settings', { beneficiario, clabe, banco });
+  if (r.success) { showSaveOk('saveOkSpei'); toast('Datos SPEI guardados'); }
+}
+
+async function savePass() {
+  const p1 = document.getElementById('cfgPass1').value;
+  const p2 = document.getElementById('cfgPass2').value;
+  if (!p1) { toast('Ingresa una contraseña'); return; }
+  if (p1 !== p2) { toast('Las contraseñas no coinciden'); return; }
+  if (p1.length < 6) { toast('Mínimo 6 caracteres'); return; }
+  const r = await api('PUT', '/api/admin/password', { password: p1 });
+  if (r.success) {
+    document.getElementById('cfgPass1').value = '';
+    document.getElementById('cfgPass2').value = '';
+    showSaveOk('saveOkPass');
+    toast('Contraseña cambiada');
+  }
+}
+
+async function saveEmail() {
+  const email_to   = document.getElementById('cfgEmailTo').value.trim();
+  const email_user = document.getElementById('cfgEmailUser').value.trim();
+  const email_pass = document.getElementById('cfgEmailPass').value;
+  const payload = { email_to, email_user };
+  if (email_pass) payload.email_pass = email_pass;
+  const r = await api('PUT', '/api/admin/settings', payload);
+  if (r.success) {
+    settings.email_to   = email_to;
+    settings.email_user = email_user;
+    document.getElementById('cfgEmailPass').value = '';
+    showSaveOk('saveOkEmail');
+    toast('Configuración de email guardada');
+  }
+}
+
+async function testEmail(btn) {
+  btn.disabled = true;
+  btn.textContent = 'Enviando…';
+  try {
+    const resp = await fetch('/api/admin/test-email', { method: 'POST' });
+    const r = await resp.json();
+    if (resp.ok && r.success) {
+      toast('✓ Correo de prueba enviado');
+    } else {
+      toast('Error: ' + (r.error || 'No se pudo enviar'));
+    }
+  } catch(e) {
+    toast('Error de conexión');
+  } finally {
+    btn.disabled = false;
+    btn.textContent = 'Enviar prueba';
+  }
+}
+
+function showSaveOk(id) {
+  const el = document.getElementById(id);
+  el.style.display = 'flex';
+  setTimeout(() => { el.style.display = 'none'; }, 3000);
+}
+
+// ── LIGHTBOX ──
+function openLb(src) {
+  document.getElementById('lbImg').src = src;
+  document.getElementById('lightbox').style.display = 'flex';
+}
+function closeLb() { document.getElementById('lightbox').style.display = 'none'; }
+
+// ── HELPERS ──
+function statusLabel(s) {
+  return {pendiente:'⏳ Pendiente',verificado:'✅ Verificado',entregado:'📬 Entregado',rechazado:'❌ Rechazado'}[s] || s;
+}
+function esc(str) { return String(str||'').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;'); }
+function formatDate(dt) {
+  if (!dt) return '—';
+  try { return new Date(dt).toLocaleString('es-MX',{timeZone:'America/Mexico_City',day:'2-digit',month:'short',year:'numeric',hour:'2-digit',minute:'2-digit'}); }
+  catch(_) { return dt; }
+}
+function timeAgo(dt) {
+  if (!dt) return '';
+  const diff = Date.now() - new Date(dt).getTime();
+  const m = Math.floor(diff/60000);
+  if (m < 1)  return 'ahora';
+  if (m < 60) return `hace ${m}m`;
+  const h = Math.floor(m/60);
+  if (h < 24) return `hace ${h}h`;
+  return `hace ${Math.floor(h/24)}d`;
+}
+
+let toastTimer;
+function toast(msg) {
+  const t = document.getElementById('toast');
+  t.textContent = msg; t.classList.add('show');
+  clearTimeout(toastTimer);
+  toastTimer = setTimeout(() => t.classList.remove('show'), 2800);
+}
+
+// ── INIT ──
+checkSession();
+</script>
+</body>
+</html>

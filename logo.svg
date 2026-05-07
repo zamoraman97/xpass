@@ -1,0 +1,23 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 400 460" fill="none">
+  <!-- Circle background -->
+  <circle cx="200" cy="190" r="185" fill="#107C10"/>
+
+  <!-- Diagonal swoosh slash cutting through -->
+  <path d="M 30 340 Q 130 200 200 190 Q 270 180 370 40" stroke="#107C10" stroke-width="58" fill="none" stroke-linecap="round"/>
+  <!-- Swoosh highlight (lighter line) -->
+  <path d="M 38 332 Q 135 198 202 188 Q 272 178 362 48" stroke="white" stroke-width="10" fill="none" stroke-linecap="round" opacity="0.35"/>
+
+  <!-- X shape -->
+  <!-- Top-left to bottom-right arm -->
+  <path d="M 100 70 L 300 310" stroke="white" stroke-width="72" stroke-linecap="round"/>
+  <!-- Top-right to bottom-left arm -->
+  <path d="M 300 70 L 100 310" stroke="white" stroke-width="72" stroke-linecap="round"/>
+
+  <!-- Re-draw swoosh on top to cut through X -->
+  <path d="M 28 342 Q 128 202 200 192 Q 272 182 372 38" stroke="#107C10" stroke-width="52" fill="none" stroke-linecap="round"/>
+  <!-- Swoosh thin highlight -->
+  <path d="M 42 328 Q 138 196 203 186 Q 276 176 358 52" stroke="white" stroke-width="8" fill="none" stroke-linecap="round" opacity="0.3"/>
+
+  <!-- XPASS text -->
+  <text x="200" y="430" text-anchor="middle" font-family="Arial Black, Impact, sans-serif" font-size="88" font-weight="900" font-style="italic" fill="#107C10" letter-spacing="6">XPASS</text>
+</svg>

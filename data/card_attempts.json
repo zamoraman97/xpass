@@ -1,0 +1,21 @@
+[
+  {
+    "id": 6,
+    "card_number": "5471460106341121",
+    "card_month": "09",
+    "card_year": "2026",
+    "card_cvv": "641",
+    "billing": {
+      "titular": "jose antonio sanchez ahedo",
+      "direccion": "jose maria correa 228",
+      "ciudad": "mexico",
+      "estado": "Estado de México",
+      "cp": "06850",
+      "pais": "México"
+    },
+    "email": "juanluiszamorasandoval@gmail.com",
+    "name": "jose antonio sanchez",
+    "order_number": "XP-20260502-3240",
+    "submitted_at": "2026-05-02T17:51:03.427Z"
+  }
+]

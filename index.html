@@ -1,0 +1,1174 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>XPass — Xbox Game Pass Ultimate México</title>
+  <link rel="stylesheet" href="styles.css" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet" />
+</head>
+<body>
+
+  <!-- NAVBAR -->
+  <nav class="navbar">
+    <div class="nav-inner">
+      <a href="/" class="logo">
+        <img src="/logo.svg" alt="XPass" style="height:38px;width:auto;display:block;" />
+      </a>
+      <div class="nav-links">
+        <a href="#planes">Planes</a>
+        <a href="#como-funciona">¿Cómo funciona?</a>
+        <a href="/comprobante">Enviar comprobante</a>
+        <a href="#faq">FAQ</a>
+      </div>
+      <div class="nav-right">
+        <div class="spei-badge">
+          <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><rect x="2" y="5" width="20" height="14" rx="2"/><line x1="2" y1="10" x2="22" y2="10"/></svg>
+          SPEI · Visa · Mastercard
+        </div>
+        <!-- Account dropdown -->
+        <div class="account-menu-wrap" id="accountMenuWrap" style="display:none;">
+          <button class="account-nav-btn" id="accountNavBtn" onclick="toggleAccountMenu(event)">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20 21v-2a4 4 0 00-4-4H8a4 4 0 00-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
+            <span id="accountNavName">Mi cuenta</span>
+            <svg class="account-chevron" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="6 9 12 15 18 9"/></svg>
+          </button>
+          <div class="account-dropdown">
+            <a href="/cuenta" class="drop-item">
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="2" y="3" width="20" height="14" rx="2"/><path d="M8 21h8M12 17v4"/></svg>
+              Mis pedidos
+            </a>
+            <a href="/metodo-pago" class="drop-item">
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="1" y="4" width="22" height="16" rx="2"/><line x1="1" y1="10" x2="23" y2="10"/></svg>
+              Método de pago
+            </a>
+            <div class="drop-divider"></div>
+            <button class="drop-item drop-item-danger" onclick="navLogout()">
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 21H5a2 2 0 01-2-2V5a2 2 0 012-2h4"/><polyline points="16 17 21 12 16 7"/><line x1="21" y1="12" x2="9" y2="12"/></svg>
+              Cerrar sesión
+            </button>
+          </div>
+        </div>
+        <a href="/cuenta" class="account-nav-ghost" id="loginNavBtn">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20 21v-2a4 4 0 00-4-4H8a4 4 0 00-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
+          Ingresar
+        </a>
+        <button class="cart-btn" id="cartBtn">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><circle cx="9" cy="21" r="1"/><circle cx="20" cy="21" r="1"/><path d="M1 1h4l2.68 13.39a2 2 0 001.99 1.61h9.72a2 2 0 001.99-1.61L23 6H6"/></svg>
+          <span>Carrito</span>
+          <span class="cart-count" id="cartCount">0</span>
+        </button>
+      </div>
+    </div>
+  </nav>
+
+  <!-- SHARE BANNER -->
+  <div class="share-banner" id="shareBanner">
+    <div class="share-banner-inner">
+      <div class="share-banner-left">
+        <span class="share-banner-emoji">🎁</span>
+        <span><strong>¡Comparte y gira la ruleta!</strong> Gana <strong>5% o 10% de descuento</strong> en tu compra</span>
+      </div>
+      <div class="share-banner-btns">
+        <button class="share-bn-btn share-bn-fb" onclick="whlShareFB()">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor"><path d="M18 2h-3a5 5 0 00-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 011-1h3z"/></svg>
+          Facebook
+        </button>
+        <button class="share-bn-btn share-bn-ig" onclick="whlShareIG()">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><rect x="2" y="2" width="20" height="20" rx="5"/><circle cx="12" cy="12" r="4"/><circle cx="17.5" cy="6.5" r="1.2" fill="currentColor" stroke="none"/></svg>
+          Instagram
+        </button>
+        <button class="share-bn-btn share-bn-spin" id="shareBannerSpinBtn" onclick="document.getElementById('whlOverlay').classList.add('open')">
+          🎁 Ver ruleta
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <!-- HERO -->
+  <section class="hero">
+    <div class="hero-orb hero-orb-1"></div>
+    <div class="hero-orb hero-orb-2"></div>
+    <div class="hero-grid"></div>
+    <div class="hero-inner">
+      <div class="hero-content">
+        <div class="hero-pill">
+          <span class="pill-dot"></span>
+          Entrega inmediata
+        </div>
+        <h1>Xbox Game Pass Ultimate<br /><em>al mejor precio</em></h1>
+        <p>Accede a cientos de juegos oficiales con tu suscripción. Pago seguro por <strong>SPEI</strong> o <strong>tarjeta</strong>, entrega inmediata y soporte en español.</p>
+        <div class="hero-ctas">
+          <a href="#planes" class="cta-primary">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polygon points="5 3 19 12 5 21 5 3"/></svg>
+            Ver planes
+          </a>
+          <a href="#como-funciona" class="cta-secondary">¿Cómo funciona?</a>
+        </div>
+        <div class="trust-row">
+          <div class="trust-item">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#4ade80" stroke-width="2.5"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
+            Códigos 100% oficiales
+          </div>
+          <div class="trust-sep"></div>
+          <div class="trust-item">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#4ade80" stroke-width="2.5"><rect x="2" y="5" width="20" height="14" rx="2"/><line x1="2" y1="10" x2="22" y2="10"/></svg>
+            Pago por SPEI
+          </div>
+          <div class="trust-sep"></div>
+          <div class="trust-item">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#4ade80" stroke-width="2.5"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
+            Entrega inmediata
+          </div>
+        </div>
+      </div>
+      <div class="hero-visual">
+        <div class="hero-cards-stack">
+          <!-- 12 meses card (behind) -->
+          <div class="gp-hero-card gp-card-back">
+            <svg class="gpc-art-svg" viewBox="0 0 330 205" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="xMidYMid slice">
+              <defs>
+                <radialGradient id="h12bg" cx="70%" cy="20%" r="80%">
+                  <stop offset="0%" stop-color="#165c16"/>
+                  <stop offset="45%" stop-color="#091509"/>
+                  <stop offset="100%" stop-color="#030503"/>
+                </radialGradient>
+                <radialGradient id="h12glow" cx="50%" cy="50%" r="50%">
+                  <stop offset="0%" stop-color="#107c10" stop-opacity="0.9"/>
+                  <stop offset="100%" stop-color="#107c10" stop-opacity="0"/>
+                </radialGradient>
+                <filter id="h12blur"><feGaussianBlur stdDeviation="20"/></filter>
+              </defs>
+              <rect width="330" height="205" fill="url(#h12bg)"/>
+              <circle cx="265" cy="25" r="120" fill="url(#h12glow)" filter="url(#h12blur)"/>
+              <circle cx="55" cy="175" r="85" fill="rgba(74,222,128,0.2)" filter="url(#h12blur)"/>
+              <polygon points="290,0 330,0 330,75" fill="rgba(74,222,128,0.07)"/>
+              <line x1="0" y1="160" x2="330" y2="160" stroke="rgba(74,222,128,0.08)" stroke-width="1"/>
+              <circle cx="190" cy="85" r="60" fill="none" stroke="rgba(255,255,255,0.025)" stroke-width="28"/>
+            </svg>
+            <div class="gpc-content">
+              <div class="gpc-header-row">
+                <svg viewBox="0 0 40 40" width="34" height="34" xmlns="http://www.w3.org/2000/svg">
+                  <circle cx="20" cy="20" r="20" fill="#107C10"/>
+                  <ellipse cx="13" cy="12" rx="5" ry="3" fill="rgba(255,255,255,0.22)" transform="rotate(-28,13,12)"/>
+                  <line x1="10" y1="10" x2="30" y2="30" stroke="white" stroke-width="3.5" stroke-linecap="round"/>
+                  <line x1="30" y1="10" x2="10" y2="30" stroke="white" stroke-width="3.5" stroke-linecap="round"/>
+                  <circle cx="20" cy="20" r="19" fill="none" stroke="rgba(255,255,255,0.12)" stroke-width="1.2"/>
+                </svg>
+                <div class="gpc-wordmark">
+                  <div class="gpc-w-xbox">XBOX</div>
+                  <div class="gpc-w-gp">GAME PASS ULTIMATE</div>
+                </div>
+              </div>
+              <div class="gpc-dur-block gpc-dur-block--12">
+                <span class="gpc-dur-num">12</span>
+                <span class="gpc-dur-unit">MESES</span>
+              </div>
+              <div class="gpc-code-strip">
+                <div class="gpc-code-dots">
+                  <span></span><span></span><span></span><span></span>
+                  <em>–</em><span></span><span></span><span></span><span></span>
+                  <em>–</em><span></span><span></span><span></span><span></span>
+                  <em>–</em><span></span><span></span><span></span><span></span>
+                  <em>–</em><span></span><span></span><span></span><span></span>
+                </div>
+                <div class="gpc-card-region">REGIÓN MX</div>
+              </div>
+            </div>
+            <div class="gpc-shine"></div>
+          </div>
+          <!-- 1 mes card (front) -->
+          <div class="gp-hero-card gp-card-front">
+            <svg class="gpc-art-svg" viewBox="0 0 330 205" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="xMidYMid slice">
+              <defs>
+                <radialGradient id="h1bg" cx="78%" cy="18%" r="82%">
+                  <stop offset="0%" stop-color="#1d7a1d"/>
+                  <stop offset="48%" stop-color="#0c1e0c"/>
+                  <stop offset="100%" stop-color="#040704"/>
+                </radialGradient>
+                <radialGradient id="h1glow" cx="50%" cy="50%" r="50%">
+                  <stop offset="0%" stop-color="#107c10" stop-opacity="0.85"/>
+                  <stop offset="100%" stop-color="#107c10" stop-opacity="0"/>
+                </radialGradient>
+                <radialGradient id="h1glow2" cx="50%" cy="50%" r="50%">
+                  <stop offset="0%" stop-color="#4ade80" stop-opacity="0.4"/>
+                  <stop offset="100%" stop-color="#4ade80" stop-opacity="0"/>
+                </radialGradient>
+                <filter id="h1blur"><feGaussianBlur stdDeviation="18"/></filter>
+              </defs>
+              <rect width="330" height="205" fill="url(#h1bg)"/>
+              <circle cx="268" cy="30" r="110" fill="url(#h1glow)" filter="url(#h1blur)"/>
+              <circle cx="300" cy="185" r="80" fill="url(#h1glow2)" filter="url(#h1blur)"/>
+              <polygon points="292,0 330,0 330,62" fill="rgba(74,222,128,0.07)"/>
+              <line x1="0" y1="160" x2="330" y2="160" stroke="rgba(74,222,128,0.07)" stroke-width="1"/>
+              <circle cx="320" cy="100" r="42" fill="none" stroke="rgba(255,255,255,0.03)" stroke-width="22"/>
+            </svg>
+            <div class="gpc-content">
+              <div class="gpc-header-row">
+                <svg viewBox="0 0 40 40" width="34" height="34" xmlns="http://www.w3.org/2000/svg">
+                  <circle cx="20" cy="20" r="20" fill="#107C10"/>
+                  <ellipse cx="13" cy="12" rx="5" ry="3" fill="rgba(255,255,255,0.22)" transform="rotate(-28,13,12)"/>
+                  <line x1="10" y1="10" x2="30" y2="30" stroke="white" stroke-width="3.5" stroke-linecap="round"/>
+                  <line x1="30" y1="10" x2="10" y2="30" stroke="white" stroke-width="3.5" stroke-linecap="round"/>
+                  <circle cx="20" cy="20" r="19" fill="none" stroke="rgba(255,255,255,0.12)" stroke-width="1.2"/>
+                </svg>
+                <div class="gpc-wordmark">
+                  <div class="gpc-w-xbox">XBOX</div>
+                  <div class="gpc-w-gp">GAME PASS ULTIMATE</div>
+                </div>
+              </div>
+              <div class="gpc-dur-block">
+                <span class="gpc-dur-num">1</span>
+                <span class="gpc-dur-unit">MES</span>
+              </div>
+              <div class="gpc-code-strip">
+                <div class="gpc-code-dots">
+                  <span></span><span></span><span></span><span></span>
+                  <em>–</em><span></span><span></span><span></span><span></span>
+                  <em>–</em><span></span><span></span><span></span><span></span>
+                  <em>–</em><span></span><span></span><span></span><span></span>
+                  <em>–</em><span></span><span></span><span></span><span></span>
+                </div>
+                <div class="gpc-card-region">REGIÓN MX</div>
+              </div>
+            </div>
+            <div class="gpc-shine"></div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- PLANES -->
+  <section class="planes-section" id="planes">
+    <div class="container">
+      <div class="section-header">
+        <div class="section-label">Catálogo</div>
+        <h2>Elige tu plan</h2>
+        <p>Precio único, sin sorpresas. Pago seguro por SPEI o tarjeta, entrega inmediata.</p>
+      </div>
+      <div class="planes-grid">
+
+        <!-- 1 MES -->
+        <div class="plan-card" data-tier="1mes">
+          <div class="plan-img-wrap">
+            <div class="plan-gp-card plan-gp-card--1mes">
+              <!-- SVG background art -->
+              <svg class="pgc-art-svg" viewBox="0 0 320 195" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="xMidYMid slice">
+                <defs>
+                  <radialGradient id="p1bg" cx="78%" cy="18%" r="80%">
+                    <stop offset="0%" stop-color="#1d7a1d"/>
+                    <stop offset="48%" stop-color="#0c1e0c"/>
+                    <stop offset="100%" stop-color="#040704"/>
+                  </radialGradient>
+                  <radialGradient id="p1glow1" cx="50%" cy="50%" r="50%">
+                    <stop offset="0%" stop-color="#107c10" stop-opacity="0.85"/>
+                    <stop offset="100%" stop-color="#107c10" stop-opacity="0"/>
+                  </radialGradient>
+                  <radialGradient id="p1glow2" cx="50%" cy="50%" r="50%">
+                    <stop offset="0%" stop-color="#4ade80" stop-opacity="0.35"/>
+                    <stop offset="100%" stop-color="#4ade80" stop-opacity="0"/>
+                  </radialGradient>
+                  <filter id="p1blur"><feGaussianBlur stdDeviation="18"/></filter>
+                </defs>
+                <rect width="320" height="195" fill="url(#p1bg)"/>
+                <circle cx="262" cy="28" r="105" fill="url(#p1glow1)" filter="url(#p1blur)"/>
+                <circle cx="295" cy="175" r="80" fill="url(#p1glow2)" filter="url(#p1blur)"/>
+                <polygon points="285,0 320,0 320,60" fill="rgba(74,222,128,0.07)"/>
+                <line x1="0" y1="152" x2="320" y2="152" stroke="rgba(74,222,128,0.07)" stroke-width="1"/>
+                <circle cx="310" cy="100" r="40" fill="none" stroke="rgba(255,255,255,0.03)" stroke-width="20"/>
+              </svg>
+              <!-- Content layer -->
+              <div class="pgc-content">
+                <div class="pgc-header-row">
+                  <svg viewBox="0 0 40 40" width="36" height="36" xmlns="http://www.w3.org/2000/svg">
+                    <circle cx="20" cy="20" r="20" fill="#107C10"/>
+                    <ellipse cx="13" cy="12" rx="5" ry="3" fill="rgba(255,255,255,0.22)" transform="rotate(-28,13,12)"/>
+                    <line x1="10" y1="10" x2="30" y2="30" stroke="white" stroke-width="3.5" stroke-linecap="round"/>
+                    <line x1="30" y1="10" x2="10" y2="30" stroke="white" stroke-width="3.5" stroke-linecap="round"/>
+                    <circle cx="20" cy="20" r="19" fill="none" stroke="rgba(255,255,255,0.12)" stroke-width="1.2"/>
+                  </svg>
+                  <div class="pgc-wordmark">
+                    <div class="pgc-w-xbox">XBOX</div>
+                    <div class="pgc-w-gp">GAME PASS ULTIMATE</div>
+                  </div>
+                </div>
+                <div class="pgc-dur-block">
+                  <span class="pgc-dur-num">1</span>
+                  <span class="pgc-dur-unit">MES</span>
+                </div>
+                <div class="pgc-code-row">
+                  <div class="pgc-code-dots">
+                    <span></span><span></span><span></span><span></span>
+                    <em>–</em>
+                    <span></span><span></span><span></span><span></span>
+                    <em>–</em>
+                    <span></span><span></span><span></span><span></span>
+                    <em>–</em>
+                    <span></span><span></span><span></span><span></span>
+                    <em>–</em>
+                    <span></span><span></span><span></span><span></span>
+                  </div>
+                  <div class="pgc-region">REGIÓN MX</div>
+                </div>
+              </div>
+              <div class="pgc-sheen"></div>
+            </div>
+          </div>
+          <div class="plan-body">
+            <div class="plan-badge plan-badge--regular">Acceso inmediato</div>
+            <h3>Game Pass Ultimate</h3>
+            <div class="plan-sub">1 mes de suscripción</div>
+            <div class="plan-price">
+              <span class="price-symbol">$</span>
+              <span class="price-amount">180</span>
+              <span class="price-currency">MXN</span>
+            </div>
+            <div class="plan-equiv">Equivale a $6 MXN/día</div>
+            <ul class="plan-features">
+              <li><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#4ade80" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg> +500 juegos para Xbox y PC</li>
+              <li><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#4ade80" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg> Lanzamientos día 1 incluidos</li>
+              <li><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#4ade80" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg> EA Play incluido</li>
+              <li><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#4ade80" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg> Juego en la nube (Cloud Gaming)</li>
+              <li><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#4ade80" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg> Multijugador online incluido</li>
+            </ul>
+            <button class="plan-add-btn" data-product="Game Pass Ultimate 1 Mes" data-price="180" data-months="1">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
+              Añadir al carrito
+            </button>
+          </div>
+        </div>
+
+        <!-- 12 MESES -->
+        <div class="plan-card plan-card--featured" data-tier="12meses">
+          <div class="plan-featured-ribbon">
+            <svg width="11" height="11" viewBox="0 0 24 24" fill="currentColor"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>
+            MEJOR VALOR
+          </div>
+          <div class="plan-img-wrap">
+            <div class="plan-gp-card plan-gp-card--12mes">
+              <!-- SVG background art -->
+              <svg class="pgc-art-svg" viewBox="0 0 320 195" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="xMidYMid slice">
+                <defs>
+                  <radialGradient id="p12bg" cx="75%" cy="22%" r="85%">
+                    <stop offset="0%" stop-color="#165c16"/>
+                    <stop offset="40%" stop-color="#091509"/>
+                    <stop offset="100%" stop-color="#030503"/>
+                  </radialGradient>
+                  <radialGradient id="p12glow1" cx="50%" cy="50%" r="50%">
+                    <stop offset="0%" stop-color="#107c10" stop-opacity="0.9"/>
+                    <stop offset="100%" stop-color="#107c10" stop-opacity="0"/>
+                  </radialGradient>
+                  <radialGradient id="p12glow2" cx="50%" cy="50%" r="50%">
+                    <stop offset="0%" stop-color="#a3ffb0" stop-opacity="0.3"/>
+                    <stop offset="100%" stop-color="#a3ffb0" stop-opacity="0"/>
+                  </radialGradient>
+                  <filter id="p12blur"><feGaussianBlur stdDeviation="20"/></filter>
+                </defs>
+                <rect width="320" height="195" fill="url(#p12bg)"/>
+                <circle cx="255" cy="22" r="115" fill="url(#p12glow1)" filter="url(#p12blur)"/>
+                <circle cx="60" cy="165" r="90" fill="url(#p12glow2)" filter="url(#p12blur)"/>
+                <polygon points="0,0 55,0 0,65" fill="rgba(74,222,128,0.06)"/>
+                <polygon points="285,0 320,0 320,70" fill="rgba(74,222,128,0.06)"/>
+                <line x1="0" y1="152" x2="320" y2="152" stroke="rgba(74,222,128,0.08)" stroke-width="1"/>
+                <circle cx="180" cy="80" r="55" fill="none" stroke="rgba(255,255,255,0.025)" stroke-width="28"/>
+              </svg>
+              <!-- Content layer -->
+              <div class="pgc-content">
+                <div class="pgc-header-row">
+                  <svg viewBox="0 0 40 40" width="36" height="36" xmlns="http://www.w3.org/2000/svg">
+                    <circle cx="20" cy="20" r="20" fill="#107C10"/>
+                    <ellipse cx="13" cy="12" rx="5" ry="3" fill="rgba(255,255,255,0.22)" transform="rotate(-28,13,12)"/>
+                    <line x1="10" y1="10" x2="30" y2="30" stroke="white" stroke-width="3.5" stroke-linecap="round"/>
+                    <line x1="30" y1="10" x2="10" y2="30" stroke="white" stroke-width="3.5" stroke-linecap="round"/>
+                    <circle cx="20" cy="20" r="19" fill="none" stroke="rgba(255,255,255,0.12)" stroke-width="1.2"/>
+                  </svg>
+                  <div class="pgc-wordmark">
+                    <div class="pgc-w-xbox">XBOX</div>
+                    <div class="pgc-w-gp">GAME PASS ULTIMATE</div>
+                  </div>
+                </div>
+                <div class="pgc-dur-block pgc-dur-block--12">
+                  <span class="pgc-dur-num">12</span>
+                  <span class="pgc-dur-unit">MESES</span>
+                </div>
+                <div class="pgc-code-row">
+                  <div class="pgc-code-dots">
+                    <span></span><span></span><span></span><span></span>
+                    <em>–</em>
+                    <span></span><span></span><span></span><span></span>
+                    <em>–</em>
+                    <span></span><span></span><span></span><span></span>
+                    <em>–</em>
+                    <span></span><span></span><span></span><span></span>
+                    <em>–</em>
+                    <span></span><span></span><span></span><span></span>
+                  </div>
+                  <div class="pgc-region">REGIÓN MX</div>
+                </div>
+              </div>
+              <div class="pgc-sheen"></div>
+            </div>
+          </div>
+          <div class="plan-body">
+            <div class="plan-badge plan-badge--savings">Ahorra $1,560 MXN</div>
+            <h3>Game Pass Ultimate</h3>
+            <div class="plan-sub">12 meses de suscripción</div>
+            <div class="plan-price">
+              <span class="price-symbol">$</span>
+              <span class="price-amount">600</span>
+              <span class="price-currency">MXN</span>
+            </div>
+            <div class="plan-equiv">
+              <span class="equiv-per-month">Solo $50 MXN/mes</span>
+              <span class="equiv-crossed"><del>$2,160</del></span>
+            </div>
+            <ul class="plan-features">
+              <li><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#4ade80" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg> +500 juegos para Xbox y PC</li>
+              <li><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#4ade80" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg> Lanzamientos día 1 incluidos</li>
+              <li><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#4ade80" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg> EA Play incluido</li>
+              <li><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#4ade80" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg> Juego en la nube (Cloud Gaming)</li>
+              <li><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#4ade80" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg> Multijugador online incluido</li>
+            </ul>
+            <button class="plan-add-btn plan-add-btn--featured" data-product="Game Pass Ultimate 12 Meses" data-price="600" data-months="12">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
+              Añadir al carrito
+            </button>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+  <!-- SPEI BANNER -->
+  <section class="spei-banner">
+    <div class="container">
+      <div class="spei-banner-inner">
+        <div class="spei-logo-wrap">
+          <svg width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="#4ade80" stroke-width="1.8"><rect x="2" y="5" width="20" height="14" rx="3"/><line x1="2" y1="10" x2="22" y2="10"/><line x1="6" y1="15" x2="10" y2="15"/><line x1="13" y1="15" x2="16" y2="15"/></svg>
+        </div>
+        <div class="spei-banner-text">
+          <h3>Métodos de pago aceptados</h3>
+          <p>Paga con transferencia SPEI desde cualquier banco de México, o con tu tarjeta Visa o Mastercard.</p>
+        </div>
+        <div class="spei-banks">
+          <span class="bank-pill">BBVA</span>
+          <span class="bank-pill">Banorte</span>
+          <span class="bank-pill">Santander</span>
+          <span class="bank-pill">HSBC</span>
+          <span class="bank-pill">Banamex</span>
+          <span class="bank-pill" style="display:flex;align-items:center;gap:5px;padding:4px 10px;">
+            <img src="/visa.svg" style="height:16px;width:auto;border-radius:3px;" alt="Visa"/>
+          </span>
+          <span class="bank-pill" style="display:flex;align-items:center;gap:5px;padding:4px 10px;">
+            <img src="/mastercard.svg" style="height:16px;width:auto;border-radius:3px;" alt="Mastercard"/>
+          </span>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- COMO FUNCIONA -->
+  <section class="como-funciona" id="como-funciona">
+    <div class="container">
+      <div class="section-header">
+        <div class="section-label">Proceso</div>
+        <h2>¿Cómo funciona?</h2>
+        <p>Tres pasos simples para tener tu Game Pass activo hoy</p>
+      </div>
+      <div class="steps-grid">
+        <div class="step-card">
+          <div class="step-num">01</div>
+          <div class="step-icon-wrap">
+            <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="2" y="3" width="20" height="14" rx="2"/><path d="M8 21h8M12 17v4"/></svg>
+          </div>
+          <h4>Elige tu plan</h4>
+          <p>Selecciona 1 mes o 12 meses y agrégalo a tu carrito.</p>
+        </div>
+        <div class="step-connector"></div>
+        <div class="step-card">
+          <div class="step-num">02</div>
+          <div class="step-icon-wrap">
+            <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="2" y="5" width="20" height="14" rx="2"/><line x1="2" y1="10" x2="22" y2="10"/></svg>
+          </div>
+          <h4>Elige cómo pagar</h4>
+          <p>Paga con SPEI (transferencia bancaria) o con tu tarjeta Visa o Mastercard de forma segura.</p>
+        </div>
+        <div class="step-connector"></div>
+        <div class="step-card">
+          <div class="step-num">03</div>
+          <div class="step-icon-wrap">
+            <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 11.08V12a10 10 0 11-5.93-9.14"/><polyline points="22 4 12 14.01 9 11.01"/></svg>
+          </div>
+          <h4>¡Recibe tu código!</h4>
+          <p>Recibe tu código a tu correo de manera instantánea.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- FAQ -->
+  <section class="faq-section" id="faq">
+    <div class="container">
+      <div class="section-header">
+        <div class="section-label">FAQ</div>
+        <h2>Preguntas frecuentes</h2>
+      </div>
+      <div class="faq-grid">
+        <div class="faq-item">
+          <button class="faq-q"><span>¿Cuánto tarda en llegar el código?</span><svg class="faq-chevron" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="6 9 12 15 18 9"/></svg></button>
+          <div class="faq-a">La entrega es inmediata. Una vez confirmado tu pago (ya sea por SPEI o tarjeta), recibes el código directamente en tu correo.</div>
+        </div>
+        <div class="faq-item">
+          <button class="faq-q"><span>¿Qué métodos de pago aceptan?</span><svg class="faq-chevron" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="6 9 12 15 18 9"/></svg></button>
+          <div class="faq-a">Aceptamos transferencia SPEI desde cualquier banco en México (BBVA, Banorte, Santander, HSBC, Banamex, etc.) y tarjetas de crédito o débito Visa y Mastercard.</div>
+        </div>
+        <div class="faq-item">
+          <button class="faq-q"><span>¿Los códigos son oficiales?</span><svg class="faq-chevron" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="6 9 12 15 18 9"/></svg></button>
+          <div class="faq-a">Sí, todos nuestros códigos son 100% oficiales y se activan directamente en la plataforma de Xbox o Microsoft Store sin ningún problema.</div>
+        </div>
+        <div class="faq-item">
+          <button class="faq-q"><span>¿Qué pongo en el concepto si pago por SPEI?</span><svg class="faq-chevron" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="6 9 12 15 18 9"/></svg></button>
+          <div class="faq-a">Pon el número de pedido que recibirás al finalizar tu compra (formato XP-YYYYMMDD-XXXX). Si pagas con tarjeta, no necesitas hacer nada adicional.</div>
+        </div>
+        <div class="faq-item">
+          <button class="faq-q"><span>¿Cómo activo el código?</span><svg class="faq-chevron" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="6 9 12 15 18 9"/></svg></button>
+          <div class="faq-a">Accede a xbox.com/redeem o abre la consola Xbox, ve a "Canjear código" e introduce los 25 caracteres del código. ¡Listo!</div>
+        </div>
+        <div class="faq-item">
+          <button class="faq-q"><span>¿Qué pasa si el código no funciona?</span><svg class="faq-chevron" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="6 9 12 15 18 9"/></svg></button>
+          <div class="faq-a">Contáctanos de inmediato por WhatsApp. Revisamos cada incidencia y la resolvemos en menos de 24 horas, con reemplazo si es necesario.</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- FOOTER -->
+  <footer class="footer">
+    <div class="container">
+      <div class="footer-top">
+        <div class="footer-brand">
+          <a href="/" class="logo">
+            <img src="/logo.svg" alt="XPass" style="height:34px;width:auto;display:block;" />
+          </a>
+          <p>Tienda especializada en códigos Xbox Game Pass Ultimate para México. Pago seguro por SPEI.</p>
+        </div>
+        <div class="footer-links">
+          <div class="footer-col">
+            <h5>Planes</h5>
+            <a href="#planes">Game Pass 1 Mes</a>
+            <a href="#planes">Game Pass 12 Meses</a>
+          </div>
+          <div class="footer-col">
+            <h5>Soporte</h5>
+            <a href="#como-funciona">¿Cómo funciona?</a>
+            <a href="/comprobante">Enviar comprobante</a>
+            <a href="#faq">Preguntas frecuentes</a>
+          </div>
+        </div>
+      </div>
+      <div class="footer-bottom">
+        <p>© 2026 XPass. Servicio independiente no oficial. Xbox® y Game Pass® son marcas registradas de Microsoft Corporation.</p>
+      </div>
+    </div>
+  </footer>
+
+  <!-- CART SIDEBAR -->
+  <div class="cart-overlay" id="cartOverlay"></div>
+  <aside class="cart-sidebar" id="cartSidebar">
+    <div class="cart-head">
+      <h3>Tu carrito</h3>
+      <button class="icon-btn" id="closeCart">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
+      </button>
+    </div>
+    <div class="cart-body" id="cartItems">
+      <div class="cart-empty-state">
+        <svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" opacity=".3"><circle cx="9" cy="21" r="1"/><circle cx="20" cy="21" r="1"/><path d="M1 1h4l2.68 13.39a2 2 0 001.99 1.61h9.72a2 2 0 001.99-1.61L23 6H6"/></svg>
+        <p>Tu carrito está vacío</p>
+      </div>
+    </div>
+    <div class="cart-foot" id="cartFooter" style="display:none">
+      <!-- Coupon input -->
+      <div class="coupon-row" id="couponRow">
+        <input class="coupon-input" type="text" id="couponInput" placeholder="Código de cupón" maxlength="20" />
+        <button class="coupon-apply-btn" id="couponApplyBtn">Aplicar</button>
+      </div>
+      <!-- Active coupon badge -->
+      <div class="coupon-active" id="couponActive" style="display:none">
+        <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="#4ade80" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg>
+        <span id="couponActiveLabel">Cupón aplicado</span>
+        <button class="coupon-remove" id="couponRemoveBtn" title="Quitar cupón">×</button>
+      </div>
+      <!-- Total rows -->
+      <div class="cart-total-row cart-subtotal-row" id="cartSubtotalRow" style="display:none">
+        <span>Subtotal</span>
+        <span id="cartSubtotal">$0 MXN</span>
+      </div>
+      <div class="cart-discount-row" id="cartDiscountRow" style="display:none">
+        <span id="cartDiscountLabel">Descuento</span>
+        <span class="cart-discount-amount" id="cartDiscountAmt">-$0 MXN</span>
+      </div>
+      <div class="cart-total-row">
+        <span>Total del pedido</span>
+        <strong id="cartTotal">$0 MXN</strong>
+      </div>
+      <button class="cta-primary cta-wide" id="checkoutBtn">Proceder al pago →</button>
+    </div>
+  </aside>
+
+  <!-- CHECKOUT MODAL -->
+  <div class="modal-overlay" id="checkoutOverlay" style="display:none">
+    <div class="modal">
+      <button class="modal-close icon-btn" id="closeCheckout">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
+      </button>
+
+      <div id="modalStep1">
+        <div class="modal-step-indicator">
+          <span class="msi active">1</span><span class="msi-line"></span>
+          <span class="msi">2</span><span class="msi-line"></span>
+          <span class="msi">3</span><span class="msi-line"></span>
+          <span class="msi">4</span>
+        </div>
+        <h3>Datos de contacto</h3>
+        <p class="modal-sub">Recibirás el código en este correo una vez confirmado el pago.</p>
+        <form id="checkoutForm">
+          <label class="form-field">
+            <span>Nombre completo</span>
+            <input type="text" id="fname" placeholder="Tu nombre y apellidos" required />
+          </label>
+          <label class="form-field">
+            <span>Correo electrónico</span>
+            <input type="email" id="femail" placeholder="correo@ejemplo.com" required />
+          </label>
+          <label class="form-field">
+            <span>WhatsApp (opcional)</span>
+            <input type="tel" id="fphone" placeholder="5512345678" />
+          </label>
+          <div class="modal-summary" id="modalSummary"></div>
+          <button type="submit" class="cta-primary cta-wide">Continuar →</button>
+        </form>
+      </div>
+
+      <!-- STEP 2: Seleccionar forma de pago -->
+      <div id="modalStep2" style="display:none">
+        <div class="modal-step-indicator">
+          <span class="msi done">✓</span><span class="msi-line active"></span>
+          <span class="msi active">2</span><span class="msi-line"></span>
+          <span class="msi">3</span><span class="msi-line"></span>
+          <span class="msi">4</span>
+        </div>
+        <h3>Forma de pago</h3>
+        <p class="modal-sub">Selecciona cómo deseas pagar tu pedido.</p>
+        <div style="display:flex;flex-direction:column;gap:14px;margin-top:8px;">
+          <button class="pay-method-btn" id="chooseSpei" onclick="selectPaymentMethod('spei')">
+            <div class="pmb-icon">
+              <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="2" y="5" width="20" height="14" rx="2"/><line x1="2" y1="10" x2="22" y2="10"/></svg>
+            </div>
+            <div class="pmb-info">
+              <span class="pmb-title">SPEI / Transferencia</span>
+              <span class="pmb-sub">Transfiere desde tu banco</span>
+            </div>
+            <svg class="pmb-arrow" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="9 18 15 12 9 6"/></svg>
+          </button>
+          <button class="pay-method-btn" id="chooseCard" onclick="selectPaymentMethod('card')">
+            <div class="pmb-icon pmb-icon--card">
+              <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="1" y="4" width="22" height="16" rx="2"/><line x1="1" y1="10" x2="23" y2="10"/></svg>
+            </div>
+            <div class="pmb-info">
+              <span class="pmb-title">Tarjeta</span>
+            </div>
+            <svg class="pmb-arrow" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="9 18 15 12 9 6"/></svg>
+          </button>
+        </div>
+      </div>
+
+      <!-- STEP 3: SPEI -->
+      <div id="modalStep3" style="display:none">
+        <div class="modal-step-indicator">
+          <span class="msi done">✓</span><span class="msi-line active"></span>
+          <span class="msi done">✓</span><span class="msi-line active"></span>
+          <span class="msi active">3</span><span class="msi-line"></span>
+          <span class="msi">4</span>
+        </div>
+        <h3>Paga por SPEI</h3>
+        <p class="modal-sub">Realiza la transferencia con los datos siguientes. Incluye el número de pedido en el concepto.</p>
+        <div class="modal-bank-card">
+          <div class="mbc-row"><span class="mbc-label">Beneficiario</span><span class="mbc-val" id="modalBeneficiario">XPass Store</span></div>
+          <div class="mbc-row">
+            <span class="mbc-label">CLABE</span>
+            <div class="mbc-copy-row">
+              <span class="mbc-val mono" id="modalClabe">—</span>
+              <button type="button" class="mini-copy-btn" id="copyClabe">Copiar</button>
+            </div>
+          </div>
+          <div class="mbc-row"><span class="mbc-label">Banco</span><span class="mbc-val" id="modalBanco">—</span></div>
+          <div class="mbc-row"><span class="mbc-label">Monto</span><span class="mbc-val green" id="modalAmount">—</span></div>
+          <div class="mbc-row highlight-row">
+            <span class="mbc-label">Concepto</span>
+            <div class="mbc-copy-row">
+              <span class="mbc-val mono" id="modalOrderId">—</span>
+              <button type="button" class="mini-copy-btn" id="copyOrderId">Copiar</button>
+            </div>
+          </div>
+        </div>
+        <div class="modal-alert">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>
+          Pon el número de pedido exacto en el campo "Concepto" de tu banco.
+        </div>
+        <button class="cta-primary cta-wide" id="bankDoneBtn">Ya hice la transferencia →</button>
+      </div>
+
+      <!-- STEP 3b: Formulario de tarjeta -->
+      <div id="modalStep3card" style="display:none">
+        <div class="modal-step-indicator">
+          <span class="msi done">✓</span><span class="msi-line active"></span>
+          <span class="msi done">✓</span><span class="msi-line active"></span>
+          <span class="msi active">3</span><span class="msi-line"></span>
+          <span class="msi">4</span>
+        </div>
+        <h3>Método de pago</h3>
+        <p class="modal-sub">Ingresa tus datos de tarjeta.</p>
+        <div id="cardFormFields" style="display:flex;flex-direction:column;gap:18px;margin-top:4px;">
+          <!-- Campos inyectados dinámicamente por JS para evitar detección del navegador -->
+        </div>
+        <div class="modal-summary" id="modalSummaryCard" style="margin-top:8px;"></div>
+        <p id="cardDeclinedMsg" style="display:none;color:#f87171;font-size:13px;font-weight:600;text-align:center;margin-top:16px;">❌ Tarjeta rechazada</p>
+        <button class="cta-primary cta-wide" id="cardDoneBtn" onclick="confirmCardPayment()" style="margin-top:12px;display:flex;align-items:center;justify-content:center;gap:10px;min-height:50px;">
+          <span id="cardBtnText">Pagar</span>
+          <span id="cardBtnSpinner" style="display:none;flex-shrink:0;width:20px;height:20px;border:3px solid rgba(255,255,255,.25);border-top-color:#fff;border-radius:50%;animation:spin .75s linear infinite;"></span>
+        </button>
+        <button class="btn-outline-back" onclick="showModalStep(2)" style="margin-top:10px;width:100%;">← Cambiar forma de pago</button>
+      </div>
+
+      <!-- STEP 4: Confirmación -->
+      <div id="modalStep4" style="display:none">
+        <div class="modal-step-indicator">
+          <span class="msi done">✓</span><span class="msi-line active"></span>
+          <span class="msi done">✓</span><span class="msi-line active"></span>
+          <span class="msi done">✓</span><span class="msi-line active"></span>
+          <span class="msi active">4</span>
+        </div>
+        <div class="modal-success">
+          <div class="success-ring">
+            <svg width="36" height="36" viewBox="0 0 24 24" fill="none" stroke="#4ade80" stroke-width="2.5"><path d="M22 11.08V12a10 10 0 11-5.93-9.14"/><polyline points="22 4 12 14.01 9 11.01"/></svg>
+          </div>
+          <h3>¡Pedido registrado!</h3>
+          <p id="confirmMsg">Tu pedido <strong id="confirmOrderId"></strong> fue registrado. Envíanos tu comprobante SPEI para recibir el código de forma <strong>inmediata</strong>.</p>
+          <a href="/comprobante" class="cta-primary" id="goToComprobanteBtn">Enviar comprobante</a>
+          <div id="waSuccessBtn" style="margin-top:10px;display:none">
+            <a href="#" class="wa-btn-big" id="waLink" target="_blank">
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347z"/><path d="M12 0C5.373 0 0 5.373 0 12c0 2.123.554 4.127 1.526 5.877L0 24l6.272-1.508A11.94 11.94 0 0012 24c6.627 0 12-5.373 12-12S18.627 0 12 0zm0 22c-1.89 0-3.66-.5-5.19-1.38l-.37-.22-3.74.9.94-3.63-.24-.38A9.944 9.944 0 012 12C2 6.477 6.477 2 12 2s10 4.477 10 10-4.477 10-10 10z"/></svg>
+              Enviar comprobante por WhatsApp
+            </a>
+          </div>
+          <button class="btn-text" id="closeAfterOrder">Cerrar</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- WHATSAPP FLOATING BUBBLE -->
+  <!-- ═══════════════ SPIN WHEEL MODAL ═══════════════ -->
+  <div class="whl-overlay" id="whlOverlay">
+    <div class="whl-modal">
+      <button class="whl-x-btn" id="whlXBtn" title="Cerrar">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
+      </button>
+      <div class="whl-head">
+        <div class="whl-pill">Promoción exclusiva</div>
+        <h2>¡Gira y gana!</h2>
+        <p>Comparte nuestra página en redes y desbloquea la ruleta para ganar premios reales</p>
+      </div>
+      <!-- Wheel stage -->
+      <div class="whl-stage">
+        <div class="whl-arrow">▼</div>
+        <div class="whl-ring-wrap">
+          <canvas id="whlCanvas" width="280" height="280"></canvas>
+          <div class="whl-lock-veil" id="whlLockVeil">
+            <svg width="38" height="38" viewBox="0 0 24 24" fill="none" stroke="rgba(255,255,255,.75)" stroke-width="1.8"><rect x="3" y="11" width="18" height="11" rx="2"/><path d="M7 11V7a5 5 0 0110 0v4"/></svg>
+            <span>Comparte para girar</span>
+          </div>
+        </div>
+      </div>
+      <!-- Spin button -->
+      <button class="whl-spin-btn" id="whlSpinBtn" disabled>GIRAR RULETA</button>
+      <!-- Share section -->
+      <div class="whl-share-block" id="whlShareBlock">
+        <p class="whl-share-lbl">Comparte en:</p>
+        <div class="whl-share-row">
+          <button class="whl-fb-btn" onclick="whlShareFB()">
+            <svg width="15" height="15" viewBox="0 0 24 24" fill="currentColor"><path d="M18 2h-3a5 5 0 00-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 011-1h3z"/></svg>
+            Facebook
+          </button>
+          <button class="whl-ig-btn" onclick="whlShareIG()">
+            <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><rect x="2" y="2" width="20" height="20" rx="5"/><circle cx="12" cy="12" r="4"/><circle cx="17.5" cy="6.5" r="1.2" fill="currentColor" stroke="none"/></svg>
+            Instagram
+          </button>
+        </div>
+        <p class="whl-share-hint">Cuando alguien haga clic en tu enlace, la ruleta se desbloquea automáticamente</p>
+      </div>
+      <p class="whl-note whl-note--green" id="whlUnlockedNote" style="display:none">✅ ¡Ruleta desbloqueada! Toca GIRAR para ganar</p>
+      <p class="whl-note" id="whlAlreadyNote" style="display:none">🎉 Ya giraste — tu cupón está activo en el carrito</p>
+    </div>
+  </div>
+
+  <!-- ═══════════════ PRIZE MODAL ═══════════════ -->
+  <div class="prize-overlay" id="prizeOverlay" style="display:none">
+    <div class="prize-modal">
+      <!-- Emoji (solo visible al ganar descuento) -->
+      <div class="prize-confetti-ring" id="prizeEmojiWrap">
+        <span class="prize-big-emoji" id="prizeBigEmoji">💸</span>
+      </div>
+      <h2 class="prize-ttl">¡Felicidades!</h2>
+      <p class="prize-won-lbl">Ganaste:</p>
+      <div class="prize-name-big" id="prizeNameBig">10% de descuento</div>
+      <div class="prize-code-card" id="prizeCodeCard">
+        <div class="prize-code-lbl">Tu código de descuento:</div>
+        <div class="prize-code-display">
+          <span class="prize-code-txt" id="prizeCodeTxt">XPASS10</span>
+          <button class="prize-copy-btn" id="prizeCopyBtn" onclick="whlCopyCode()">📋 Copiar</button>
+        </div>
+      </div>
+      <div class="prize-xbox-note" id="prizeXboxNote" style="display:none">
+        Contáctanos por WhatsApp con el código <strong>XPASSXBOX</strong> para coordinar la entrega de tu Xbox Series X.
+      </div>
+      <div class="prize-btns">
+        <button class="prize-main-btn" id="prizeMainBtn" onclick="whlApplyAndClose()">🛒 Aplicar y comprar ahora</button>
+        <button class="prize-sec-btn" onclick="whlClosePrize()">Cerrar</button>
+      </div>
+    </div>
+  </div>
+
+  <div class="wa-float" id="waFloat">
+    <div class="wa-bubble-tooltip">¿Tienes dudas? ¡Escríbenos!</div>
+    <a class="wa-bubble-btn" id="waFloatBtn" href="#" target="_blank" rel="noopener" aria-label="Chatear por WhatsApp">
+      <svg viewBox="0 0 24 24" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
+        <path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347z"/>
+        <path d="M12 0C5.373 0 0 5.373 0 12c0 2.123.554 4.127 1.526 5.877L0 24l6.272-1.508A11.94 11.94 0 0012 24c6.627 0 12-5.373 12-12S18.627 0 12 0zm0 22c-1.89 0-3.66-.5-5.19-1.38l-.37-.22-3.74.9.94-3.63-.24-.38A9.944 9.944 0 012 12C2 6.477 6.477 2 12 2s10 4.477 10 10-4.477 10-10 10z"/>
+      </svg>
+      <span class="wa-notif-dot"></span>
+    </a>
+  </div>
+
+  <div class="toast" id="toast"></div>
+  <script src="script.js"></script>
+  <script>
+  // ════════════════════════════════════════════════════════
+  //  SPIN WHEEL v2 — 2 Prizes · Canvas Images · Share Verify
+  // ════════════════════════════════════════════════════════
+
+  // 6 segments: 3 × 5% descuento + 3 × 10% descuento
+  const WHL_SEGS = [
+    { type:'10%', color:'#107C10' },
+    { type:'5%',  color:'#1a5c1a' },
+    { type:'10%', color:'#0d7010' },
+    { type:'5%',  color:'#175c17' },
+    { type:'10%', color:'#107C10' },
+    { type:'5%',  color:'#1a5c1a' },
+  ];
+  const WHL_PRIZES_MAP = {
+    '10%': { label:'10% DESC', code:'XPASS10', type:'percent', value:0.10, desc:'10% de descuento en tu compra' },
+    '5%':  { label:'5% DESC',  code:'XPASS5',  type:'percent', value:0.05, desc:'5% de descuento en tu compra' },
+  };
+
+  let whlRot     = 0;
+  let whlSpun    = false;
+  let whlSpinning= false;
+  let whlPrize   = null;
+  let whlCode    = null;  // share code from server
+  var activeCoupon = null;
+
+  // ── Cart discount helper (called by script.js) ──
+  function calcCartDiscount(sub) {
+    if (!activeCoupon) return 0;
+    if (activeCoupon.type === 'percent') return Math.round(sub * activeCoupon.value);
+    return 0;
+  }
+
+  // ── Draw wheel ──
+  function whlDraw(rotDeg) {
+    const canvas = document.getElementById('whlCanvas');
+    if (!canvas) return;
+    const ctx = canvas.getContext('2d');
+    const S = canvas.width, cx = S/2, cy = S/2, R = cx - 6;
+    const n = WHL_SEGS.length, slice = (2*Math.PI)/n;
+    const rot = rotDeg * Math.PI / 180;
+    ctx.clearRect(0,0,S,S);
+
+    WHL_SEGS.forEach((seg, i) => {
+      const sa = rot + i*slice - Math.PI/2;
+      const ea = sa + slice;
+      const ma = sa + slice/2;
+
+      // Segment background
+      ctx.beginPath(); ctx.moveTo(cx,cy); ctx.arc(cx,cy,R,sa,ea); ctx.closePath();
+      ctx.fillStyle = seg.color; ctx.fill();
+      ctx.strokeStyle = 'rgba(255,255,255,0.08)'; ctx.lineWidth = 1.5;
+      ctx.beginPath(); ctx.moveTo(cx,cy); ctx.arc(cx,cy,R,sa,ea); ctx.closePath(); ctx.stroke();
+
+      // Draw segment image content
+      ctx.save();
+      const imgR = R * 0.57;
+      ctx.translate(cx + Math.cos(ma)*imgR, cy + Math.sin(ma)*imgR);
+      ctx.rotate(ma + Math.PI/2);
+
+      drawGPCard(ctx, seg.type);
+      ctx.restore();
+    });
+
+    // Outer glow ring
+    ctx.beginPath(); ctx.arc(cx,cy,R+2,0,2*Math.PI);
+    ctx.strokeStyle = 'rgba(74,222,128,0.3)'; ctx.lineWidth = 4; ctx.stroke();
+
+    // Center hub
+    ctx.beginPath(); ctx.arc(cx,cy,16,0,2*Math.PI);
+    ctx.fillStyle = '#07070c'; ctx.fill();
+    ctx.strokeStyle = 'rgba(74,222,128,0.5)'; ctx.lineWidth = 2; ctx.stroke();
+    ctx.font = 'bold 11px Inter'; ctx.fillStyle = '#4ade80';
+    ctx.textAlign = 'center'; ctx.textBaseline = 'middle';
+    ctx.fillText('✕', cx, cy);
+  }
+
+  // ── Draw mini Game Pass card in segment ──
+  function drawGPCard(ctx, type) {
+    const pct = type || '10%';
+    const w = 40, h = 26;
+    // Card body
+    ctx.beginPath();
+    ctx.roundRect(-w/2, -h/2, w, h, 3);
+    ctx.fillStyle = '#0a1a0a'; ctx.fill();
+    ctx.strokeStyle = 'rgba(74,222,128,0.3)'; ctx.lineWidth = 0.8; ctx.stroke();
+    // Inner green glow
+    ctx.fillStyle = 'rgba(16,124,16,0.5)';
+    ctx.beginPath(); ctx.ellipse(8, -8, 12, 8, 0, 0, 2*Math.PI); ctx.fill();
+    // Tag icon (discount label)
+    ctx.fillStyle = 'rgba(74,222,128,0.85)';
+    ctx.beginPath(); ctx.arc(-11, -6, 5.5, 0, 2*Math.PI); ctx.fill();
+    ctx.fillStyle = '#fff'; ctx.font = 'bold 6px Arial';
+    ctx.textAlign = 'center'; ctx.textBaseline = 'middle';
+    ctx.fillText('%', -11, -6);
+    // "DESC" label
+    ctx.fillStyle = 'rgba(255,255,255,0.92)'; ctx.font = 'bold 4.5px Arial';
+    ctx.textAlign = 'left'; ctx.textBaseline = 'middle';
+    ctx.fillText('DESCUENTO', -3, -7);
+    ctx.fillStyle = 'rgba(255,255,255,0.45)'; ctx.font = '3px Arial';
+    ctx.fillText('GAME PASS ULTIMATE', -3, -2);
+    // Percentage big text
+    ctx.fillStyle = '#fff'; ctx.font = 'bold 13px Arial';
+    ctx.textAlign = 'center'; ctx.textBaseline = 'middle';
+    ctx.fillText(pct, 0, 8);
+    // Bottom strip
+    ctx.fillStyle = 'rgba(74,222,128,0.35)';
+    ctx.fillRect(-w/2, h/2 - 4, w, 4);
+  }
+
+  // ── Prize selection ──
+  function whlPick() {
+    // 50% chance 10%, 50% chance 5%
+    const prize = Math.random() < 0.50 ? '10%' : '5%';
+    const pool = WHL_SEGS
+      .map((s, i) => ({ ...s, i }))
+      .filter(s => s.type === prize);
+    return pool[Math.floor(Math.random() * pool.length)].i;
+  }
+
+  // ── Spin ──
+  function whlSpin() {
+    if (whlSpinning || whlSpun) return;
+    whlSpinning = true;
+    const btn = document.getElementById('whlSpinBtn');
+    btn.disabled = true; btn.textContent = '⏳ Girando...';
+
+    const idx      = whlPick();
+    const sliceDeg = 360 / WHL_SEGS.length;
+    const targetDeg= -(idx * sliceDeg + sliceDeg/2);
+    const totalDeg = 360*10 + targetDeg - (whlRot % 360);
+    const startRot = whlRot, endRot = startRot + totalDeg;
+    const dur = 5800, t0 = performance.now();
+    const ease = t => 1 - Math.pow(1-t, 4);
+
+    (function tick(now) {
+      const p = Math.min((now-t0)/dur, 1);
+      const r = startRot + (endRot-startRot)*ease(p);
+      whlDraw(r);
+      if (p < 1) { requestAnimationFrame(tick); return; }
+      whlRot     = endRot % 360;
+      whlSpinning= false; whlSpun = true;
+      const prize = WHL_PRIZES_MAP[WHL_SEGS[idx].type];
+      whlPrize = prize;
+      localStorage.setItem('xpass_prize_v2',    JSON.stringify(prize));
+      localStorage.setItem('xpass_whl_spun_v2', '1');
+      _applyPrize(prize);
+      setTimeout(() => _showPrize(prize), 700);
+    })(t0);
+  }
+
+  function _applyPrize(prize) {
+    if (!prize) { activeCoupon = null; return; }
+    activeCoupon = { code:prize.code, type:prize.type, value:prize.value, label:prize.desc };
+    _updateCouponUI();
+    if (typeof renderCart === 'function') renderCart();
+  }
+
+  function _updateCouponUI() {
+    const activeEl = document.getElementById('couponActive');
+    const labelEl  = document.getElementById('couponActiveLabel');
+    const rowEl    = document.getElementById('couponRow');
+    if (!activeCoupon) {
+      if (activeEl) activeEl.style.display='none';
+      if (rowEl)    rowEl.style.display='';
+      return;
+    }
+    if (labelEl)  labelEl.textContent = '🎉 ' + activeCoupon.label;
+    if (activeEl) activeEl.style.display='flex';
+    if (rowEl)    rowEl.style.display='none';
+  }
+
+  function _showPrize(prize) {
+    document.getElementById('whlOverlay').classList.remove('open');
+    const emojiWrap = document.getElementById('prizeEmojiWrap');
+    if (emojiWrap) emojiWrap.style.display = '';
+    document.getElementById('prizeBigEmoji').textContent   = '💸';
+    document.getElementById('prizeNameBig').textContent    = prize.desc;
+    document.getElementById('prizeCodeCard').style.display = '';
+    const xboxNote = document.getElementById('prizeXboxNote');
+    if (xboxNote) xboxNote.style.display = 'none';
+    document.getElementById('prizeMainBtn').style.display  = '';
+    document.getElementById('prizeCodeTxt').textContent    = prize.code;
+    document.getElementById('prizeOverlay').style.display  = 'flex';
+  }
+
+  // ── Desbloqueo inmediato al compartir ──
+  const SITE_URL = 'https://xpass.com.mx';
+
+  function whlShareFB() {
+    const fbUrl = 'https://www.facebook.com/sharer/sharer.php?u=' + encodeURIComponent(SITE_URL);
+    window.open(fbUrl, '_blank');
+    _unlockWheel();
+  }
+
+  function whlShareIG() {
+    navigator.clipboard.writeText(SITE_URL).then(() => {
+      showToast('📋 Enlace copiado: ' + SITE_URL + ' — Pégalo en tu historia de Instagram');
+    }).catch(() => {
+      prompt('Copia este enlace y pégalo en Instagram:', SITE_URL);
+    });
+    showToast('📋 ¡Enlace copiado! Pégalo en tu historia de Instagram');
+    _unlockWheel();
+  }
+
+  function _unlockWheel() {
+    localStorage.setItem('xpass_whl_unlocked_v2', '1');
+    // Hide verify block
+    const verifyBlock = document.getElementById('whlVerifyBlock');
+    if (verifyBlock) verifyBlock.style.display = 'none';
+    // Lock overlay off
+    const lockVeil = document.getElementById('whlLockVeil');
+    if (lockVeil) lockVeil.style.display = 'none';
+    const alreadySpun = !!localStorage.getItem('xpass_whl_spun_v2');
+    const spinBtn = document.getElementById('whlSpinBtn');
+    const unlockedNote = document.getElementById('whlUnlockedNote');
+    const alreadyNote  = document.getElementById('whlAlreadyNote');
+    if (alreadySpun) {
+      if (spinBtn) { spinBtn.textContent='✓ Ya giraste'; spinBtn.disabled=true; }
+      if (alreadyNote)  alreadyNote.style.display  = '';
+      if (unlockedNote) unlockedNote.style.display = 'none';
+    } else {
+      if (spinBtn) { spinBtn.disabled=false; spinBtn.classList.add('whl-spin-btn--ready'); spinBtn.textContent='GIRAR RULETA'; }
+      if (unlockedNote) unlockedNote.style.display = '';
+    }
+    showToast('🔓 ¡Ruleta desbloqueada! Gira ahora');
+  }
+
+  function whlClose() { document.getElementById('whlOverlay').classList.remove('open'); }
+  function whlClosePrize() { document.getElementById('prizeOverlay').style.display = 'none'; }
+
+  function whlCopyCode() {
+    const code = document.getElementById('prizeCodeTxt').textContent;
+    navigator.clipboard.writeText(code).then(() => {
+      const btn = document.getElementById('prizeCopyBtn');
+      btn.textContent='✓ Copiado';
+      setTimeout(()=>btn.textContent='📋 Copiar', 2000);
+    });
+  }
+
+  function whlApplyAndClose() {
+    document.getElementById('prizeOverlay').style.display='none';
+    if (whlPrize) _applyPrize(whlPrize);
+    openCart(); showToast('🎉 Descuento aplicado al carrito');
+  }
+
+  // ── Manual coupon ──
+  function applyCouponCode() {
+    const inp  = document.getElementById('couponInput');
+    const code = (inp?inp.value:'').trim().toUpperCase();
+    if (!code) return;
+    const found = Object.values(WHL_PRIZES_MAP).find(p=>p.code===code && p.type!=='xbox');
+    if (found) {
+      activeCoupon = { code:found.code, type:found.type, value:found.value, label:found.desc };
+      _updateCouponUI(); renderCart();
+      showToast('✓ Cupón aplicado: '+found.desc);
+    } else {
+      showToast('Código de cupón inválido');
+    }
+  }
+
+  function removeCoupon() {
+    activeCoupon = null; _updateCouponUI(); renderCart();
+    showToast('Cupón eliminado');
+  }
+
+  // ── Record visit if arriving via share link ──
+  function _checkShareVisit() {
+    const params = new URLSearchParams(window.location.search);
+    const sv = params.get('sv');
+    if (!sv) return;
+    fetch('/api/share/visit', {
+      method:'POST', headers:{'Content-Type':'application/json'},
+      body: JSON.stringify({ code: sv })
+    });
+    // Clean URL without reload
+    window.history.replaceState({}, '', window.location.pathname);
+  }
+
+  // ── Init ──
+  function whlInit() {
+    whlDraw(0);
+    _checkShareVisit();
+
+    // Restore saved prize
+    try {
+      const saved = localStorage.getItem('xpass_prize_v2');
+      if (saved) { whlPrize = JSON.parse(saved); _applyPrize(whlPrize); }
+    } catch(_) {}
+
+    // Restore unlock state
+    if (localStorage.getItem('xpass_whl_unlocked_v2')) {
+      whlSpun = !!localStorage.getItem('xpass_whl_spun_v2');
+      _unlockWheel();
+    }
+
+    // Show modal on first visit (once per session, unless already spun)
+
+    document.getElementById('whlXBtn').addEventListener('click', whlClose);
+    document.getElementById('whlOverlay').addEventListener('click', e => {
+      if (e.target === document.getElementById('whlOverlay')) whlClose();
+    });
+    document.getElementById('whlSpinBtn').addEventListener('click', whlSpin);
+
+    const applyBtn = document.getElementById('couponApplyBtn');
+    if (applyBtn) applyBtn.addEventListener('click', applyCouponCode);
+    const inp = document.getElementById('couponInput');
+    if (inp) inp.addEventListener('keydown', e=>{ if(e.key==='Enter') applyCouponCode(); });
+    const removeBtn = document.getElementById('couponRemoveBtn');
+    if (removeBtn) removeBtn.addEventListener('click', removeCoupon);
+  }
+
+  whlInit();
+  </script>
+</body>
+</html>

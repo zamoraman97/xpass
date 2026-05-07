@@ -1,0 +1,58 @@
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+  XPASS STORE — Instrucciones para iniciar
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+REQUISITOS
+----------
+• Node.js instalado (descarga en https://nodejs.org)
+• Terminal / símbolo del sistema
+
+PRIMERA VEZ (instalar dependencias)
+-------------------------------------
+1. Abre la terminal en esta carpeta (gamepass/)
+2. Escribe:   npm install
+3. Espera a que termine
+
+INICIAR EL SERVIDOR
+--------------------
+En la terminal escribe:
+
+   node server.js
+
+Verás este mensaje:
+   ✅  XPass Store   →  http://localhost:3000
+   🔐  Panel admin   →  http://localhost:3000/admin
+
+ACCESO
+-------
+• Tienda para clientes:  http://localhost:3000
+• Página comprobante:    http://localhost:3000/comprobante
+• Panel admin:           http://localhost:3000/admin
+  - Contraseña inicial:  admin123
+  - ¡Cámbiala en Configuración al entrar!
+
+QUÉ HACER PRIMERO EN EL PANEL ADMIN
+--------------------------------------
+1. Entra a http://localhost:3000/admin con admin123
+2. Ve a "Configuración"
+3. Agrega tu número de WhatsApp (formato: 521XXXXXXXXXX)
+4. Actualiza tu CLABE, banco y beneficiario
+5. Cambia la contraseña de administrador
+
+FUNCIONAMIENTO
+--------------
+• Cliente elige plan → genera pedido con número XP-FECHA-XXXX
+• Paga por SPEI con la CLABE configurada
+• Va a /comprobante y sube su comprobante (o lo manda por WhatsApp)
+• En el panel admin ves todos los pedidos con foto del comprobante
+• Puedes cambiar el estado: Pendiente → Verificado → Entregado
+• Botón "WhatsApp" para chatear directo con el cliente
+
+DEJAR CORRER 24/7 (opcional, para cuando tengas hosting)
+---------------------------------------------------------
+Si tienes un servidor VPS, instala PM2:
+   npm install -g pm2
+   pm2 start server.js --name xpass
+   pm2 save
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
