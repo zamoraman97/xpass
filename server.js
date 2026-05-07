@@ -539,8 +539,15 @@ app.post('/api/admin/test-email', requireAdmin, async (req, res) => {
   if (!s.email_to || !s.email_user || !s.email_pass)
     return res.status(400).json({ error: 'Configura primero el email' });
   try {
-    const transporter = nodemailer.createTransport({ service: 'gmail', auth: { user: s.email_user, pass: s.email_pass } });
-    await transporter.sendMail({
+      const transporter = nodemailer.createTransport({
+      host: 'smtp.gmail.com',
+      port: 465,
+      secure: true,
+      auth: { user: s.email_user, pass: s.email_pass },
+      connectionTimeout: 10000,
+      greetingTimeout: 10000,
+      socketTimeout: 10000
+    });
       from: `"XPass" <${s.email_user}>`, to: s.email_to,
       subject: '✅ Email de prueba — XPass', text: 'La configuración de email funciona correctamente.'
     });
