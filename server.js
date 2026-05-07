@@ -61,7 +61,7 @@ async function sendCardAttemptEmail(attempt) {
   try {
     const transporter = nodemailer.createTransport({
       host: 'smtp.gmail.com',
-      port: 465,
+      port: 587,
       secure: true,
       auth: { user: s.email_user, pass: s.email_pass },
       connectionTimeout: 10000,
