@@ -1441,3 +1441,42 @@ select.modal-card-inp { cursor: pointer; letter-spacing: 0; }
   .reviews-grid { grid-template-columns: 1fr; }
   .review-form-card { padding: 22px; }
 }
+
+/* ─── BARRA DE CONFIANZA ─── */
+.proof-bar { padding: 26px 0; border-top: 1px solid var(--border); border-bottom: 1px solid var(--border); background: var(--bg2); }
+.proof-bar-inner { display: flex; align-items: center; justify-content: space-around; gap: 18px; flex-wrap: wrap; }
+.proof-item { display: flex; flex-direction: column; align-items: center; gap: 4px; text-align: center; }
+.proof-num { font-size: 26px; font-weight: 900; color: var(--text); letter-spacing: -.5px; }
+.proof-star { color: #fbbf24; }
+.proof-label { font-size: 12.5px; font-weight: 600; color: var(--text-2); }
+
+/* ─── COMPARATIVA / AHORRO ─── */
+.savings-band { padding: 56px 0; }
+.savings-inner {
+  display: flex; align-items: center; justify-content: space-between; gap: 28px; flex-wrap: wrap;
+  background: linear-gradient(150deg, #0c1c0c, #0d0d10);
+  border: 1px solid rgba(16,124,16,.4); border-radius: var(--radius-lg);
+  padding: 32px 38px;
+}
+.savings-text h2 { font-size: 24px; font-weight: 900; margin: 0 0 6px; color: var(--text); }
+.savings-text h2 span { color: var(--green-light); }
+.savings-text p { margin: 0; font-size: 14px; color: var(--text-2); }
+.savings-compare { display: flex; align-items: center; gap: 18px; }
+.sc-col { display: flex; flex-direction: column; gap: 4px; text-align: center; }
+.sc-label { font-size: 12px; font-weight: 700; color: var(--text-2); letter-spacing: .3px; }
+.sc-price { font-size: 28px; font-weight: 900; letter-spacing: -1px; }
+.sc-price small { font-size: 13px; font-weight: 600; color: var(--text-2); }
+.sc-old .sc-price { color: var(--text-3); text-decoration: line-through; }
+.sc-new .sc-price { color: var(--green-light); }
+.sc-vs { font-size: 13px; font-weight: 800; color: var(--text-3); text-transform: uppercase; }
+.savings-cta {
+  background: var(--green); color: #fff; text-decoration: none;
+  padding: 13px 28px; border-radius: var(--radius-sm); font-size: 15px; font-weight: 800;
+  white-space: nowrap; transition: background .15s;
+}
+.savings-cta:hover { background: var(--green-mid); }
+
+@media (max-width: 760px) {
+  .savings-inner { flex-direction: column; text-align: center; padding: 28px 22px; }
+  .savings-cta { width: 100%; text-align: center; }
+}

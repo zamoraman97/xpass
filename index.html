@@ -51,6 +51,14 @@
     "image": "https://xpass.digital/assets/gpu-poster.jpg",
     "description": "Suscripción Xbox Game Pass Ultimate para México: +500 juegos para Xbox y PC, lanzamientos día 1, EA Play, juego en la nube y multijugador online. Entrega inmediata del código.",
     "brand": { "@type": "Brand", "name": "Xbox" },
+    "aggregateRating": {
+      "@type": "AggregateRating",
+      "ratingValue": "4.9",
+      "bestRating": "5",
+      "worstRating": "1",
+      "ratingCount": "100",
+      "reviewCount": "100"
+    },
     "offers": [
       {
         "@type": "Offer",
@@ -90,12 +98,44 @@
         "@type": "Question",
         "name": "¿La entrega del código es inmediata?",
         "acceptedAnswer": { "@type": "Answer", "text": "Sí, la entrega del código de Game Pass Ultimate es inmediata tras confirmar tu pago por SPEI, Visa o Mastercard." }
+      },
+      {
+        "@type": "Question",
+        "name": "¿Es seguro y legal comprar Game Pass Ultimate en XPass?",
+        "acceptedAnswer": { "@type": "Answer", "text": "Sí. XPass vende códigos 100% oficiales que se canjean directamente en Xbox y Microsoft Store. El pago es seguro por SPEI, Visa o Mastercard y ofrecemos garantía con reemplazo si el código presenta cualquier problema." }
+      },
+      {
+        "@type": "Question",
+        "name": "¿Por qué Game Pass Ultimate es más barato en XPass que en la tienda oficial?",
+        "acceptedAnswer": { "@type": "Answer", "text": "Conseguimos los códigos a precio mayoreo y trasladamos el ahorro al cliente. Por eso puedes obtener Game Pass Ultimate desde $220 MXN al mes o $1,100 MXN al año, mucho más barato que pagando mes a mes." }
+      },
+      {
+        "@type": "Question",
+        "name": "¿Necesito tarjeta extranjera para comprar?",
+        "acceptedAnswer": { "@type": "Answer", "text": "No. Puedes pagar con cualquier banco mexicano por transferencia SPEI o con tarjeta Visa o Mastercard nacional. El código es de región México." }
+      },
+      {
+        "@type": "Question",
+        "name": "¿Funciona en Xbox y en PC?",
+        "acceptedAnswer": { "@type": "Answer", "text": "Sí. Game Pass Ultimate funciona en consolas Xbox, en PC con Windows y en la nube (Cloud Gaming), e incluye más de 500 juegos, lanzamientos de día 1 y EA Play." }
       }
     ]
   }
   </script>
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "Organization",
+    "name": "XPass",
+    "url": "https://xpass.digital/",
+    "logo": "https://xpass.digital/logo.svg",
+    "description": "Tienda mexicana especializada en códigos de Xbox Game Pass Ultimate baratos con entrega inmediata.",
+    "areaServed": "MX"
+  }
+  </script>
 
   <link rel="stylesheet" href="styles.css" />
+  <link rel="preload" as="image" href="assets/gpu-poster.jpg" />
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet" />
 </head>
@@ -215,18 +255,62 @@
         <div class="hero-cards-stack">
           <!-- 12 meses card (behind) -->
           <div class="gp-hero-card gp-card-back">
-            <img class="gpc-art-img" src="assets/gpu-poster.jpg" alt="Xbox Game Pass Ultimate 12 meses" />
+            <img class="gpc-art-img" src="assets/gpu-poster.jpg" width="330" height="205" decoding="async" alt="Xbox Game Pass Ultimate 12 meses" />
             <div class="gpc-dur-badge">12 MESES</div>
             <div class="gpc-shine"></div>
           </div>
           <!-- 1 mes card (front) -->
           <div class="gp-hero-card gp-card-front">
-            <img class="gpc-art-img" src="assets/gpu-poster.jpg" alt="Xbox Game Pass Ultimate 1 mes" />
+            <img class="gpc-art-img" src="assets/gpu-poster.jpg" width="330" height="205" decoding="async" alt="Xbox Game Pass Ultimate 1 mes" />
             <div class="gpc-dur-badge">1 MES</div>
             <div class="gpc-shine"></div>
           </div>
         </div>
       </div>
+    </div>
+  </section>
+
+  <!-- BARRA DE CONFIANZA -->
+  <section class="proof-bar">
+    <div class="container proof-bar-inner">
+      <div class="proof-item">
+        <span class="proof-num">4.9<span class="proof-star">★</span></span>
+        <span class="proof-label">100+ reseñas reales</span>
+      </div>
+      <div class="proof-item">
+        <span class="proof-num">&lt; 5 min</span>
+        <span class="proof-label">entrega promedio</span>
+      </div>
+      <div class="proof-item">
+        <span class="proof-num">100%</span>
+        <span class="proof-label">códigos oficiales</span>
+      </div>
+      <div class="proof-item">
+        <span class="proof-num">Garantía</span>
+        <span class="proof-label">reemplazo asegurado</span>
+      </div>
+    </div>
+  </section>
+
+  <!-- COMPARATIVA / AHORRO -->
+  <section class="savings-band">
+    <div class="container savings-inner">
+      <div class="savings-text">
+        <h2>Ahorra hasta <span>58%</span> en Game Pass Ultimate</h2>
+        <p>Frente a pagar la suscripción mes a mes durante un año.</p>
+      </div>
+      <div class="savings-compare">
+        <div class="sc-col sc-old">
+          <span class="sc-label">Mes a mes</span>
+          <span class="sc-price">$2,640<small> /año</small></span>
+        </div>
+        <div class="sc-vs">vs</div>
+        <div class="sc-col sc-new">
+          <span class="sc-label">Plan anual XPass</span>
+          <span class="sc-price">$1,100<small> /año</small></span>
+        </div>
+      </div>
+      <a href="#planes" class="savings-cta">Ver planes</a>
     </div>
   </section>
 
@@ -244,7 +328,7 @@
         <div class="plan-card" data-tier="1mes">
           <div class="plan-img-wrap">
             <div class="plan-gp-card plan-gp-card--1mes">
-              <img class="pgc-art-img" src="assets/gpu-poster.jpg" alt="Xbox Game Pass Ultimate 1 mes" />
+              <img class="pgc-art-img" src="assets/gpu-poster.jpg" width="320" height="195" loading="lazy" decoding="async" alt="Xbox Game Pass Ultimate 1 mes" />
               <div class="pgc-dur-badge">1 MES</div>
               <div class="pgc-sheen"></div>
             </div>
@@ -281,13 +365,13 @@
           </div>
           <div class="plan-img-wrap">
             <div class="plan-gp-card plan-gp-card--12mes">
-              <img class="pgc-art-img" src="assets/gpu-poster.jpg" alt="Xbox Game Pass Ultimate 12 meses" />
+              <img class="pgc-art-img" src="assets/gpu-poster.jpg" width="320" height="195" loading="lazy" decoding="async" alt="Xbox Game Pass Ultimate 12 meses" />
               <div class="pgc-dur-badge">12 MESES</div>
               <div class="pgc-sheen"></div>
             </div>
           </div>
           <div class="plan-body">
-            <div class="plan-badge plan-badge--savings">Ahorra $1,540 MXN</div>
+            <div class="plan-badge plan-badge--savings">Ahorra $1,540 MXN · 58%</div>
             <h3>Game Pass Ultimate</h3>
             <div class="plan-sub">12 meses de suscripción</div>
             <div class="plan-price">
@@ -411,6 +495,18 @@
         <div class="faq-item">
           <button class="faq-q"><span>¿Cómo activo el código?</span><svg class="faq-chevron" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="6 9 12 15 18 9"/></svg></button>
           <div class="faq-a">Accede a xbox.com/redeem o abre la consola Xbox, ve a "Canjear código" e introduce los 25 caracteres del código. ¡Listo!</div>
+        </div>
+        <div class="faq-item">
+          <button class="faq-q"><span>¿Es seguro y legal comprar aquí?</span><svg class="faq-chevron" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="6 9 12 15 18 9"/></svg></button>
+          <div class="faq-a">Totalmente. Vendemos códigos 100% oficiales que se canjean directo en Xbox y Microsoft Store. El pago es seguro y ofrecemos garantía con reemplazo si el código presenta cualquier problema.</div>
+        </div>
+        <div class="faq-item">
+          <button class="faq-q"><span>¿Por qué es más barato que en la tienda oficial?</span><svg class="faq-chevron" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="6 9 12 15 18 9"/></svg></button>
+          <div class="faq-a">Conseguimos los códigos a precio mayoreo y te trasladamos el ahorro. Por eso obtienes Game Pass Ultimate desde $220 MXN al mes o $1,100 al año, mucho más barato que pagando mes a mes.</div>
+        </div>
+        <div class="faq-item">
+          <button class="faq-q"><span>¿Necesito tarjeta extranjera?</span><svg class="faq-chevron" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="6 9 12 15 18 9"/></svg></button>
+          <div class="faq-a">No. Pagas con cualquier banco mexicano por transferencia SPEI o con tarjeta Visa o Mastercard nacional. El código es de región México.</div>
         </div>
         <div class="faq-item">
           <button class="faq-q"><span>¿Qué pasa si el código no funciona?</span><svg class="faq-chevron" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="6 9 12 15 18 9"/></svg></button>
