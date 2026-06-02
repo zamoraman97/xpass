@@ -11,8 +11,11 @@ const PORT = process.env.PORT || 3000;
 const DIR  = __dirname;
 
 // ── DIRECTORIES ──
-const uploadsDir = path.join(DIR, 'uploads');
-const dataDir    = path.join(DIR, 'data');
+// DATA_DIR apunta a un volumen persistente en producción (Railway).
+// Si no está definida, usa la carpeta del proyecto (desarrollo local).
+const DATA_ROOT  = process.env.DATA_DIR || DIR;
+const uploadsDir = path.join(DATA_ROOT, 'uploads');
+const dataDir    = path.join(DATA_ROOT, 'data');
 [uploadsDir, dataDir].forEach(d => { if (!fs.existsSync(d)) fs.mkdirSync(d, { recursive: true }); });
 
 // ── JSON STORAGE ──
