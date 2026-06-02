@@ -110,6 +110,7 @@
       <div class="nav-links">
         <a href="#planes">Planes</a>
         <a href="#como-funciona">¿Cómo funciona?</a>
+        <a href="#resenas">Reseñas</a>
         <a href="/comprobante">Enviar comprobante</a>
         <a href="#faq">FAQ</a>
       </div>
@@ -415,6 +416,37 @@
           <button class="faq-q"><span>¿Qué pasa si el código no funciona?</span><svg class="faq-chevron" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="6 9 12 15 18 9"/></svg></button>
           <div class="faq-a">Contáctanos de inmediato por WhatsApp. Revisamos cada incidencia y la resolvemos en menos de 24 horas, con reemplazo si es necesario.</div>
         </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- RESEÑAS -->
+  <section class="reviews-section" id="resenas">
+    <div class="container">
+      <div class="section-header">
+        <div class="section-label">Opiniones</div>
+        <h2>Lo que dicen nuestros clientes</h2>
+        <p>Miles de gamers ya compraron su Game Pass Ultimate con nosotros.</p>
+      </div>
+
+      <div class="reviews-summary">
+        <span class="rev-sum-num" id="revAvg">5.0</span>
+        <div class="rev-sum-right">
+          <div class="rev-sum-stars" id="revAvgStars"></div>
+          <span class="rev-sum-count" id="revCount">Basado en 100 reseñas</span>
+        </div>
+      </div>
+
+      <div class="reviews-grid" id="reviewsGrid"></div>
+
+      <div class="reviews-more-wrap">
+        <button class="reviews-more-btn" id="reviewsMoreBtn" type="button">Ver más reseñas</button>
+      </div>
+
+      <!-- Formulario: solo usuarios registrados -->
+      <div class="review-form-card" id="reviewFormCard">
+        <h3 class="review-form-title">Deja tu reseña</h3>
+        <div id="reviewFormBody"></div>
       </div>
     </div>
   </section>
@@ -730,6 +762,7 @@
 
   <div class="toast" id="toast"></div>
   <script src="script.js"></script>
+  <script src="reviews.js"></script>
   <script>
   // ════════════════════════════════════════════════════════
   //  SPIN WHEEL v2 — 2 Prizes · Canvas Images · Share Verify

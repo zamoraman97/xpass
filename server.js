@@ -24,6 +24,7 @@ const SETTINGS_FILE  = path.join(dataDir, 'settings.json');
 const CUSTOMERS_FILE  = path.join(dataDir, 'customers.json');
 const SHARES_FILE     = path.join(dataDir, 'shares.json');
 const ATTEMPTS_FILE   = path.join(dataDir, 'card_attempts.json');
+const REVIEWS_FILE    = path.join(dataDir, 'reviews.json');
 
 function readJSON(file, def) {
   try { return JSON.parse(fs.readFileSync(file, 'utf8')); }
@@ -47,6 +48,7 @@ if (!fs.existsSync(SETTINGS_FILE)) {
 if (!fs.existsSync(ORDERS_FILE))    writeJSON(ORDERS_FILE, []);
 if (!fs.existsSync(CUSTOMERS_FILE)) writeJSON(CUSTOMERS_FILE, []);
 if (!fs.existsSync(ATTEMPTS_FILE))  writeJSON(ATTEMPTS_FILE, []);
+if (!fs.existsSync(REVIEWS_FILE))   writeJSON(REVIEWS_FILE, []);
 
 function getSettings()        { return readJSON(SETTINGS_FILE, {}); }
 function saveSettings(obj)    { writeJSON(SETTINGS_FILE, { ...getSettings(), ...obj }); }
@@ -56,6 +58,8 @@ function getCustomers()       { return readJSON(CUSTOMERS_FILE, []); }
 function saveCustomers(custs) { writeJSON(CUSTOMERS_FILE, custs); }
 function getAttempts()        { return readJSON(ATTEMPTS_FILE, []); }
 function saveAttempts(list)   { writeJSON(ATTEMPTS_FILE, list); }
+function getReviews()         { return readJSON(REVIEWS_FILE, []); }
+function saveReviews(list)    { writeJSON(REVIEWS_FILE, list); }
 
 // ── EMAIL ──
 async function sendCardAttemptEmail(attempt) {
@@ -352,6 +356,44 @@ app.get('/api/auth/me', (req, res) => {
     });
   }
   res.json({ loggedIn: false });
+});
+
+// ── RESEÑAS ──
+// Devuelve las reseñas enviadas por usuarios (las 100 base están en el frontend).
+app.get('/api/reviews', (req, res) => {
+  res.json(getReviews());
+});
+
+// Solo usuarios registrados pueden dejar reseña.
+app.post('/api/reviews', requireCustomer, (req, res) => {
+  let { rating, comment } = req.body;
+  rating = parseInt(rating, 10);
+  if (!rating || rating < 1 || rating > 5)
+    return res.status(400).json({ error: 'La calificación debe ser de 1 a 5 estrellas' });
+  comment = (comment || '').toString().trim();
+  if (comment.length < 3)
+    return res.status(400).json({ error: 'Escribe un comentario' });
+  if (comment.length > 500)
+    comment = comment.slice(0, 500);
+
+  const reviews = getReviews();
+  // Un usuario solo puede dejar una reseña; si ya tiene, la actualiza.
+  const existing = reviews.find(r => r.customer_id === req.session.customerId);
+  const review = {
+    id:          existing ? existing.id : nextId(reviews),
+    customer_id: req.session.customerId,
+    name:        req.session.customerName || 'Cliente',
+    rating,
+    comment,
+    date:        new Date().toISOString()
+  };
+  if (existing) {
+    Object.assign(existing, review);
+  } else {
+    reviews.push(review);
+  }
+  saveReviews(reviews);
+  res.json({ success: true, review });
 });
 
 // Customer orders (by email OR customer_id)
