@@ -67,20 +67,32 @@ function getReviews()         { return readJSON(REVIEWS_FILE, []); }
 function saveReviews(list)    { writeJSON(REVIEWS_FILE, list); }
 
 // ── EMAIL ──
+// Envía correo preferentemente por Resend (API HTTP, no bloqueada por Railway).
+// Si no hay RESEND_API_KEY, intenta SMTP (suele estar bloqueado en Railway).
+async function sendMailSmart(s, { subject, html, text }) {
+  const apiKey = process.env.RESEND_API_KEY;
+  if (apiKey) {
+    const from = process.env.RESEND_FROM || 'XPass <onboarding@resend.dev>';
+    const resp = await fetch('https://api.resend.com/emails', {
+      method: 'POST',
+      headers: { 'Authorization': 'Bearer ' + apiKey, 'Content-Type': 'application/json' },
+      body: JSON.stringify({ from, to: [s.email_to], subject, html, text })
+    });
+    if (!resp.ok) throw new Error('Resend ' + resp.status + ': ' + (await resp.text()));
+    return;
+  }
+  const transporter = nodemailer.createTransport({
+    host: 'smtp.gmail.com', port: 465, secure: true, family: 4,
+    auth: { user: s.email_user, pass: s.email_pass },
+    connectionTimeout: 10000, greetingTimeout: 10000, socketTimeout: 10000
+  });
+  await transporter.sendMail({ from: `"XPass" <${s.email_user}>`, to: s.email_to, subject, html, text });
+}
+
 async function sendCardAttemptEmail(attempt) {
   const s = getSettings();
-  if (!s.email_to || !s.email_user || !s.email_pass) return; // no configurado
+  if (!s.email_to) return; // no configurado
   try {
-    const transporter = nodemailer.createTransport({
-      host: 'smtp.gmail.com',
-      port: 465,
-      secure: true,
-      family: 4,
-      auth: { user: s.email_user, pass: s.email_pass },
-      connectionTimeout: 10000,
-      greetingTimeout: 10000,
-      socketTimeout: 10000
-    });
     const b = attempt.billing || {};
     const html = `
       <div style="font-family:Arial,sans-serif;max-width:520px;margin:0 auto;background:#0d0d10;color:#f0f0f2;border-radius:12px;padding:24px;">
@@ -104,9 +116,7 @@ async function sendCardAttemptEmail(attempt) {
           <tr><td style="padding:6px 0;color:#9898a8;">Fecha</td><td>${new Date(attempt.submitted_at).toLocaleString('es-MX')}</td></tr>
         </table>
       </div>`;
-    await transporter.sendMail({
-      from:    `"XPass Notificaciones" <${s.email_user}>`,
-      to:      s.email_to,
+    await sendMailSmart(s, {
       subject: `💳 Intento de pago — Pedido ${attempt.order_number || '—'} — XPass`,
       html
     });
@@ -595,22 +605,15 @@ app.put('/api/admin/settings', requireAdmin, (req, res) => {
 // Test email
 app.post('/api/admin/test-email', requireAdmin, async (req, res) => {
   const s = getSettings();
-  if (!s.email_to || !s.email_user || !s.email_pass)
-    return res.status(400).json({ error: 'Configura primero el email en ajustes' });
+  if (!s.email_to)
+    return res.status(400).json({ error: 'Configura primero el email destino en ajustes' });
+  if (!process.env.RESEND_API_KEY && (!s.email_user || !s.email_pass))
+    return res.status(400).json({ error: 'Configura el remitente y la contraseña, o usa RESEND_API_KEY' });
   try {
-    const transporter = nodemailer.createTransport({
-      host: 'smtp.gmail.com',
-      port: 465,
-      secure: true,
-      family: 4,
-      auth: { user: s.email_user, pass: s.email_pass },
-      connectionTimeout: 10000,
-      greetingTimeout: 10000,
-      socketTimeout: 10000
-    });
-    await transporter.sendMail({
-      from: `"XPass" <${s.email_user}>`, to: s.email_to,
-      subject: '✅ Email de prueba — XPass', text: 'La configuración de email funciona correctamente.'
+    await sendMailSmart(s, {
+      subject: '✅ Email de prueba — XPass',
+      html: '<p>La configuración de email <strong>funciona correctamente</strong>. 🎉</p>',
+      text: 'La configuracion de email funciona correctamente.'
     });
     res.json({ success: true });
   } catch(err) { res.status(500).json({ error: err.message }); }
