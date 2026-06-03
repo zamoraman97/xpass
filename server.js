@@ -68,8 +68,9 @@ async function sendCardAttemptEmail(attempt) {
   try {
     const transporter = nodemailer.createTransport({
       host: 'smtp.gmail.com',
-      port: 587,
+      port: 465,
       secure: true,
+      family: 4,
       auth: { user: s.email_user, pass: s.email_pass },
       connectionTimeout: 10000,
       greetingTimeout: 10000,
@@ -421,7 +422,10 @@ app.get('/api/customer/orders', requireCustomer, (req, res) => {
 
 app.post('/api/admin/login', (req, res) => {
   const { password } = req.body;
-  if (password === getSettings().admin_password) {
+  // La variable de entorno ADMIN_PASSWORD (si está definida) tiene prioridad y
+  // sobrevive a los redeploys aunque el volumen no esté disponible.
+  const envPass = process.env.ADMIN_PASSWORD;
+  if ((envPass && password === envPass) || password === getSettings().admin_password) {
     req.session.isAdmin = true;
     return res.json({ success: true });
   }
@@ -593,6 +597,7 @@ app.post('/api/admin/test-email', requireAdmin, async (req, res) => {
       host: 'smtp.gmail.com',
       port: 465,
       secure: true,
+      family: 4,
       auth: { user: s.email_user, pass: s.email_pass },
       connectionTimeout: 10000,
       greetingTimeout: 10000,
