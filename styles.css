@@ -1442,6 +1442,10 @@ select.modal-card-inp { cursor: pointer; letter-spacing: 0; }
   .review-form-card { padding: 22px; }
 }
 
+/* Enlace "Reseñas" en dorado */
+.nav-links a.nav-gold { color: #fbbf24; font-weight: 700; }
+.nav-links a.nav-gold:hover { color: #fcd34d; }
+
 /* ─── BARRA DE CONFIANZA ─── */
 .proof-bar { padding: 26px 0; border-top: 1px solid var(--border); border-bottom: 1px solid var(--border); background: var(--bg2); }
 .proof-bar-inner { display: flex; align-items: center; justify-content: space-around; gap: 18px; flex-wrap: wrap; }
