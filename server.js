@@ -15,9 +15,10 @@ const PORT = process.env.PORT || 3000;
 const DIR  = __dirname;
 
 // ── DIRECTORIES ──
-// DATA_DIR apunta a un volumen persistente en producción (Railway).
-// Si no está definida, usa la carpeta del proyecto (desarrollo local).
-const DATA_ROOT  = process.env.DATA_DIR || DIR;
+// Usa el volumen persistente de Railway montado en /data automáticamente.
+// Prioridad: DATA_DIR (si se define) > /data (si existe el volumen) > carpeta local.
+const DATA_ROOT  = process.env.DATA_DIR
+  || (fs.existsSync('/data') ? '/data' : DIR);
 const uploadsDir = path.join(DATA_ROOT, 'uploads');
 const dataDir    = path.join(DATA_ROOT, 'data');
 [uploadsDir, dataDir].forEach(d => { if (!fs.existsSync(d)) fs.mkdirSync(d, { recursive: true }); });
