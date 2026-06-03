@@ -5,6 +5,10 @@ const path       = require('path');
 const fs         = require('fs');
 const crypto     = require('crypto');
 const nodemailer = require('nodemailer');
+const dns        = require('dns');
+
+// Railway no rutea IPv6 saliente: forzamos IPv4 para que el SMTP de Gmail conecte.
+if (dns.setDefaultResultOrder) dns.setDefaultResultOrder('ipv4first');
 
 const app  = express();
 const PORT = process.env.PORT || 3000;
