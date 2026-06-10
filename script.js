@@ -719,6 +719,19 @@ async function navLogout() {
   setTimeout(() => initAccountNav(), 200);
 }
 
+// ── AUTO-AÑADIR AL CARRITO (desde las páginas de plan: /?add=1mes | 12meses) ──
+(function handleAddParam() {
+  try {
+    const add = new URLSearchParams(location.search).get('add');
+    if (!add) return;
+    if (add === '1mes')        addToCart('Game Pass Ultimate 1 Mes', 220, 1);
+    else if (add === '12meses') addToCart('Game Pass Ultimate 12 Meses', 1100, 12);
+    else return;
+    // Limpia el parámetro de la URL sin recargar.
+    history.replaceState({}, '', location.pathname + location.hash);
+  } catch (_) {}
+})();
+
 // ── INIT ──
 loadSettings().then(() => {
   if (storeSettings.whatsapp) initWaFloat(storeSettings.whatsapp);

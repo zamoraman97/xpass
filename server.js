@@ -146,6 +146,22 @@ const upload = multer({
   }
 });
 
+// Subida solo de imágenes (capturas en reseñas), nombre propio.
+const reviewStorage = multer.diskStorage({
+  destination: (req, file, cb) => cb(null, uploadsDir),
+  filename:    (req, file, cb) => {
+    const ext = path.extname(file.originalname).toLowerCase();
+    cb(null, `rev-${Date.now()}-${Math.random().toString(36).slice(2,7)}${ext}`);
+  }
+});
+const reviewUpload = multer({
+  storage: reviewStorage,
+  limits: { fileSize: 6 * 1024 * 1024 },
+  fileFilter: (req, file, cb) => {
+    cb(null, /jpeg|jpg|png|gif|webp/.test(path.extname(file.originalname).toLowerCase()));
+  }
+});
+
 // ── SESSIONS PERSISTENTES EN DISCO ──
 const SESSIONS_DIR = path.join(dataDir, 'sessions');
 if (!fs.existsSync(SESSIONS_DIR)) fs.mkdirSync(SESSIONS_DIR, { recursive: true });
@@ -209,6 +225,13 @@ app.get('/',            (req, res) => res.sendFile(path.join(DIR, 'index.html'))
 app.get('/comprobante',  (req, res) => res.sendFile(path.join(DIR, 'comprobante.html')));
 app.get('/cuenta',       (req, res) => res.sendFile(path.join(DIR, 'cuenta.html')));
 app.get('/metodo-pago',  (req, res) => res.sendFile(path.join(DIR, 'metodo-pago.html')));
+// Páginas de plan (SEO landing pages)
+app.get('/game-pass-ultimate-1-mes',    (req, res) => res.sendFile(path.join(DIR, 'plan-1-mes.html')));
+app.get('/game-pass-ultimate-12-meses', (req, res) => res.sendFile(path.join(DIR, 'plan-12-meses.html')));
+// Blog
+app.get('/blog',         (req, res) => res.sendFile(path.join(DIR, 'blog.html')));
+app.get('/blog/como-canjear-codigo-xbox-game-pass', (req, res) => res.sendFile(path.join(DIR, 'blog-canjear-codigo.html')));
+app.get('/blog/game-pass-vs-game-pass-ultimate',    (req, res) => res.sendFile(path.join(DIR, 'blog-game-pass-vs-ultimate.html')));
 app.get('/admin',       (req, res) => res.sendFile(path.join(DIR, 'admin', 'index.html')));
 app.get('/admin/',      (req, res) => res.sendFile(path.join(DIR, 'admin', 'index.html')));
 
@@ -380,8 +403,8 @@ app.get('/api/reviews', (req, res) => {
   res.json(getReviews());
 });
 
-// Solo usuarios registrados pueden dejar reseña.
-app.post('/api/reviews', requireCustomer, (req, res) => {
+// Solo usuarios registrados pueden dejar reseña. Acepta una captura opcional.
+app.post('/api/reviews', requireCustomer, reviewUpload.single('image'), (req, res) => {
   let { rating, comment } = req.body;
   rating = parseInt(rating, 10);
   if (!rating || rating < 1 || rating > 5)
@@ -395,12 +418,15 @@ app.post('/api/reviews', requireCustomer, (req, res) => {
   const reviews = getReviews();
   // Un usuario solo puede dejar una reseña; si ya tiene, la actualiza.
   const existing = reviews.find(r => r.customer_id === req.session.customerId);
+  // Conserva la imagen previa si no se sube una nueva.
+  const image = req.file ? req.file.filename : (existing ? (existing.image || '') : '');
   const review = {
     id:          existing ? existing.id : nextId(reviews),
     customer_id: req.session.customerId,
     name:        req.session.customerName || 'Cliente',
     rating,
     comment,
+    image,
     date:        new Date().toISOString()
   };
   if (existing) {

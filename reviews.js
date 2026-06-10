@@ -303,7 +303,13 @@
         '</div>' +
         '<div class="review-date">' + fmtDate(r.date) + '</div>' +
       '</div>' +
-      '<p class="review-text">' + escapeHtml(r.comment) + '</p>';
+      '<p class="review-text">' + escapeHtml(r.comment) + '</p>' +
+      (r.image
+        ? '<a class="review-shot" href="/uploads/' + encodeURIComponent(r.image) + '" target="_blank" rel="noopener">' +
+            '<img src="/uploads/' + encodeURIComponent(r.image) + '" loading="lazy" alt="Captura de compra de un cliente de XPass" />' +
+            '<span class="review-shot-badge">✓ Compra verificada</span>' +
+          '</a>'
+        : '');
     return el;
   }
   function escapeHtml(s) {
@@ -365,6 +371,11 @@
         }).join('') +
       '</div>' +
       '<textarea id="reviewComment" class="review-textarea" maxlength="500" placeholder="Cuéntanos tu experiencia con XPass..."></textarea>' +
+      '<label class="review-img-label" for="reviewImage">' +
+        '<svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="18" height="18" rx="2"/><circle cx="8.5" cy="8.5" r="1.5"/><polyline points="21 15 16 10 5 21"/></svg>' +
+        '<span id="reviewImgName">Adjuntar captura (opcional)</span>' +
+      '</label>' +
+      '<input type="file" id="reviewImage" accept="image/*" style="display:none" />' +
       '<button type="button" class="review-submit-btn" id="reviewSubmit">Publicar reseña</button>';
 
     let picked = 5;
@@ -378,15 +389,33 @@
       b.addEventListener('click', function () { picked = +b.dataset.val; paint(picked); });
     });
 
+    // Nombre del archivo adjunto
+    const imgInput = document.getElementById('reviewImage');
+    imgInput.addEventListener('change', function () {
+      const nameEl = document.getElementById('reviewImgName');
+      if (imgInput.files && imgInput.files[0]) {
+        if (imgInput.files[0].size > 6 * 1024 * 1024) {
+          toastMsg('La imagen supera el máximo de 6 MB'); imgInput.value = '';
+          nameEl.textContent = 'Adjuntar captura (opcional)'; return;
+        }
+        nameEl.textContent = imgInput.files[0].name;
+      } else {
+        nameEl.textContent = 'Adjuntar captura (opcional)';
+      }
+    });
+
     document.getElementById('reviewSubmit').addEventListener('click', function () {
       const btn = this;
       const comment = document.getElementById('reviewComment').value.trim();
       if (comment.length < 3) { toastMsg('Escribe un comentario'); return; }
       btn.disabled = true; btn.textContent = 'Publicando...';
+      const fd = new FormData();
+      fd.append('rating', picked);
+      fd.append('comment', comment);
+      if (imgInput.files && imgInput.files[0]) fd.append('image', imgInput.files[0]);
       fetch('/api/reviews', {
         method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ rating: picked, comment: comment })
+        body: fd
       })
         .then(function (r) { return r.json().then(function (d) { return { ok: r.ok, d: d }; }); })
         .then(function (res) {
