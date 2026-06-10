@@ -77,9 +77,12 @@ function renderCart() {
 
   itemsEl.innerHTML = cart.map(item => `
     <div class="cart-item">
+      <div class="cart-item-thumb">
+        <img src="/assets/gpu-poster.jpg" alt="${item.product}" loading="lazy" />
+      </div>
       <div class="cart-item-info">
         <div class="cart-item-name">${item.product}</div>
-        <div class="cart-item-sub">${item.months} mes${item.months > 1 ? 'es' : ''} · Solo SPEI</div>
+        <div class="cart-item-sub">${item.months} mes${item.months > 1 ? 'es' : ''} · Código digital · Entrega inmediata</div>
       </div>
       <div class="cart-item-price">${formatPrice(item.price)}</div>
       <button class="cart-item-remove" data-id="${item.id}" title="Eliminar">

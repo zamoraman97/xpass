@@ -224,7 +224,8 @@ function requireCustomer(req, res, next) {
 app.get('/',            (req, res) => res.sendFile(path.join(DIR, 'index.html')));
 app.get('/comprobante',  (req, res) => res.sendFile(path.join(DIR, 'comprobante.html')));
 app.get('/cuenta',       (req, res) => res.sendFile(path.join(DIR, 'cuenta.html')));
-app.get('/metodo-pago',  (req, res) => res.sendFile(path.join(DIR, 'metodo-pago.html')));
+// La pagina de metodo de pago se elimino; redirige a la home (301 para SEO).
+app.get('/metodo-pago',  (req, res) => res.redirect(301, '/'));
 // Páginas de plan (SEO landing pages)
 app.get('/game-pass-ultimate-1-mes',    (req, res) => res.sendFile(path.join(DIR, 'plan-1-mes.html')));
 app.get('/game-pass-ultimate-12-meses', (req, res) => res.sendFile(path.join(DIR, 'plan-12-meses.html')));
