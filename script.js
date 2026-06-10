@@ -17,7 +17,8 @@ let cart = loadCart();
 
 const PLAN_META = {
   1: { badge: '1 mes', thumb: '/assets/gpu-poster.jpg' },
-  12: { badge: '12 meses', thumb: '/assets/gpu-poster.jpg' }
+  12: { badge: '12 meses', thumb: '/assets/gpu-poster.jpg' },
+  default: { badge: 'Código digital', thumb: '/assets/gpu-poster.jpg' }
 };
 
 function loadCart() {
@@ -31,7 +32,10 @@ function loadCart() {
         product: String(i.product),
         price: Number(i.price),
         months: Number(i.months) || 1,
-        qty: Math.max(1, Number(i.qty) || 1)
+        qty: Math.max(1, Number(i.qty) || 1),
+        sku: String(i.sku || i.id || i.product),
+        badge: String(i.badge || ''),
+        thumb: String(i.thumb || '')
       }));
   } catch (_) {
     return [];
@@ -62,17 +66,31 @@ function escapeHtml(value) {
 
 document.querySelectorAll('.plan-add-btn').forEach(btn => {
   btn.addEventListener('click', () => {
-    addToCart(btn.dataset.product, parseFloat(btn.dataset.price), parseInt(btn.dataset.months));
+    if (btn.disabled || btn.dataset.stock === 'out') return;
+    addToCart(btn.dataset.product, parseFloat(btn.dataset.price), parseInt(btn.dataset.months || '0', 10), {
+      sku: btn.dataset.sku,
+      badge: btn.dataset.badge,
+      thumb: btn.dataset.thumb
+    });
   });
 });
 
-function addToCart(product, price, months) {
-  const id = String(months || product);
+function addToCart(product, price, months, options = {}) {
+  const id = String(options.sku || `${product}-${price}`);
   const existing = cart.find(i => i.id === id);
   if (existing) {
     existing.qty = (existing.qty || 1) + 1;
   } else {
-    cart.push({ id, product, price, months, qty: 1 });
+    cart.push({
+      id,
+      sku: options.sku || id,
+      product,
+      price,
+      months,
+      qty: 1,
+      badge: options.badge || '',
+      thumb: options.thumb || ''
+    });
   }
   saveCart();
   renderCart();
@@ -140,7 +158,11 @@ function renderCart() {
 
   itemsEl.innerHTML = cart.map(item => {
     const qty = item.qty || 1;
-    const meta = PLAN_META[item.months] || PLAN_META[1];
+    const meta = {
+      ...(PLAN_META[item.months] || PLAN_META.default),
+      badge: item.badge || (PLAN_META[item.months] || PLAN_META.default).badge,
+      thumb: item.thumb || (PLAN_META[item.months] || PLAN_META.default).thumb
+    };
     return `
     <div class="cart-item">
       <div class="cart-item-thumb">
