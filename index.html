@@ -11,7 +11,7 @@
   <meta name="robots" content="index, follow, max-image-preview:large" />
   <meta name="author" content="XPass" />
   <meta name="language" content="es-MX" />
-  <meta name="theme-color" content="#7c3aed" />
+  <meta name="theme-color" content="#107C10" />
   <link rel="canonical" href="https://xpass.digital/" />
   <link rel="icon" type="image/svg+xml" href="/logo.svg" />
   <link rel="apple-touch-icon" href="/logo.svg" />
@@ -151,14 +151,11 @@
       <a href="/" class="logo">
         <img src="/logo.svg" alt="XPass" style="height:38px;width:auto;display:block;" />
       </a>
-      <div class="nav-links">
-        <a href="#planes">Planes</a>
-        <a href="#como-funciona">¿Cómo funciona?</a>
-        <a href="#resenas" class="nav-gold">Reseñas</a>
-        <a href="/blog">Blog</a>
-        <a href="/comprobante">Enviar comprobante</a>
-        <a href="#faq">FAQ</a>
-      </div>
+      <form class="nav-search" id="navSearch" role="search" autocomplete="off">
+        <svg class="ns-icon" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
+        <input type="search" id="navSearchInput" placeholder="Busca Game Pass, guías y más..." aria-label="Buscar en XPass" />
+        <div class="nav-search-sug" id="navSearchSug"></div>
+      </form>
       <div class="nav-right">
         <!-- Account dropdown -->
         <div class="account-menu-wrap" id="accountMenuWrap" style="display:none;">
@@ -190,6 +187,18 @@
         </button>
       </div>
     </div>
+    <div class="nav-chips">
+      <div class="nav-chips-inner">
+        <a href="#planes" class="hot">🔥 Ofertas Game Pass</a>
+        <a href="/game-pass-ultimate-1-mes">1 Mes</a>
+        <a href="/game-pass-ultimate-12-meses">12 Meses</a>
+        <a href="#como-funciona">Cómo funciona</a>
+        <a href="#resenas">Reseñas</a>
+        <a href="/blog">Guías</a>
+        <a href="/comprobante">Enviar comprobante</a>
+        <a href="#faq">FAQ</a>
+      </div>
+    </div>
   </nav>
 
   <!-- SHARE BANNER -->
@@ -215,191 +224,132 @@
     </div>
   </div>
 
-  <!-- HERO -->
-  <section class="hero">
-    <div class="hero-orb hero-orb-1"></div>
-    <div class="hero-orb hero-orb-2"></div>
-    <div class="hero-grid"></div>
-    <div class="hero-inner">
-      <div class="hero-content">
-        <div class="hero-pill">
-          <span class="pill-dot"></span>
-          Entrega inmediata
-        </div>
-        <h1>Xbox Game Pass Ultimate<br /><em>al mejor precio</em></h1>
-        <p>Accede a cientos de juegos oficiales con tu suscripción. Pago seguro por <strong>SPEI</strong> o <strong>tarjeta</strong>, entrega inmediata y soporte en español.</p>
-        <div class="hero-ctas">
-          <a href="#planes" class="cta-primary">
-            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polygon points="5 3 19 12 5 21 5 3"/></svg>
-            Ver planes
-          </a>
-          <a href="#como-funciona" class="cta-secondary">¿Cómo funciona?</a>
-        </div>
-        <div class="trust-row">
-          <div class="trust-item">
-            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#a78bfa" stroke-width="2.5"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
-            Códigos 100% oficiales
-          </div>
-          <div class="trust-sep"></div>
-          <div class="trust-item">
-            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#a78bfa" stroke-width="2.5"><rect x="2" y="5" width="20" height="14" rx="2"/><line x1="2" y1="10" x2="22" y2="10"/></svg>
-            Pago por SPEI
-          </div>
-          <div class="trust-sep"></div>
-          <div class="trust-item">
-            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#a78bfa" stroke-width="2.5"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
-            Entrega inmediata
-          </div>
-        </div>
-      </div>
-      <div class="hero-visual">
-        <div class="hero-cards-stack">
-          <!-- 12 meses card (behind) -->
-          <div class="gp-hero-card gp-card-back">
-            <img class="gpc-art-img" src="assets/gpu-poster.jpg" width="330" height="205" decoding="async" alt="Xbox Game Pass Ultimate 12 meses" />
-            <div class="gpc-dur-badge">12 MESES</div>
-            <div class="gpc-shine"></div>
-          </div>
-          <!-- 1 mes card (front) -->
-          <div class="gp-hero-card gp-card-front">
-            <img class="gpc-art-img" src="assets/gpu-poster.jpg" width="330" height="205" decoding="async" alt="Xbox Game Pass Ultimate 1 mes" />
-            <div class="gpc-dur-badge">1 MES</div>
-            <div class="gpc-shine"></div>
-          </div>
-        </div>
-      </div>
-    </div>
-  </section>
-
-  <!-- BARRA DE CONFIANZA -->
-  <section class="proof-bar">
-    <div class="container proof-bar-inner">
-      <div class="proof-item">
-        <span class="proof-num">4.9<span class="proof-star">★</span></span>
-        <span class="proof-label">100+ reseñas de clientes</span>
-      </div>
-      <div class="proof-item">
-        <span class="proof-num">&lt; 5 min</span>
-        <span class="proof-label">entrega promedio</span>
-      </div>
-      <div class="proof-item">
-        <span class="proof-num">100%</span>
-        <span class="proof-label">códigos oficiales</span>
-      </div>
-      <div class="proof-item">
-        <span class="proof-num">Garantía</span>
-        <span class="proof-label">reemplazo asegurado</span>
-      </div>
-    </div>
-  </section>
-
-  <!-- COMPARATIVA / AHORRO -->
-  <section class="savings-band">
-    <div class="container savings-inner">
-      <div class="savings-text">
-        <h2>Ahorra hasta <span>58%</span> en Game Pass Ultimate</h2>
-        <p>Frente a pagar la suscripción mes a mes durante un año.</p>
-      </div>
-      <div class="savings-compare">
-        <div class="sc-col sc-old">
-          <span class="sc-label">Mes a mes</span>
-          <span class="sc-price">$2,640<small> /año</small></span>
-        </div>
-        <div class="sc-vs">vs</div>
-        <div class="sc-col sc-new">
-          <span class="sc-label">Plan anual XPass</span>
-          <span class="sc-price">$1,100<small> /año</small></span>
-        </div>
-      </div>
-      <a href="#planes" class="savings-cta">Ver planes</a>
-    </div>
-  </section>
-
-  <!-- PLANES -->
-  <section class="planes-section" id="planes">
+  <!-- HERO: banner promocional estilo marketplace -->
+  <section class="ebn-hero">
     <div class="container">
-      <div class="section-header">
-        <div class="section-label">Catálogo</div>
-        <h2>Elige tu plan</h2>
-        <p>Precio único, sin sorpresas. Pago seguro por SPEI o tarjeta, entrega inmediata.</p>
+      <div class="ebn-banner">
+        <img class="ebn-banner-art" src="assets/gpu-poster.jpg" alt="" aria-hidden="true" fetchpriority="high" />
+        <div class="ebn-banner-veil"></div>
+        <div class="ebn-banner-glow"></div>
+        <div class="ebn-banner-content">
+          <div class="ebn-eyebrow">⚡ Oferta destacada · Región México</div>
+          <h1>Xbox Game Pass Ultimate<br />hasta <em>−58%</em></h1>
+          <p>+500 juegos para Xbox y PC, EA Play y juego en la nube. El código oficial llega a tu correo en minutos.</p>
+          <div class="ebn-cta-row">
+            <a href="#planes" class="cta-primary">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><circle cx="9" cy="21" r="1"/><circle cx="20" cy="21" r="1"/><path d="M1 1h4l2.68 13.39a2 2 0 001.99 1.61h9.72a2 2 0 001.99-1.61L23 6H6"/></svg>
+              Ver ofertas
+            </a>
+            <a href="#como-funciona" class="cta-ghost">¿Cómo funciona?</a>
+          </div>
+        </div>
+        <div class="ebn-price-tag">
+          <span class="from">Desde</span>
+          <span class="amt">$220<small> MXN</small></span>
+          <span class="old">antes $2,640/año</span>
+        </div>
       </div>
-      <div class="planes-grid">
+
+      <!-- franja de confianza -->
+      <div class="ebn-trust">
+        <div class="ebn-trust-item">
+          <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#fbbf24" stroke-width="2"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>
+          <div><b>4.9<span class="star">★</span> excelente</b><span>100+ reseñas de clientes</span></div>
+        </div>
+        <div class="ebn-trust-item">
+          <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#4ade80" stroke-width="2"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
+          <div><b>Entrega &lt; 5 min</b><span>código directo a tu correo</span></div>
+        </div>
+        <div class="ebn-trust-item">
+          <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#4ade80" stroke-width="2"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
+          <div><b>100% oficiales</b><span>se canjean en Xbox y Microsoft</span></div>
+        </div>
+        <div class="ebn-trust-item">
+          <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#4ade80" stroke-width="2"><path d="M3 12a9 9 0 109-9"/><polyline points="3 7 3 12 8 12"/></svg>
+          <div><b>Garantía total</b><span>reemplazo asegurado</span></div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- PRODUCTOS -->
+  <section class="ebn-products" id="planes">
+    <div class="container">
+      <div class="ebn-row-head">
+        <h2>Planes Game Pass Ultimate</h2>
+        <span class="sub">Entrega inmediata · Códigos oficiales región México</span>
+      </div>
+      <div class="ebn-grid">
 
         <!-- 1 MES -->
-        <div class="plan-card" data-tier="1mes">
-          <div class="plan-img-wrap">
-            <div class="plan-gp-card plan-gp-card--1mes">
-              <img class="pgc-art-img" src="assets/gpu-poster.jpg" width="320" height="195" loading="lazy" decoding="async" alt="Xbox Game Pass Ultimate 1 mes" />
-              <div class="pgc-dur-badge">1 MES</div>
-              <div class="pgc-sheen"></div>
-            </div>
+        <article class="ebn-card">
+          <div class="ebn-card-img">
+            <img src="assets/gpu-poster.jpg" width="320" height="195" loading="lazy" decoding="async" alt="Xbox Game Pass Ultimate 1 mes" />
+            <span class="ebn-platform">XBOX · PC</span>
+            <span class="ebn-dur">1 MES</span>
           </div>
-          <div class="plan-body">
-            <div class="plan-badge plan-badge--regular">Acceso inmediato</div>
-            <h3>Game Pass Ultimate</h3>
-            <div class="plan-sub">1 mes de suscripción</div>
-            <div class="plan-price">
-              <span class="price-symbol">$</span>
-              <span class="price-amount">220</span>
-              <span class="price-currency">MXN</span>
-            </div>
-            <div class="plan-equiv">Equivale a $7 MXN/día</div>
-            <ul class="plan-features">
-              <li><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#a78bfa" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg> +500 juegos para Xbox y PC</li>
-              <li><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#a78bfa" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg> Lanzamientos día 1 incluidos</li>
-              <li><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#a78bfa" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg> EA Play incluido</li>
-              <li><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#a78bfa" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg> Juego en la nube (Cloud Gaming)</li>
-              <li><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#a78bfa" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg> Multijugador online incluido</li>
+          <div class="ebn-card-body">
+            <h3>Xbox Game Pass Ultimate — 1 Mes</h3>
+            <div class="ebn-stars">★★★★★ <span>4.9 · 100+ reseñas</span></div>
+            <ul class="ebn-feat">
+              <li>✔ +500 juegos para Xbox y PC</li>
+              <li>✔ EA Play y juego en la nube</li>
+              <li>✔ Multijugador online incluido</li>
             </ul>
+            <div class="ebn-price-row">
+              <span class="ebn-price">$220<small>MXN</small></span>
+            </div>
             <button class="plan-add-btn" data-product="Game Pass Ultimate 1 Mes" data-price="220" data-months="1">
-              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
+              <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><circle cx="9" cy="21" r="1"/><circle cx="20" cy="21" r="1"/><path d="M1 1h4l2.68 13.39a2 2 0 001.99 1.61h9.72a2 2 0 001.99-1.61L23 6H6"/></svg>
               Añadir al carrito
             </button>
-            <a href="/game-pass-ultimate-1-mes" class="plan-details-link">Ver detalles del plan →</a>
+            <a href="/game-pass-ultimate-1-mes" class="ebn-details">Ver detalles del plan →</a>
           </div>
-        </div>
+        </article>
 
         <!-- 12 MESES -->
-        <div class="plan-card plan-card--featured" data-tier="12meses">
-          <div class="plan-featured-ribbon">
-            <svg width="11" height="11" viewBox="0 0 24 24" fill="currentColor"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>
-            MEJOR VALOR
+        <article class="ebn-card">
+          <div class="ebn-hot-ribbon">★ MÁS VENDIDO</div>
+          <div class="ebn-card-img">
+            <img src="assets/gpu-poster.jpg" width="320" height="195" loading="lazy" decoding="async" alt="Xbox Game Pass Ultimate 12 meses" />
+            <span class="ebn-platform">XBOX · PC</span>
+            <span class="ebn-dur">12 MESES</span>
           </div>
-          <div class="plan-img-wrap">
-            <div class="plan-gp-card plan-gp-card--12mes">
-              <img class="pgc-art-img" src="assets/gpu-poster.jpg" width="320" height="195" loading="lazy" decoding="async" alt="Xbox Game Pass Ultimate 12 meses" />
-              <div class="pgc-dur-badge">12 MESES</div>
-              <div class="pgc-sheen"></div>
-            </div>
-          </div>
-          <div class="plan-body">
-            <div class="plan-badge plan-badge--savings">Ahorra $1,540 MXN · 58%</div>
-            <h3>Game Pass Ultimate</h3>
-            <div class="plan-sub">12 meses de suscripción</div>
-            <div class="plan-price">
-              <span class="price-symbol">$</span>
-              <span class="price-amount">1,100</span>
-              <span class="price-currency">MXN</span>
-              <span class="plan-discount-chip">-58%</span>
-            </div>
-            <div class="plan-equiv">
-              <span class="equiv-per-month">Solo $92 MXN/mes</span>
-              <span class="equiv-crossed"><del>$2,640</del></span>
-            </div>
-            <ul class="plan-features">
-              <li><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#a78bfa" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg> +500 juegos para Xbox y PC</li>
-              <li><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#a78bfa" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg> Lanzamientos día 1 incluidos</li>
-              <li><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#a78bfa" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg> EA Play incluido</li>
-              <li><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#a78bfa" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg> Juego en la nube (Cloud Gaming)</li>
-              <li><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#a78bfa" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg> Multijugador online incluido</li>
+          <div class="ebn-card-body">
+            <h3>Xbox Game Pass Ultimate — 12 Meses</h3>
+            <div class="ebn-stars">★★★★★ <span>4.9 · 100+ reseñas</span></div>
+            <ul class="ebn-feat">
+              <li>✔ Todo lo del plan mensual, por un año</li>
+              <li>✔ Sin renovaciones ni cargos sorpresa</li>
+              <li>✔ Equivale a solo $92 MXN/mes</li>
             </ul>
-            <button class="plan-add-btn plan-add-btn--featured" data-product="Game Pass Ultimate 12 Meses" data-price="1100" data-months="12">
-              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
+            <div class="ebn-price-row">
+              <span class="ebn-disc">−58%</span>
+              <span class="ebn-old">$2,640</span>
+              <span class="ebn-price">$1,100<small>MXN</small></span>
+            </div>
+            <button class="plan-add-btn" data-product="Game Pass Ultimate 12 Meses" data-price="1100" data-months="12">
+              <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><circle cx="9" cy="21" r="1"/><circle cx="20" cy="21" r="1"/><path d="M1 1h4l2.68 13.39a2 2 0 001.99 1.61h9.72a2 2 0 001.99-1.61L23 6H6"/></svg>
               Añadir al carrito
             </button>
-            <a href="/game-pass-ultimate-12-meses" class="plan-details-link">Ver detalles del plan →</a>
+            <a href="/game-pass-ultimate-12-meses" class="ebn-details">Ver detalles del plan →</a>
           </div>
-        </div>
+        </article>
+
+        <!-- AYUDA PARA ELEGIR -->
+        <article class="ebn-card ebn-card--help">
+          <div class="ebn-help-body">
+            <div class="q">🤔 ¿No sabes cuál elegir?</div>
+            <p>Compara en 10 segundos lo que pagarías en un año:</p>
+            <ul class="ebn-compare">
+              <li>📅 Mes a mes oficial: <b>$2,640 MXN</b>/año</li>
+              <li>⚡ Plan anual XPass: <b>$1,100 MXN</b>/año</li>
+              <li>💰 Tu ahorro: <b>$1,540 MXN</b> (58%)</li>
+            </ul>
+            <p>Si solo quieres probar el servicio o jugar un lanzamiento puntual, el plan de 1 mes es tu opción.</p>
+            <a href="/blog/game-pass-vs-game-pass-ultimate" class="ebn-help-link">Leer la comparativa completa →</a>
+          </div>
+        </article>
 
       </div>
     </div>
@@ -440,6 +390,30 @@
           <h4>¡Recibe tu código!</h4>
           <p>Recibe tu código a tu correo de manera instantánea.</p>
         </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- GUÍAS -->
+  <section class="ebn-guides">
+    <div class="container">
+      <div class="ebn-row-head">
+        <h2>Guías para gamers</h2>
+        <a href="/blog" class="more">Ver todas las guías →</a>
+      </div>
+      <div class="ebn-guides-grid">
+        <a href="/blog/como-canjear-codigo-xbox-game-pass" class="ebn-guide">
+          <span class="k">Guía paso a paso</span>
+          <h3>Cómo canjear un código de Xbox Game Pass</h3>
+          <p>Activa tu código de 25 caracteres en la consola, en PC o desde la web en menos de dos minutos.</p>
+          <span class="more">Leer guía →</span>
+        </a>
+        <a href="/blog/game-pass-vs-game-pass-ultimate" class="ebn-guide">
+          <span class="k">Comparativa</span>
+          <h3>Game Pass vs Game Pass Ultimate</h3>
+          <p>Qué incluye cada plan de Xbox y por qué Ultimate suele ser la mejor relación precio-beneficio.</p>
+          <span class="more">Leer comparativa →</span>
+        </a>
       </div>
     </div>
   </section>
@@ -531,7 +505,12 @@
           <a href="/" class="logo">
             <img src="/logo.svg" alt="XPass" style="height:34px;width:auto;display:block;" />
           </a>
-          <p>Tienda especializada en códigos Xbox Game Pass Ultimate para México. Pago seguro por SPEI.</p>
+          <p>Tienda especializada en códigos Xbox Game Pass Ultimate para México. Pago seguro y entrega inmediata.</p>
+          <div class="footer-pay">
+            <img src="/visa.svg" alt="Visa" />
+            <img src="/mastercard.svg" alt="Mastercard" />
+            <span class="spei">SPEI</span>
+          </div>
         </div>
         <div class="footer-links">
           <div class="footer-col">
@@ -577,7 +556,7 @@
       </div>
       <!-- Active coupon badge -->
       <div class="coupon-active" id="couponActive" style="display:none">
-        <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="#a78bfa" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg>
+        <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="#4ade80" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg>
         <span id="couponActiveLabel">Cupón aplicado</span>
         <button class="coupon-remove" id="couponRemoveBtn" title="Quitar cupón">×</button>
       </div>
@@ -739,7 +718,7 @@
         </div>
         <div class="modal-success">
           <div class="success-ring">
-            <svg width="36" height="36" viewBox="0 0 24 24" fill="none" stroke="#a78bfa" stroke-width="2.5"><path d="M22 11.08V12a10 10 0 11-5.93-9.14"/><polyline points="22 4 12 14.01 9 11.01"/></svg>
+            <svg width="36" height="36" viewBox="0 0 24 24" fill="none" stroke="#4ade80" stroke-width="2.5"><path d="M22 11.08V12a10 10 0 11-5.93-9.14"/><polyline points="22 4 12 14.01 9 11.01"/></svg>
           </div>
           <h3>¡Pedido registrado!</h3>
           <p id="confirmMsg">Tu pedido <strong id="confirmOrderId"></strong> fue registrado. Envíanos tu comprobante SPEI para recibir el código de forma <strong>inmediata</strong>.</p>
@@ -843,17 +822,69 @@
   <script src="script.js"></script>
   <script src="reviews.js"></script>
   <script>
+  // ── Buscador del navbar (sugerencias del catálogo y guías) ──
+  (function () {
+    var ITEMS = [
+      { n: 'Xbox Game Pass Ultimate 1 Mes — $220 MXN',     u: '/game-pass-ultimate-1-mes',                 t: 'plan' },
+      { n: 'Xbox Game Pass Ultimate 12 Meses — $1,100 MXN', u: '/game-pass-ultimate-12-meses',             t: 'plan' },
+      { n: 'Cómo canjear un código de Xbox Game Pass',     u: '/blog/como-canjear-codigo-xbox-game-pass',  t: 'guía' },
+      { n: 'Game Pass vs Game Pass Ultimate',              u: '/blog/game-pass-vs-game-pass-ultimate',     t: 'guía' },
+      { n: 'Enviar comprobante de pago',                   u: '/comprobante',                              t: 'ayuda' },
+      { n: 'Preguntas frecuentes',                         u: '#faq',                                      t: 'ayuda' }
+    ];
+    var form = document.getElementById('navSearch');
+    var input = document.getElementById('navSearchInput');
+    var sug = document.getElementById('navSearchSug');
+    if (!form || !input || !sug) return;
+
+    function norm(s) {
+      return (s || '').toLowerCase().normalize('NFD').replace(/[\u0300-\u036f]/g, '');
+    }
+    function matches(q) {
+      q = norm(q);
+      return ITEMS.filter(function (it) { return norm(it.n).indexOf(q) !== -1; });
+    }
+    function render(list) {
+      if (!list.length) { sug.classList.remove('show'); sug.innerHTML = ''; return; }
+      sug.innerHTML = list.map(function (it) {
+        return '<a href="' + it.u + '">' +
+          '<svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>' +
+          '<span>' + it.n + '</span><span class="tag">' + it.t + '</span></a>';
+      }).join('');
+      sug.classList.add('show');
+    }
+    input.addEventListener('input', function () {
+      var q = input.value.trim();
+      if (q.length < 2) { render([]); return; }
+      render(matches(q).slice(0, 6));
+    });
+    input.addEventListener('focus', function () {
+      if (input.value.trim().length >= 2) render(matches(input.value.trim()).slice(0, 6));
+    });
+    form.addEventListener('submit', function (e) {
+      e.preventDefault();
+      var m = matches(input.value.trim());
+      if (m.length) { location.href = m[0].u; }
+      else { document.getElementById('planes').scrollIntoView({ behavior: 'smooth' }); }
+      render([]);
+    });
+    document.addEventListener('click', function (e) {
+      if (!form.contains(e.target)) render([]);
+    });
+  })();
+  </script>
+  <script>
   // ════════════════════════════════════════════════════════
   //  SPIN WHEEL v2 — 2 Prizes · Canvas Images · Share Verify
   // ════════════════════════════════════════════════════════
 
   // 6 segments: 3 × 5% descuento + 3 × 10% descuento
   const WHL_SEGS = [
-    { type:'10%', color:'#7c3aed' },
+    { type:'10%', color:'#107C10' },
     { type:'5%',  color:'#1a5c1a' },
     { type:'10%', color:'#0d7010' },
     { type:'5%',  color:'#175c17' },
-    { type:'10%', color:'#7c3aed' },
+    { type:'10%', color:'#107C10' },
     { type:'5%',  color:'#1a5c1a' },
   ];
   const WHL_PRIZES_MAP = {
@@ -914,7 +945,7 @@
     ctx.beginPath(); ctx.arc(cx,cy,16,0,2*Math.PI);
     ctx.fillStyle = '#07070c'; ctx.fill();
     ctx.strokeStyle = 'rgba(74,222,128,0.5)'; ctx.lineWidth = 2; ctx.stroke();
-    ctx.font = 'bold 11px Inter'; ctx.fillStyle = '#a78bfa';
+    ctx.font = 'bold 11px Inter'; ctx.fillStyle = '#4ade80';
     ctx.textAlign = 'center'; ctx.textBaseline = 'middle';
     ctx.fillText('✕', cx, cy);
   }
@@ -929,7 +960,7 @@
     ctx.fillStyle = '#0a1a0a'; ctx.fill();
     ctx.strokeStyle = 'rgba(74,222,128,0.3)'; ctx.lineWidth = 0.8; ctx.stroke();
     // Inner green glow
-    ctx.fillStyle = 'rgba(124,58,237,0.5)';
+    ctx.fillStyle = 'rgba(16,124,16,0.5)';
     ctx.beginPath(); ctx.ellipse(8, -8, 12, 8, 0, 0, 2*Math.PI); ctx.fill();
     // Tag icon (discount label)
     ctx.fillStyle = 'rgba(74,222,128,0.85)';
