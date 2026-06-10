@@ -872,6 +872,36 @@
       if (!form.contains(e.target)) render([]);
     });
   })();
+
+  // Estado activo de las pestañas/chips de navegación.
+  (function () {
+    var links = Array.from(document.querySelectorAll('.nav-chips-inner a, .nav-links a'));
+    function clear() { links.forEach(function (a) { a.classList.remove('active'); a.removeAttribute('aria-current'); }); }
+    function setActive(hash) {
+      clear();
+      links.forEach(function (a) {
+        var href = a.getAttribute('href') || '';
+        if (href === hash || href === '/' + hash) {
+          a.classList.add('active');
+          a.setAttribute('aria-current', 'true');
+        }
+      });
+    }
+    var sections = ['planes', 'como-funciona', 'resenas', 'faq']
+      .map(function (id) { return document.getElementById(id); })
+      .filter(Boolean);
+    if (!('IntersectionObserver' in window) || !sections.length) {
+      setActive(location.hash || '#planes');
+      return;
+    }
+    var observer = new IntersectionObserver(function (entries) {
+      var visible = entries
+        .filter(function (entry) { return entry.isIntersecting; })
+        .sort(function (a, b) { return b.intersectionRatio - a.intersectionRatio; })[0];
+      if (visible) setActive('#' + visible.target.id);
+    }, { rootMargin: '-30% 0px -55% 0px', threshold: [0.1, 0.35, 0.6] });
+    sections.forEach(function (section) { observer.observe(section); });
+  })();
   </script>
   <script>
   // ════════════════════════════════════════════════════════

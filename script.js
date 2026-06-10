@@ -12,7 +12,53 @@ async function loadSettings() {
 }
 
 // ── CART ──
-let cart = [];
+const CART_STORAGE_KEY = 'xpass_cart_v2';
+let cart = loadCart();
+
+const PLAN_META = {
+  1: { badge: '1 mes', thumb: '/assets/gpu-poster.jpg' },
+  12: { badge: '12 meses', thumb: '/assets/gpu-poster.jpg' }
+};
+
+function loadCart() {
+  try {
+    const saved = JSON.parse(localStorage.getItem(CART_STORAGE_KEY) || '[]');
+    if (!Array.isArray(saved)) return [];
+    return saved
+      .filter(i => i && i.product && Number(i.price) > 0)
+      .map(i => ({
+        id: String(i.id || i.months || Date.now()),
+        product: String(i.product),
+        price: Number(i.price),
+        months: Number(i.months) || 1,
+        qty: Math.max(1, Number(i.qty) || 1)
+      }));
+  } catch (_) {
+    return [];
+  }
+}
+
+function saveCart() {
+  try { localStorage.setItem(CART_STORAGE_KEY, JSON.stringify(cart)); } catch (_) {}
+}
+
+function getCartSubtotal() {
+  return cart.reduce((s, i) => s + (i.price * (i.qty || 1)), 0);
+}
+
+function getCartCount() {
+  return cart.reduce((s, i) => s + (i.qty || 1), 0);
+}
+
+function escapeHtml(value) {
+  return String(value).replace(/[&<>"']/g, ch => ({
+    '&': '&amp;',
+    '<': '&lt;',
+    '>': '&gt;',
+    '"': '&quot;',
+    "'": '&#39;'
+  }[ch]));
+}
 
 document.querySelectorAll('.plan-add-btn').forEach(btn => {
   btn.addEventListener('click', () => {
@@ -21,14 +67,30 @@ document.querySelectorAll('.plan-add-btn').forEach(btn => {
 });
 
 function addToCart(product, price, months) {
-  cart.push({ id: Date.now(), product, price, months });
+  const id = String(months || product);
+  const existing = cart.find(i => i.id === id);
+  if (existing) {
+    existing.qty = (existing.qty || 1) + 1;
+  } else {
+    cart.push({ id, product, price, months, qty: 1 });
+  }
+  saveCart();
   renderCart();
   openCart();
   showToast('✓ Producto añadido al carrito');
 }
 
 function removeFromCart(id) {
-  cart = cart.filter(i => i.id !== id);
+  cart = cart.filter(i => i.id !== String(id));
+  saveCart();
+  renderCart();
+}
+
+function updateCartQty(id, delta) {
+  const item = cart.find(i => i.id === String(id));
+  if (!item) return;
+  item.qty = Math.max(1, (item.qty || 1) + delta);
+  saveCart();
   renderCart();
 }
 
@@ -42,20 +104,21 @@ function renderCart() {
   const countEl  = document.getElementById('cartCount');
   const totalEl  = document.getElementById('cartTotal');
 
-  countEl.textContent = cart.length;
+  countEl.textContent = getCartCount();
 
   if (cart.length === 0) {
     itemsEl.innerHTML = `
       <div class="cart-empty-state">
         <svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" opacity=".3"><circle cx="9" cy="21" r="1"/><circle cx="20" cy="21" r="1"/><path d="M1 1h4l2.68 13.39a2 2 0 001.99 1.61h9.72a2 2 0 001.99-1.61L23 6H6"/></svg>
         <p>Tu carrito está vacío</p>
+        <a href="#planes" class="cart-empty-link" onclick="closeCart()">Ver ofertas</a>
       </div>`;
     footerEl.style.display = 'none';
     return;
   }
 
   footerEl.style.display = 'flex';
-  const subtotal   = cart.reduce((s, i) => s + i.price, 0);
+  const subtotal   = getCartSubtotal();
   const discount   = (typeof calcCartDiscount === 'function') ? calcCartDiscount(subtotal) : 0;
   const finalTotal = Math.max(0, subtotal - discount);
 
@@ -75,24 +138,37 @@ function renderCart() {
   }
   totalEl.textContent = formatPrice(finalTotal);
 
-  itemsEl.innerHTML = cart.map(item => `
+  itemsEl.innerHTML = cart.map(item => {
+    const qty = item.qty || 1;
+    const meta = PLAN_META[item.months] || PLAN_META[1];
+    return `
     <div class="cart-item">
       <div class="cart-item-thumb">
-        <img src="/assets/gpu-poster.jpg" alt="${item.product}" loading="lazy" />
+        <img src="${meta.thumb}" alt="${escapeHtml(item.product)}" loading="lazy" />
       </div>
       <div class="cart-item-info">
-        <div class="cart-item-name">${item.product}</div>
-        <div class="cart-item-sub">${item.months} mes${item.months > 1 ? 'es' : ''} · Código digital · Entrega inmediata</div>
+        <div class="cart-item-name">${escapeHtml(item.product)}</div>
+        <div class="cart-item-sub">${meta.badge} · Código digital · Entrega inmediata</div>
+        <div class="cart-qty" aria-label="Cantidad">
+          <button type="button" class="cart-qty-btn" data-action="dec" data-id="${item.id}" ${qty <= 1 ? 'disabled' : ''}>−</button>
+          <span>${qty}</span>
+          <button type="button" class="cart-qty-btn" data-action="inc" data-id="${item.id}">+</button>
+        </div>
       </div>
-      <div class="cart-item-price">${formatPrice(item.price)}</div>
+      <div class="cart-item-price">${formatPrice(item.price * qty)}</div>
       <button class="cart-item-remove" data-id="${item.id}" title="Eliminar">
         <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
       </button>
     </div>
-  `).join('');
+  `; }).join('');
 
   itemsEl.querySelectorAll('.cart-item-remove').forEach(btn => {
-    btn.addEventListener('click', () => removeFromCart(Number(btn.dataset.id)));
+    btn.addEventListener('click', () => removeFromCart(btn.dataset.id));
+  });
+  itemsEl.querySelectorAll('.cart-qty-btn').forEach(btn => {
+    btn.addEventListener('click', () => {
+      updateCartQty(btn.dataset.id, btn.dataset.action === 'inc' ? 1 : -1);
+    });
   });
 }
 
@@ -119,6 +195,11 @@ document.getElementById('cartOverlay').addEventListener('click', closeCart);
 document.getElementById('checkoutBtn').addEventListener('click', () => { closeCart(); openCheckout(); });
 
 function openCheckout() {
+  if (cart.length === 0) {
+    openCart();
+    showToast('Agrega un plan antes de finalizar la compra');
+    return;
+  }
   // Pre-fill form if user is logged in
   if (currentUser) {
     const fn = document.getElementById('fname');
@@ -156,7 +237,7 @@ function showModalStep(n) {
 }
 
 function renderModalSummary() {
-  const subtotal = cart.reduce((s, i) => s + i.price, 0);
+  const subtotal = getCartSubtotal();
   const discount = (typeof calcCartDiscount === 'function') ? calcCartDiscount(subtotal) : 0;
   const total    = Math.max(0, subtotal - discount);
 
@@ -169,8 +250,8 @@ function renderModalSummary() {
 
   const html = cart.map(item => `
     <div class="msummary-row">
-      <span>${item.product}</span>
-      <span>${formatPrice(item.price)}</span>
+      <span>${escapeHtml(item.product)}${(item.qty || 1) > 1 ? ' × ' + item.qty : ''}</span>
+      <span>${formatPrice(item.price * (item.qty || 1))}</span>
     </div>
   `).join('') + discountRow + `
     <div class="msummary-row total">
@@ -188,7 +269,7 @@ function renderModalSummary() {
 document.getElementById('checkoutForm').addEventListener('submit', e => {
   e.preventDefault();
   currentOrderId = generateOrderId();
-  const total = cart.reduce((s, i) => s + i.price, 0);
+  const total = getCartSubtotal();
 
   const discount   = (typeof calcCartDiscount === 'function') ? calcCartDiscount(total) : 0;
   const finalTotal = Math.max(0, total - discount);
@@ -198,7 +279,7 @@ document.getElementById('checkoutForm').addEventListener('submit', e => {
     phone: document.getElementById('fphone').value,
     order_number: currentOrderId,
     amount: finalTotal,
-    items: cart.map(i => i.product).join(', ') + (activeCoupon ? ' [Cupón: ' + activeCoupon.code + ']' : '')
+    items: cart.map(i => i.product + ((i.qty || 1) > 1 ? ' x' + i.qty : '')).join(', ') + (activeCoupon ? ' [Cupón: ' + activeCoupon.code + ']' : '')
   };
 
   // Fill modal SPEI data (pre-fill for when/if user chooses SPEI)
@@ -486,6 +567,7 @@ document.getElementById('bankDoneBtn').addEventListener('click', async () => {
   await saveOrderToBackend('spei');
   showModalStep(4);
   cart = [];
+  saveCart();
   renderCart();
 });
 
@@ -556,6 +638,7 @@ async function confirmCardPayment() {
   document.getElementById('goToComprobanteBtn').style.display = 'none';
   showModalStep(4);
   cart = [];
+  saveCart();
   renderCart();
 }
 
@@ -740,3 +823,4 @@ loadSettings().then(() => {
   if (storeSettings.whatsapp) initWaFloat(storeSettings.whatsapp);
 });
 initAccountNav();
+renderCart();
