@@ -278,13 +278,11 @@ body {
   background: rgba(74,222,128,.12); border-color: rgba(74,222,128,.5); color: var(--green-light);
 }
 .ebn-card.is-hidden { display: none; }
-/* Imagenes verticales (gift cards / recargas): mostrar completas, sin recortar */
+/* Imagenes verticales (gift cards / recargas): cajas verticales que se llenan por completo */
 .ebn-card[data-category="giftcards"] .ebn-card-img,
-.ebn-card[data-category="recargas"] .ebn-card-img { aspect-ratio: 4 / 3; background: #0c0d10; }
+.ebn-card[data-category="recargas"] .ebn-card-img { aspect-ratio: 3 / 4; background: #0c0d10; }
 .ebn-card[data-category="giftcards"] .ebn-card-img img,
-.ebn-card[data-category="recargas"] .ebn-card-img img { object-fit: contain; padding: 6px; }
-.ebn-card[data-category="giftcards"]:hover .ebn-card-img img,
-.ebn-card[data-category="recargas"]:hover .ebn-card-img img { transform: scale(1.03); }
+.ebn-card[data-category="recargas"] .ebn-card-img img { object-fit: cover; object-position: center; }
 .ebn-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 16px; }
 .ebn-card {
   background: var(--bg2); border: 1px solid var(--border); border-radius: var(--radius);
