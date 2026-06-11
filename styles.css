@@ -297,6 +297,35 @@ body {
 .ebn-row-head .sub { font-size: 13px; color: var(--text-3); }
 .ebn-row-head a.more { font-size: 13.5px; font-weight: 700; color: var(--green-light); text-decoration: none; }
 .ebn-row-head a.more:hover { text-decoration: underline; }
+/* ─── Buscador del catálogo ─── */
+.ebn-search {
+  position: relative; display: flex; align-items: center;
+  margin-bottom: 14px;
+}
+.ebn-search-ico { position: absolute; left: 16px; color: var(--text-3); pointer-events: none; }
+.ebn-search input {
+  width: 100%; font-family: inherit; font-size: 15px; color: var(--text);
+  background: var(--bg2); border: 1px solid var(--border-med); border-radius: 14px;
+  padding: 14px 44px 14px 46px; outline: none;
+  transition: border-color .15s, box-shadow .15s, background .15s;
+}
+.ebn-search input::placeholder { color: var(--text-3); }
+.ebn-search input:focus {
+  border-color: rgba(74,222,128,.55); background: var(--bg3);
+  box-shadow: 0 0 0 3px rgba(74,222,128,.12);
+}
+.ebn-search input::-webkit-search-cancel-button { display: none; }
+.ebn-search-clear {
+  position: absolute; right: 10px; display: flex; align-items: center; justify-content: center;
+  width: 28px; height: 28px; border: none; border-radius: 8px; cursor: pointer;
+  background: rgba(255,255,255,.08); color: var(--text-2); transition: background .15s;
+}
+.ebn-search-clear:hover { background: rgba(255,255,255,.16); color: var(--text); }
+.ebn-noresults {
+  text-align: center; padding: 48px 20px; color: var(--text-3);
+  display: flex; flex-direction: column; align-items: center; gap: 12px;
+}
+.ebn-noresults p { font-size: 14.5px; font-weight: 600; }
 /* ─── Filtros de categoría ─── */
 .ebn-filters {
   display: flex; flex-wrap: wrap; gap: 9px; margin-bottom: 22px;
@@ -1617,7 +1646,7 @@ select.modal-card-inp { cursor: pointer; letter-spacing: 0; }
 
 /* ─── RESPONSIVE (marketplace) ─── */
 @media (max-width: 980px) {
-  .ebn-grid { grid-template-columns: 1fr 1fr; }
+  .ebn-grid { grid-template-columns: repeat(3, 1fr); }
   .ebn-trust { grid-template-columns: 1fr 1fr; }
   .pd-hero { grid-template-columns: 1fr; }
   .pd-visual { max-width: 460px; }
@@ -1644,7 +1673,31 @@ select.modal-card-inp { cursor: pointer; letter-spacing: 0; }
   .ebn-hero-cards .hc-3 { transform: rotate(-3deg); }
   .ebn-hero-cards .hc-4 { display: none; }
   .ebn-price-chip { display: none; }
-  .ebn-grid { grid-template-columns: 1fr; }
+  /* ── Catálogo compacto estilo Eneba en móvil ── */
+  .ebn-products { padding: 28px 0 44px; }
+  .ebn-row-head h2 { font-size: 21px; }
+  .ebn-grid { grid-template-columns: 1fr 1fr; gap: 11px; }
+  .ebn-card-body { padding: 11px 12px 13px; gap: 7px; }
+  .ebn-card-body h3 { font-size: 13px; line-height: 1.3; }
+  .ebn-feat { display: none; }            /* ocultar bullets para acortar la tarjeta */
+  .ebn-details { display: none; }
+  .ebn-price { font-size: 19px; }
+  .ebn-price small { font-size: 10px; }
+  .ebn-price-row { padding-top: 2px; gap: 6px; }
+  .ebn-old { font-size: 11px; }
+  .ebn-disc { font-size: 10px; padding: 1px 5px; }
+  .plan-add-btn { padding: 9px; font-size: 12.5px; gap: 6px; border-radius: 10px; }
+  .ebn-platform { font-size: 8.5px; padding: 3px 7px; letter-spacing: .8px; }
+  .ebn-dur { font-size: 9.5px; padding: 4px 8px; }
+  .ebn-hot-ribbon { font-size: 8.5px; padding: 4px 9px; }
+  /* chips de filtro en fila deslizable */
+  .ebn-filters {
+    flex-wrap: nowrap; overflow-x: auto; scrollbar-width: none;
+    margin: 0 -18px 16px; padding: 2px 18px; gap: 8px;
+  }
+  .ebn-filters::-webkit-scrollbar { display: none; }
+  .ebn-filter { flex: 0 0 auto; font-size: 12.5px; padding: 8px 13px; }
+  .ebn-search input { font-size: 14px; padding: 12px 42px 12px 42px; }
   .ebn-guides-grid { grid-template-columns: 1fr; }
   .breadcrumb,
   .pd-hero,

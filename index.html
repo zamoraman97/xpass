@@ -276,6 +276,13 @@
         <h2>Catálogo digital</h2>
         <span class="sub">Gaming, streaming, recargas y gift cards con entrega por correo</span>
       </div>
+      <div class="ebn-search">
+        <svg class="ebn-search-ico" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
+        <input type="search" id="ebnSearchInput" placeholder="Buscar Robux, Game Pass, Xbox, Steam…" autocomplete="off" aria-label="Buscar productos" />
+        <button type="button" id="ebnSearchClear" class="ebn-search-clear" aria-label="Limpiar búsqueda" style="display:none">
+          <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
+        </button>
+      </div>
       <div class="ebn-filters" id="ebnFilters" role="tablist" aria-label="Filtrar por categoría">
         <button class="ebn-filter active" data-filter="all" role="tab" aria-selected="true">Todo</button>
         <button class="ebn-filter" data-filter="gaming" role="tab" aria-selected="false">🎮 Suscripciones</button>
@@ -283,6 +290,10 @@
         <button class="ebn-filter" data-filter="giftcards" role="tab" aria-selected="false">🎁 Gift cards</button>
         <button class="ebn-filter" data-filter="streaming" role="tab" aria-selected="false">📺 Streaming</button>
         <button class="ebn-filter" data-filter="egifts" role="tab" aria-selected="false">🛒 eGifts</button>
+      </div>
+      <div class="ebn-noresults" id="ebnNoResults" style="display:none">
+        <svg width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" opacity=".35"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
+        <p>No encontramos productos para tu búsqueda.</p>
       </div>
       <div class="ebn-grid">
 
@@ -689,7 +700,7 @@
         <!-- ───── GIFT CARDS: PLAYSTATION ───── -->
         <article class="ebn-card" data-category="giftcards">
           <div class="ebn-card-img">
-            <img src="assets/playstation.svg" width="320" height="195" loading="lazy" decoding="async" alt="Tarjeta PlayStation Store $250" />
+            <img src="assets/playstation.jpg" width="320" height="195" loading="lazy" decoding="async" alt="Tarjeta PlayStation Store $250" />
             <span class="ebn-platform">PLAYSTATION</span>
             <span class="ebn-dur">GIFT CARD</span>
           </div>
@@ -701,13 +712,13 @@
               <li>✔ Código digital por correo</li>
             </ul>
             <div class="ebn-price-row"><span class="ebn-price">$250<small>MXN</small></span></div>
-            <button class="plan-add-btn" data-sku="psn-250" data-product="PlayStation Store $250" data-price="250" data-badge="$250" data-thumb="/assets/playstation.svg">Añadir al carrito</button>
+            <button class="plan-add-btn" data-sku="psn-250" data-product="PlayStation Store $250" data-price="250" data-badge="$250" data-thumb="/assets/playstation.jpg">Añadir al carrito</button>
           </div>
         </article>
 
         <article class="ebn-card" data-category="giftcards">
           <div class="ebn-card-img">
-            <img src="assets/playstation.svg" width="320" height="195" loading="lazy" decoding="async" alt="Tarjeta PlayStation Store $500" />
+            <img src="assets/playstation.jpg" width="320" height="195" loading="lazy" decoding="async" alt="Tarjeta PlayStation Store $500" />
             <span class="ebn-platform">PLAYSTATION</span>
             <span class="ebn-dur">GIFT CARD</span>
           </div>
@@ -719,14 +730,14 @@
               <li>✔ Código digital por correo</li>
             </ul>
             <div class="ebn-price-row"><span class="ebn-price">$500<small>MXN</small></span></div>
-            <button class="plan-add-btn" data-sku="psn-500" data-product="PlayStation Store $500" data-price="500" data-badge="$500" data-thumb="/assets/playstation.svg">Añadir al carrito</button>
+            <button class="plan-add-btn" data-sku="psn-500" data-product="PlayStation Store $500" data-price="500" data-badge="$500" data-thumb="/assets/playstation.jpg">Añadir al carrito</button>
           </div>
         </article>
 
         <!-- ───── GIFT CARDS: STEAM ───── -->
         <article class="ebn-card" data-category="giftcards">
           <div class="ebn-card-img">
-            <img src="assets/steam.svg" width="320" height="195" loading="lazy" decoding="async" alt="Steam Wallet $200" />
+            <img src="assets/steam.jpg" width="320" height="195" loading="lazy" decoding="async" alt="Steam Wallet $200" />
             <span class="ebn-platform">STEAM</span>
             <span class="ebn-dur">WALLET</span>
           </div>
@@ -738,7 +749,7 @@
               <li>✔ Código digital por correo</li>
             </ul>
             <div class="ebn-price-row"><span class="ebn-price">$200<small>MXN</small></span></div>
-            <button class="plan-add-btn" data-sku="steam-200" data-product="Steam Wallet $200" data-price="200" data-badge="$200" data-thumb="/assets/steam.svg">Añadir al carrito</button>
+            <button class="plan-add-btn" data-sku="steam-200" data-product="Steam Wallet $200" data-price="200" data-badge="$200" data-thumb="/assets/steam.jpg">Añadir al carrito</button>
           </div>
         </article>
 
@@ -1201,24 +1212,53 @@
     });
   })();
 
-  // ── Filtro de categorías del catálogo ──
+  // ── Buscador + filtro de categorías del catálogo ──
   (function () {
     var filters = Array.from(document.querySelectorAll('.ebn-filter'));
     var cards = Array.from(document.querySelectorAll('.ebn-grid .ebn-card'));
+    var input = document.getElementById('ebnSearchInput');
+    var clearBtn = document.getElementById('ebnSearchClear');
+    var noRes = document.getElementById('ebnNoResults');
     if (!filters.length || !cards.length) return;
-    function apply(cat) {
-      cards.forEach(function (card) {
-        var match = cat === 'all' || card.getAttribute('data-category') === cat;
-        card.classList.toggle('is-hidden', !match);
-      });
+
+    var activeCat = 'all';
+    function norm(s) {
+      return (s || '').toLowerCase().normalize('NFD').replace(/[̀-ͯ]/g, '');
     }
+    // texto buscable de cada card (título + categoría + plataforma)
+    cards.forEach(function (card) {
+      var h3 = card.querySelector('h3');
+      var plat = card.querySelector('.ebn-platform');
+      card._search = norm((h3 ? h3.textContent : '') + ' ' + (plat ? plat.textContent : '') + ' ' + (card.getAttribute('data-category') || ''));
+    });
+
+    function apply() {
+      var q = input ? norm(input.value.trim()) : '';
+      var visible = 0;
+      cards.forEach(function (card) {
+        var catOk = activeCat === 'all' || card.getAttribute('data-category') === activeCat;
+        var qOk = !q || card._search.indexOf(q) !== -1;
+        var show = catOk && qOk;
+        card.classList.toggle('is-hidden', !show);
+        if (show) visible++;
+      });
+      if (noRes) noRes.style.display = visible === 0 ? '' : 'none';
+      if (clearBtn) clearBtn.style.display = (input && input.value) ? '' : 'none';
+    }
+
     filters.forEach(function (btn) {
       btn.addEventListener('click', function () {
         filters.forEach(function (b) { b.classList.remove('active'); b.setAttribute('aria-selected', 'false'); });
         btn.classList.add('active');
         btn.setAttribute('aria-selected', 'true');
-        apply(btn.getAttribute('data-filter'));
+        activeCat = btn.getAttribute('data-filter');
+        apply();
       });
+    });
+
+    if (input) input.addEventListener('input', apply);
+    if (clearBtn) clearBtn.addEventListener('click', function () {
+      input.value = ''; input.focus(); apply();
     });
   })();
 
