@@ -38,6 +38,18 @@ body {
   line-height: 1.6;
   -webkit-font-smoothing: antialiased;
   overflow-x: hidden;
+  position: relative;
+}
+/* Fondo aurora: resplandores violeta/magenta difusos, fijos detrás del contenido */
+body::before {
+  content: '';
+  position: fixed; inset: 0; z-index: -1; pointer-events: none;
+  background:
+    radial-gradient(48% 42% at 12% 2%,  rgba(124,58,237,.22), transparent 62%),
+    radial-gradient(42% 38% at 98% 10%, rgba(192,38,211,.16), transparent 62%),
+    radial-gradient(50% 45% at 88% 96%, rgba(124,58,237,.14), transparent 66%),
+    radial-gradient(45% 40% at 4% 92%,  rgba(139,92,246,.10), transparent 66%),
+    var(--bg);
 }
 
 /* ─── SCROLLBAR ─── */
@@ -47,12 +59,20 @@ body {
 
 .container { max-width: 1160px; margin: 0 auto; padding: 0 28px; }
 
-/* ─── NAVBAR ─── */
+/* ─── NAVBAR (glass violeta con glow) ─── */
 .navbar {
   position: sticky; top: 0; z-index: 100;
-  background: rgba(6,6,8,.85);
-  backdrop-filter: blur(24px) saturate(1.8);
-  border-bottom: 1px solid var(--border);
+  background: linear-gradient(180deg, rgba(24,18,38,.78), rgba(16,15,23,.62));
+  backdrop-filter: blur(22px) saturate(1.8);
+  -webkit-backdrop-filter: blur(22px) saturate(1.8);
+  border-bottom: 1px solid rgba(167,139,250,.16);
+  box-shadow: 0 6px 30px rgba(124,58,237,.10);
+}
+/* línea de glow violeta bajo el navbar */
+.navbar::after {
+  content: ''; position: absolute; left: 0; right: 0; bottom: -1px; height: 1px;
+  background: linear-gradient(90deg, transparent, rgba(167,139,250,.55), rgba(192,38,211,.45), transparent);
+  pointer-events: none;
 }
 .nav-inner {
   max-width: 1160px; margin: 0 auto; padding: 0 28px;
@@ -74,15 +94,17 @@ body {
 .nav-links { display: flex; gap: 4px; flex: 1; align-items: center; }
 .nav-links a {
   color: var(--text-2); text-decoration: none; font-size: 13.5px;
-  font-weight: 700; padding: 9px 14px; border-radius: var(--radius-sm);
-  transition: background .15s, color .15s, border-color .15s;
+  font-weight: 700; padding: 9px 15px; border-radius: 999px;
+  border: 1px solid transparent;
+  transition: background .15s, color .15s, border-color .15s, box-shadow .15s;
 }
-.nav-links a:hover { background: rgba(255,255,255,.05); color: var(--text); }
+.nav-links a:hover { background: rgba(167,139,250,.08); color: var(--text); }
 .nav-links a.active,
 .nav-chips-inner a.active {
-  color: var(--text);
-  border-color: rgba(167,139,250,.45);
-  background: rgba(167,139,250,.1);
+  color: #fff;
+  border-color: rgba(167,139,250,.5);
+  background: linear-gradient(135deg, rgba(139,92,246,.28), rgba(192,38,211,.22));
+  box-shadow: 0 4px 16px rgba(124,58,237,.3), inset 0 1px 0 rgba(255,255,255,.08);
 }
 .nav-right { display: flex; align-items: center; gap: 10px; flex-shrink: 0; }
 .spei-badge {
