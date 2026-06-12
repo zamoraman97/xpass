@@ -11,7 +11,7 @@
   <meta name="robots" content="index, follow, max-image-preview:large" />
   <meta name="author" content="XPass" />
   <meta name="language" content="es-MX" />
-  <meta name="theme-color" content="#107C10" />
+  <meta name="theme-color" content="#7c3aed" />
   <link rel="canonical" href="https://xpass.digital/" />
   <link rel="icon" type="image/svg+xml" href="/logo.svg" />
   <link rel="apple-touch-icon" href="/logo.svg" />
@@ -318,15 +318,15 @@
           <div><b>4.9<span class="star">★</span> excelente</b><span>100+ reseñas de clientes</span></div>
         </div>
         <div class="ebn-trust-item">
-          <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#4ade80" stroke-width="2"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
+          <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#a78bfa" stroke-width="2"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
           <div><b>Entrega &lt; 5 min</b><span>código directo a tu correo</span></div>
         </div>
         <div class="ebn-trust-item">
-          <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#4ade80" stroke-width="2"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
+          <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#a78bfa" stroke-width="2"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
           <div><b>Códigos digitales</b><span>suscripciones y eGifts</span></div>
         </div>
         <div class="ebn-trust-item">
-          <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#4ade80" stroke-width="2"><path d="M3 12a9 9 0 109-9"/><polyline points="3 7 3 12 8 12"/></svg>
+          <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#a78bfa" stroke-width="2"><path d="M3 12a9 9 0 109-9"/><polyline points="3 7 3 12 8 12"/></svg>
           <div><b>Garantía total</b><span>soporte si algo falla</span></div>
         </div>
       </div>
@@ -954,7 +954,7 @@
       </div>
       <!-- Active coupon badge -->
       <div class="coupon-active" id="couponActive" style="display:none">
-        <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="#4ade80" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg>
+        <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="#a78bfa" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg>
         <span id="couponActiveLabel">Cupón aplicado</span>
         <button class="coupon-remove" id="couponRemoveBtn" title="Quitar cupón">×</button>
       </div>
@@ -1116,7 +1116,7 @@
         </div>
         <div class="modal-success">
           <div class="success-ring">
-            <svg width="36" height="36" viewBox="0 0 24 24" fill="none" stroke="#4ade80" stroke-width="2.5"><path d="M22 11.08V12a10 10 0 11-5.93-9.14"/><polyline points="22 4 12 14.01 9 11.01"/></svg>
+            <svg width="36" height="36" viewBox="0 0 24 24" fill="none" stroke="#a78bfa" stroke-width="2.5"><path d="M22 11.08V12a10 10 0 11-5.93-9.14"/><polyline points="22 4 12 14.01 9 11.01"/></svg>
           </div>
           <h3>¡Pedido registrado!</h3>
           <p id="confirmMsg">Tu pedido <strong id="confirmOrderId"></strong> fue registrado. Envíanos tu comprobante SPEI para recibir el código de forma <strong>inmediata</strong>.</p>
@@ -1363,12 +1363,12 @@
 
   // 6 segments: 3 × 5% descuento + 3 × 10% descuento
   const WHL_SEGS = [
-    { type:'10%', color:'#107C10' },
-    { type:'5%',  color:'#1a5c1a' },
-    { type:'10%', color:'#0d7010' },
-    { type:'5%',  color:'#175c17' },
-    { type:'10%', color:'#107C10' },
-    { type:'5%',  color:'#1a5c1a' },
+    { type:'10%', color:'#7c3aed' },
+    { type:'5%',  color:'#6d28d9' },
+    { type:'10%', color:'#7c3aed' },
+    { type:'5%',  color:'#6d28d9' },
+    { type:'10%', color:'#7c3aed' },
+    { type:'5%',  color:'#6d28d9' },
   ];
   const WHL_PRIZES_MAP = {
     '10%': { label:'10% DESC', code:'XPASS10', type:'percent', value:0.10, desc:'10% de descuento en tu compra' },
@@ -1422,13 +1422,13 @@
 
     // Outer glow ring
     ctx.beginPath(); ctx.arc(cx,cy,R+2,0,2*Math.PI);
-    ctx.strokeStyle = 'rgba(74,222,128,0.3)'; ctx.lineWidth = 4; ctx.stroke();
+    ctx.strokeStyle = 'rgba(167,139,250,0.3)'; ctx.lineWidth = 4; ctx.stroke();
 
     // Center hub
     ctx.beginPath(); ctx.arc(cx,cy,16,0,2*Math.PI);
     ctx.fillStyle = '#07070c'; ctx.fill();
-    ctx.strokeStyle = 'rgba(74,222,128,0.5)'; ctx.lineWidth = 2; ctx.stroke();
-    ctx.font = 'bold 11px Inter'; ctx.fillStyle = '#4ade80';
+    ctx.strokeStyle = 'rgba(167,139,250,0.5)'; ctx.lineWidth = 2; ctx.stroke();
+    ctx.font = 'bold 11px Inter'; ctx.fillStyle = '#a78bfa';
     ctx.textAlign = 'center'; ctx.textBaseline = 'middle';
     ctx.fillText('✕', cx, cy);
   }
@@ -1441,12 +1441,12 @@
     ctx.beginPath();
     ctx.roundRect(-w/2, -h/2, w, h, 3);
     ctx.fillStyle = '#0a1a0a'; ctx.fill();
-    ctx.strokeStyle = 'rgba(74,222,128,0.3)'; ctx.lineWidth = 0.8; ctx.stroke();
+    ctx.strokeStyle = 'rgba(167,139,250,0.3)'; ctx.lineWidth = 0.8; ctx.stroke();
     // Inner green glow
-    ctx.fillStyle = 'rgba(16,124,16,0.5)';
+    ctx.fillStyle = 'rgba(124,58,237,0.5)';
     ctx.beginPath(); ctx.ellipse(8, -8, 12, 8, 0, 0, 2*Math.PI); ctx.fill();
     // Tag icon (discount label)
-    ctx.fillStyle = 'rgba(74,222,128,0.85)';
+    ctx.fillStyle = 'rgba(167,139,250,0.85)';
     ctx.beginPath(); ctx.arc(-11, -6, 5.5, 0, 2*Math.PI); ctx.fill();
     ctx.fillStyle = '#fff'; ctx.font = 'bold 6px Arial';
     ctx.textAlign = 'center'; ctx.textBaseline = 'middle';
@@ -1462,7 +1462,7 @@
     ctx.textAlign = 'center'; ctx.textBaseline = 'middle';
     ctx.fillText(pct, 0, 8);
     // Bottom strip
-    ctx.fillStyle = 'rgba(74,222,128,0.35)';
+    ctx.fillStyle = 'rgba(167,139,250,0.35)';
     ctx.fillRect(-w/2, h/2 - 4, w, 4);
   }
 
