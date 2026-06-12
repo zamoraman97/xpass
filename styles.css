@@ -209,13 +209,18 @@ body::before {
 .section-header { text-align: center; margin-bottom: 60px; }
 .section-label {
   display: inline-block;
-  color: var(--green-light); font-size: 11px; font-weight: 700;
-  letter-spacing: 2.5px; text-transform: uppercase; margin-bottom: 12px;
+  color: #c5b3ff; font-size: 11px; font-weight: 800;
+  letter-spacing: 2.5px; text-transform: uppercase; margin-bottom: 14px;
+  background: linear-gradient(135deg, rgba(139,92,246,.18), rgba(192,38,211,.14));
+  border: 1px solid rgba(167,139,250,.3); border-radius: 999px;
+  padding: 6px 14px;
 }
 .section-header h2 {
   font-size: 36px; font-weight: 900;
   letter-spacing: -1px; margin-bottom: 12px;
 }
+.section-header h2 em,
+.section-header h2 b { font-style: normal; background: var(--grad); -webkit-background-clip: text; background-clip: text; color: transparent; }
 .section-header p { color: var(--text-2); font-size: 15.5px; max-width: 500px; margin: 0 auto; }
 
 /* ─── HERO (banner promocional estilo marketplace) ─── */
@@ -311,9 +316,12 @@ body::before {
 /* franja de confianza bajo el banner */
 .ebn-trust { margin-top: 14px; display: grid; grid-template-columns: repeat(4, 1fr); gap: 10px; }
 .ebn-trust-item {
-  background: var(--bg2); border: 1px solid var(--border); border-radius: var(--radius);
+  background: rgba(30,26,44,.55); backdrop-filter: blur(8px);
+  border: 1px solid rgba(167,139,250,.16); border-radius: var(--radius);
   padding: 13px 16px; display: flex; align-items: center; gap: 11px;
+  transition: border-color .15s, transform .15s;
 }
+.ebn-trust-item:hover { border-color: rgba(167,139,250,.4); transform: translateY(-2px); }
 .ebn-trust-item svg { flex-shrink: 0; }
 .ebn-trust-item b { display: block; font-size: 13.5px; font-weight: 800; color: var(--text); line-height: 1.25; }
 .ebn-trust-item b .star { color: #fbbf24; }
@@ -450,9 +458,9 @@ body::before {
 /* ─── COMO FUNCIONA ─── */
 .como-funciona {
   padding: 100px 0;
-  background: var(--bg2);
-  border-top: 1px solid var(--border);
-  border-bottom: 1px solid var(--border);
+  background: linear-gradient(180deg, transparent, rgba(124,58,237,.06), transparent);
+  border-top: 1px solid rgba(167,139,250,.12);
+  border-bottom: 1px solid rgba(167,139,250,.12);
 }
 .steps-grid {
   display: flex; align-items: flex-start; gap: 0;
@@ -466,11 +474,12 @@ body::before {
   color: var(--green-light); margin-bottom: 14px; opacity: .7;
 }
 .step-icon-wrap {
-  width: 56px; height: 56px; border-radius: 16px;
-  background: var(--bg3); border: 1px solid var(--border-med);
+  width: 58px; height: 58px; border-radius: 18px;
+  background: linear-gradient(135deg, rgba(139,92,246,.22), rgba(192,38,211,.14));
+  border: 1px solid rgba(167,139,250,.35);
   display: flex; align-items: center; justify-content: center;
-  color: var(--text-2); margin-bottom: 16px;
-  box-shadow: var(--shadow-sm);
+  color: #c5b3ff; margin-bottom: 16px;
+  box-shadow: 0 10px 26px rgba(124,58,237,.25);
 }
 .step-card h4 { font-size: 14.5px; font-weight: 700; margin-bottom: 8px; }
 .step-card p { font-size: 13px; color: var(--text-2); line-height: 1.65; }
@@ -636,18 +645,20 @@ body::before {
 /* ─── FAQ ─── */
 .faq-section {
   padding: 100px 0;
-  background: var(--bg2);
-  border-top: 1px solid var(--border);
+  background: transparent;
+  border-top: 1px solid rgba(167,139,250,.1);
 }
 .faq-grid {
   max-width: 780px; margin: 0 auto; display: flex; flex-direction: column; gap: 6px;
 }
 .faq-item {
-  background: var(--bg3); border: 1px solid var(--border);
+  background: rgba(30,26,44,.5); backdrop-filter: blur(8px);
+  border: 1px solid rgba(167,139,250,.14);
   border-radius: var(--radius); overflow: hidden;
-  transition: border-color .15s;
+  transition: border-color .15s, background .15s;
 }
-.faq-item.open { border-color: rgba(124,58,237,.25); }
+.faq-item:hover { border-color: rgba(167,139,250,.3); }
+.faq-item.open { border-color: rgba(167,139,250,.45); background: rgba(124,58,237,.1); }
 .faq-q {
   width: 100%; background: none; border: none; color: var(--text);
   font-size: 14.5px; font-weight: 600; font-family: inherit;
@@ -665,7 +676,16 @@ body::before {
 .faq-item.open .faq-a { display: block; }
 
 /* ─── FOOTER ─── */
-.footer { padding: 64px 0 36px; border-top: 1px solid var(--border); }
+.footer {
+  padding: 64px 0 36px; position: relative;
+  border-top: 1px solid rgba(167,139,250,.16);
+  background: linear-gradient(180deg, transparent, rgba(124,58,237,.07));
+}
+.footer::before {
+  content: ''; position: absolute; left: 0; right: 0; top: -1px; height: 1px;
+  background: linear-gradient(90deg, transparent, rgba(167,139,250,.5), rgba(192,38,211,.4), transparent);
+  pointer-events: none;
+}
 .footer-top {
   display: grid; grid-template-columns: 1fr auto;
   gap: 48px; padding-bottom: 44px;
@@ -677,11 +697,11 @@ body::before {
 .footer-links { display: flex; gap: 60px; }
 .footer-col { display: flex; flex-direction: column; gap: 11px; }
 .footer-col h5 {
-  font-size: 10.5px; font-weight: 700; letter-spacing: 1.5px;
-  text-transform: uppercase; color: var(--text-3); margin-bottom: 4px;
+  font-size: 10.5px; font-weight: 800; letter-spacing: 1.5px;
+  text-transform: uppercase; color: #c5b3ff; margin-bottom: 4px;
 }
-.footer-col a { font-size: 13px; color: var(--text-2); text-decoration: none; transition: color .15s; }
-.footer-col a:hover { color: var(--text); }
+.footer-col a { font-size: 13px; color: var(--text-2); text-decoration: none; transition: color .15s, padding .15s; }
+.footer-col a:hover { color: #c5b3ff; padding-left: 3px; }
 .footer-bottom p { font-size: 12px; color: var(--text-3); }
 
 /* ─── CART SIDEBAR ─── */
@@ -1353,8 +1373,10 @@ select.modal-card-inp { cursor: pointer; letter-spacing: 0; }
 .reviews-summary {
   display: flex; align-items: center; justify-content: center; gap: 18px;
   max-width: 420px; margin: 0 auto 44px;
-  background: var(--bg2); border: 1px solid var(--border);
+  background: linear-gradient(135deg, rgba(124,58,237,.14), rgba(192,38,211,.08)), var(--bg2);
+  border: 1px solid rgba(167,139,250,.28);
   border-radius: var(--radius-lg); padding: 24px 32px;
+  box-shadow: var(--shadow-violet);
 }
 .rev-sum-num { font-size: 58px; font-weight: 900; line-height: 1; color: #fbbf24; letter-spacing: -2px; }
 .rev-sum-right { display: flex; flex-direction: column; gap: 6px; }
@@ -1366,12 +1388,13 @@ select.modal-card-inp { cursor: pointer; letter-spacing: 0; }
   max-width: 1080px; margin: 0 auto;
 }
 .review-card {
-  background: var(--bg2); border: 1px solid var(--border);
+  background: rgba(30,26,44,.5); backdrop-filter: blur(8px);
+  border: 1px solid rgba(167,139,250,.14);
   border-radius: var(--radius); padding: 22px;
   display: flex; flex-direction: column; gap: 12px;
-  transition: border-color .2s, transform .2s;
+  transition: border-color .2s, transform .2s, box-shadow .2s;
 }
-.review-card:hover { border-color: var(--border-med); transform: translateY(-3px); }
+.review-card:hover { border-color: rgba(167,139,250,.4); transform: translateY(-4px); box-shadow: var(--shadow-violet); }
 .review-head { display: flex; align-items: center; gap: 12px; }
 .review-avatar {
   width: 42px; height: 42px; border-radius: 50%; flex-shrink: 0;
@@ -1504,10 +1527,11 @@ select.modal-card-inp { cursor: pointer; letter-spacing: 0; }
 .ebn-guides-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
 .ebn-guide {
   display: flex; flex-direction: column; gap: 8px;
-  background: var(--bg2); border: 1px solid var(--border); border-radius: var(--radius);
-  padding: 22px 24px; text-decoration: none; transition: transform .2s, border-color .2s;
+  background: rgba(30,26,44,.5); backdrop-filter: blur(8px);
+  border: 1px solid rgba(167,139,250,.14); border-radius: var(--radius);
+  padding: 22px 24px; text-decoration: none; transition: transform .2s, border-color .2s, box-shadow .2s;
 }
-.ebn-guide:hover { transform: translateY(-4px); border-color: rgba(167,139,250,.35); }
+.ebn-guide:hover { transform: translateY(-4px); border-color: rgba(167,139,250,.45); box-shadow: var(--shadow-violet); }
 .ebn-guide .k { font-size: 10.5px; font-weight: 800; letter-spacing: 1.5px; text-transform: uppercase; color: var(--green-light); }
 .ebn-guide h3 { font-size: 16.5px; font-weight: 800; color: var(--text); letter-spacing: -.3px; }
 .ebn-guide p { font-size: 13px; color: var(--text-2); line-height: 1.6; }
