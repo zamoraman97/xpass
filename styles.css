@@ -334,6 +334,19 @@ body::before {
 .ebn-row-head .sub { font-size: 13px; color: var(--text-3); }
 .ebn-row-head a.more { font-size: 13.5px; font-weight: 700; color: var(--green-light); text-decoration: none; }
 .ebn-row-head a.more:hover { text-decoration: underline; }
+/* ─── Buscador superior (encima del share-banner) ─── */
+.top-search-bar {
+  background: linear-gradient(180deg, rgba(24,18,38,.55), rgba(16,15,23,.35));
+  border-bottom: 1px solid rgba(167,139,250,.1);
+  padding: 12px 0;
+}
+.top-search { display: flex; }
+.top-search .ebn-search { width: 100%; margin-bottom: 0; }
+.top-search .ebn-search input {
+  background: rgba(16,15,23,.6); backdrop-filter: blur(8px);
+  border-color: rgba(167,139,250,.22);
+}
+.top-search .ebn-search input:focus { background: rgba(24,18,38,.75); }
 /* ─── Buscador del catálogo ─── */
 .ebn-search {
   position: relative; display: flex; align-items: center;

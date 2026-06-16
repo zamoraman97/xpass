@@ -193,9 +193,12 @@
     "areaServed": { "@type": "Country", "name": "México" },
     "knowsLanguage": "es-MX",
     "slogan": "Códigos digitales baratos con entrega inmediata en México",
+    "email": "pcventaspro@gmail.com",
     "contactPoint": {
       "@type": "ContactPoint",
       "contactType": "customer support",
+      "email": "pcventaspro@gmail.com",
+      "telephone": "+52-55-6793-3404",
       "availableLanguage": "Spanish",
       "areaServed": "MX"
     }
@@ -254,6 +257,19 @@
       </div>
     </div>
   </nav>
+
+  <!-- BUSCADOR SUPERIOR -->
+  <div class="top-search-bar">
+    <div class="top-search container">
+      <div class="ebn-search">
+        <svg class="ebn-search-ico" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
+        <input type="search" id="ebnSearchInput" placeholder="Buscar Robux, Game Pass, Xbox, Steam…" autocomplete="off" aria-label="Buscar productos" />
+        <button type="button" id="ebnSearchClear" class="ebn-search-clear" aria-label="Limpiar búsqueda" style="display:none">
+          <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
+        </button>
+      </div>
+    </div>
+  </div>
 
   <!-- SHARE BANNER -->
   <div class="share-banner" id="shareBanner">
@@ -339,13 +355,6 @@
       <div class="ebn-row-head">
         <h2>Catálogo digital</h2>
         <span class="sub">Gaming, streaming, recargas y gift cards con entrega por correo</span>
-      </div>
-      <div class="ebn-search">
-        <svg class="ebn-search-ico" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
-        <input type="search" id="ebnSearchInput" placeholder="Buscar Robux, Game Pass, Xbox, Steam…" autocomplete="off" aria-label="Buscar productos" />
-        <button type="button" id="ebnSearchClear" class="ebn-search-clear" aria-label="Limpiar búsqueda" style="display:none">
-          <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
-        </button>
       </div>
       <div class="ebn-filters" id="ebnFilters" role="tablist" aria-label="Filtrar por categoría">
         <button class="ebn-filter active" data-filter="all" role="tab" aria-selected="true">Todo</button>
@@ -919,9 +928,16 @@
           <div class="footer-col">
             <h5>Soporte</h5>
             <a href="/como-funciona">¿Cómo funciona?</a>
+            <a href="/contacto">Contacto</a>
             <a href="/comprobante">Enviar comprobante</a>
             <a href="#faq">Preguntas frecuentes</a>
             <a href="/blog">Blog y guías</a>
+          </div>
+          <div class="footer-col">
+            <h5>Legal</h5>
+            <a href="/terminos">Términos y condiciones</a>
+            <a href="/privacidad">Aviso de privacidad</a>
+            <a href="/reembolsos">Política de reembolsos</a>
           </div>
         </div>
       </div>
@@ -1320,9 +1336,23 @@
       });
     });
 
-    if (input) input.addEventListener('input', apply);
+    // Al buscar desde el buscador superior, lleva al catálogo para ver resultados
+    var planes = document.getElementById('planes');
+    var scrolledForSearch = false;
+    function maybeScroll() {
+      if (!planes) return;
+      var hasQ = input && input.value.trim().length > 0;
+      if (hasQ && !scrolledForSearch) {
+        var top = planes.getBoundingClientRect().top + window.pageYOffset - 70;
+        if (window.pageYOffset < top - 10) window.scrollTo({ top: top, behavior: 'smooth' });
+        scrolledForSearch = true;
+      }
+      if (!hasQ) scrolledForSearch = false;
+    }
+
+    if (input) input.addEventListener('input', function () { apply(); maybeScroll(); });
     if (clearBtn) clearBtn.addEventListener('click', function () {
-      input.value = ''; input.focus(); apply();
+      input.value = ''; input.focus(); apply(); scrolledForSearch = false;
     });
   })();
 
