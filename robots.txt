@@ -1,5 +1,6 @@
 # XPass — robots.txt
 # Permitimos explícitamente a los rastreadores de buscadores y de IA generativa.
+# Resumen optimizado para IA: https://xpass.digital/llms.txt
 
 User-agent: *
 Allow: /
@@ -11,7 +12,15 @@ Disallow: /comprobante
 # --- Buscadores ---
 User-agent: Googlebot
 Allow: /
+User-agent: Googlebot-Image
+Allow: /
+User-agent: GoogleOther
+Allow: /
 User-agent: Bingbot
+Allow: /
+User-agent: DuckDuckBot
+Allow: /
+User-agent: YandexBot
 Allow: /
 
 # --- IA generativa / respuestas (GEO/AEO) ---
@@ -25,6 +34,8 @@ User-agent: ClaudeBot
 Allow: /
 User-agent: Claude-Web
 Allow: /
+User-agent: Claude-SearchBot
+Allow: /
 User-agent: anthropic-ai
 Allow: /
 User-agent: PerplexityBot
@@ -32,6 +43,8 @@ Allow: /
 User-agent: Perplexity-User
 Allow: /
 User-agent: Google-Extended
+Allow: /
+User-agent: Google-CloudVertexBot
 Allow: /
 User-agent: Applebot
 Allow: /
@@ -42,6 +55,22 @@ Allow: /
 User-agent: Amazonbot
 Allow: /
 User-agent: meta-externalagent
+Allow: /
+User-agent: Meta-ExternalFetcher
+Allow: /
+User-agent: DuckAssistBot
+Allow: /
+User-agent: Bytespider
+Allow: /
+User-agent: cohere-ai
+Allow: /
+User-agent: YouBot
+Allow: /
+User-agent: Diffbot
+Allow: /
+User-agent: PetalBot
+Allow: /
+User-agent: Timpibot
 Allow: /
 
 Sitemap: https://xpass.digital/sitemap.xml
