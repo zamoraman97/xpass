@@ -226,6 +226,11 @@ app.get('/comprobante',  (req, res) => res.sendFile(path.join(DIR, 'comprobante.
 app.get('/cuenta',       (req, res) => res.sendFile(path.join(DIR, 'cuenta.html')));
 app.get('/como-funciona',(req, res) => res.sendFile(path.join(DIR, 'como-funciona.html')));
 app.get('/resenas',      (req, res) => res.sendFile(path.join(DIR, 'resenas.html')));
+// Páginas legales / de confianza (E-E-A-T)
+app.get('/contacto',     (req, res) => res.sendFile(path.join(DIR, 'contacto.html')));
+app.get('/terminos',     (req, res) => res.sendFile(path.join(DIR, 'terminos.html')));
+app.get('/privacidad',   (req, res) => res.sendFile(path.join(DIR, 'privacidad.html')));
+app.get('/reembolsos',   (req, res) => res.sendFile(path.join(DIR, 'reembolsos.html')));
 // La pagina de metodo de pago se elimino; redirige a la home (301 para SEO).
 app.get('/metodo-pago',  (req, res) => res.redirect(301, '/'));
 // Páginas de plan (SEO landing pages)

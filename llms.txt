@@ -35,6 +35,16 @@ XPass (https://xpass.digital) opera 100% en línea para clientes en México. Tod
 - Blog y guías: https://xpass.digital/blog
 - Cómo canjear un código de Xbox Game Pass: https://xpass.digital/blog/como-canjear-codigo-xbox-game-pass
 - Game Pass vs Game Pass Ultimate: https://xpass.digital/blog/game-pass-vs-game-pass-ultimate
+- Contacto y quiénes somos: https://xpass.digital/contacto
+- Términos y condiciones: https://xpass.digital/terminos
+- Aviso de privacidad: https://xpass.digital/privacidad
+- Política de reembolsos y garantía: https://xpass.digital/reembolsos
+
+## Confianza y políticas
+- Empresa: XPass, servicio independiente con operación en Ciudad de México, México.
+- Contacto: correo pcventaspro@gmail.com y WhatsApp +52 55 6793 3404.
+- Reembolsos: reembolso del 100% si el código no ha sido canjeado; reemplazo sin costo si un código presenta fallas (reclamación dentro de 48 horas).
+- Privacidad: tratamiento de datos conforme a la LFPDPPP (México), con derechos ARCO.
 
 ## Datos
 - Marca: XPass
