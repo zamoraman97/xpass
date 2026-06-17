@@ -1021,154 +1021,173 @@
   </aside>
 
   <!-- CHECKOUT MODAL -->
-  <div class="modal-overlay" id="checkoutOverlay" style="display:none">
-    <div class="modal">
-      <button class="modal-close icon-btn" id="closeCheckout">
-        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
-      </button>
-
-      <div id="modalStep1">
-        <div class="modal-step-indicator">
-          <span class="msi active">1</span><span class="msi-line"></span>
-          <span class="msi">2</span><span class="msi-line"></span>
-          <span class="msi">3</span><span class="msi-line"></span>
-          <span class="msi">4</span>
-        </div>
-        <h3>Datos de contacto</h3>
-        <p class="modal-sub">Recibirás el código en este correo una vez confirmado el pago.</p>
-        <form id="checkoutForm">
-          <label class="form-field">
-            <span>Nombre completo</span>
-            <input type="text" id="fname" placeholder="Tu nombre y apellidos" required />
-          </label>
-          <label class="form-field">
-            <span>Correo electrónico</span>
-            <input type="email" id="femail" placeholder="correo@ejemplo.com" required />
-          </label>
-          <label class="form-field">
-            <span>WhatsApp (opcional)</span>
-            <input type="tel" id="fphone" placeholder="5512345678" />
-          </label>
-          <div class="modal-summary" id="modalSummary"></div>
-          <button type="submit" class="cta-primary cta-wide">Continuar →</button>
-        </form>
+  <div class="co-overlay" id="checkoutOverlay" style="display:none">
+    <!-- Topbar con stepper estilo Eneba -->
+    <header class="co-topbar">
+      <a href="/" class="co-logo"><img src="/logo.svg" alt="XPass" /></a>
+      <div class="co-steps" id="coSteps">
+        <div class="co-step is-active" id="coStepCart"><span class="co-step-num">1</span><span class="co-step-lbl">Carro</span></div>
+        <span class="co-step-line"></span>
+        <div class="co-step" id="coStepPay"><span class="co-step-num">2</span><span class="co-step-lbl">Pago</span></div>
+        <span class="co-step-line"></span>
+        <div class="co-step" id="coStepDone"><span class="co-step-num">3</span><span class="co-step-lbl">Obtén tu producto</span></div>
       </div>
-
-      <!-- STEP 2: Seleccionar forma de pago -->
-      <div id="modalStep2" style="display:none">
-        <div class="modal-step-indicator">
-          <span class="msi done">✓</span><span class="msi-line active"></span>
-          <span class="msi active">2</span><span class="msi-line"></span>
-          <span class="msi">3</span><span class="msi-line"></span>
-          <span class="msi">4</span>
-        </div>
-        <h3>Forma de pago</h3>
-        <p class="modal-sub">Selecciona cómo deseas pagar tu pedido.</p>
-        <div style="display:flex;flex-direction:column;gap:14px;margin-top:8px;">
-          <button class="pay-method-btn" id="chooseSpei" onclick="selectPaymentMethod('spei')">
-            <div class="pmb-icon">
-              <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="2" y="5" width="20" height="14" rx="2"/><line x1="2" y1="10" x2="22" y2="10"/></svg>
-            </div>
-            <div class="pmb-info">
-              <span class="pmb-title">SPEI / Transferencia</span>
-              <span class="pmb-sub">Transfiere desde tu banco</span>
-            </div>
-            <svg class="pmb-arrow" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="9 18 15 12 9 6"/></svg>
-          </button>
-          <button class="pay-method-btn" id="chooseCard" onclick="selectPaymentMethod('card')">
-            <div class="pmb-icon pmb-icon--card">
-              <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="1" y="4" width="22" height="16" rx="2"/><line x1="1" y1="10" x2="23" y2="10"/></svg>
-            </div>
-            <div class="pmb-info">
-              <span class="pmb-title">Tarjeta</span>
-            </div>
-            <svg class="pmb-arrow" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="9 18 15 12 9 6"/></svg>
-          </button>
-        </div>
-      </div>
-
-      <!-- STEP 3: SPEI -->
-      <div id="modalStep3" style="display:none">
-        <div class="modal-step-indicator">
-          <span class="msi done">✓</span><span class="msi-line active"></span>
-          <span class="msi done">✓</span><span class="msi-line active"></span>
-          <span class="msi active">3</span><span class="msi-line"></span>
-          <span class="msi">4</span>
-        </div>
-        <h3>Paga por SPEI</h3>
-        <p class="modal-sub">Realiza la transferencia con los datos siguientes. Incluye el número de pedido en el concepto.</p>
-        <div class="modal-bank-card">
-          <div class="mbc-row"><span class="mbc-label">Beneficiario</span><span class="mbc-val" id="modalBeneficiario">XPass Store</span></div>
-          <div class="mbc-row">
-            <span class="mbc-label">CLABE</span>
-            <div class="mbc-copy-row">
-              <span class="mbc-val mono" id="modalClabe">—</span>
-              <button type="button" class="mini-copy-btn" id="copyClabe">Copiar</button>
-            </div>
-          </div>
-          <div class="mbc-row"><span class="mbc-label">Banco</span><span class="mbc-val" id="modalBanco">—</span></div>
-          <div class="mbc-row"><span class="mbc-label">Monto</span><span class="mbc-val green" id="modalAmount">—</span></div>
-          <div class="mbc-row highlight-row">
-            <span class="mbc-label">Concepto</span>
-            <div class="mbc-copy-row">
-              <span class="mbc-val mono" id="modalOrderId">—</span>
-              <button type="button" class="mini-copy-btn" id="copyOrderId">Copiar</button>
-            </div>
-          </div>
-        </div>
-        <div class="modal-alert">
-          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>
-          Pon el número de pedido exacto en el campo "Concepto" de tu banco.
-        </div>
-        <button class="cta-primary cta-wide" id="bankDoneBtn">Ya hice la transferencia →</button>
-      </div>
-
-      <!-- STEP 3b: Formulario de tarjeta -->
-      <div id="modalStep3card" style="display:none">
-        <div class="modal-step-indicator">
-          <span class="msi done">✓</span><span class="msi-line active"></span>
-          <span class="msi done">✓</span><span class="msi-line active"></span>
-          <span class="msi active">3</span><span class="msi-line"></span>
-          <span class="msi">4</span>
-        </div>
-        <h3>Método de pago</h3>
-        <p class="modal-sub">Ingresa tus datos de tarjeta.</p>
-        <div id="cardFormFields" style="display:flex;flex-direction:column;gap:18px;margin-top:4px;">
-          <!-- Campos inyectados dinámicamente por JS para evitar detección del navegador -->
-        </div>
-        <div class="modal-summary" id="modalSummaryCard" style="margin-top:8px;"></div>
-        <p id="cardDeclinedMsg" style="display:none;color:#f87171;font-size:13px;font-weight:600;text-align:center;margin-top:16px;">❌ Tarjeta rechazada</p>
-        <button class="cta-primary cta-wide" id="cardDoneBtn" onclick="confirmCardPayment()" style="margin-top:12px;display:flex;align-items:center;justify-content:center;gap:10px;min-height:50px;">
-          <span id="cardBtnText">Pagar</span>
-          <span id="cardBtnSpinner" style="display:none;flex-shrink:0;width:20px;height:20px;border:3px solid rgba(255,255,255,.25);border-top-color:#fff;border-radius:50%;animation:spin .75s linear infinite;"></span>
+      <div class="co-topbar-right">
+        <span class="co-locale">🇲🇽 Español · MXN</span>
+        <button class="co-close" id="closeCheckout" aria-label="Cerrar">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
         </button>
-        <button class="btn-outline-back" onclick="showModalStep(2)" style="margin-top:10px;width:100%;">← Cambiar forma de pago</button>
       </div>
+    </header>
 
-      <!-- STEP 4: Confirmación -->
-      <div id="modalStep4" style="display:none">
-        <div class="modal-step-indicator">
-          <span class="msi done">✓</span><span class="msi-line active"></span>
-          <span class="msi done">✓</span><span class="msi-line active"></span>
-          <span class="msi done">✓</span><span class="msi-line active"></span>
-          <span class="msi active">4</span>
-        </div>
-        <div class="modal-success">
-          <div class="success-ring">
-            <svg width="36" height="36" viewBox="0 0 24 24" fill="none" stroke="#a78bfa" stroke-width="2.5"><path d="M22 11.08V12a10 10 0 11-5.93-9.14"/><polyline points="22 4 12 14.01 9 11.01"/></svg>
+    <div class="co-body">
+      <main class="co-main">
+
+        <div id="modalStep1">
+          <div class="co-card">
+            <h3>Datos de contacto</h3>
+            <p class="modal-sub">Recibirás el código en este correo una vez confirmado el pago.</p>
+            <form id="checkoutForm">
+              <label class="form-field">
+                <span>Nombre completo</span>
+                <input type="text" id="fname" placeholder="Tu nombre y apellidos" required />
+              </label>
+              <label class="form-field">
+                <span>Correo electrónico *</span>
+                <input type="email" id="femail" placeholder="correo@ejemplo.com" required />
+              </label>
+              <label class="form-field">
+                <span>WhatsApp (opcional)</span>
+                <input type="tel" id="fphone" placeholder="5512345678" />
+              </label>
+              <button type="submit" class="cta-primary cta-wide">Continuar con la compra →</button>
+            </form>
           </div>
-          <h3>¡Pedido registrado!</h3>
-          <p id="confirmMsg">Tu pedido <strong id="confirmOrderId"></strong> fue registrado. Envíanos tu comprobante SPEI para recibir el código de forma <strong>inmediata</strong>.</p>
-          <a href="/comprobante" class="cta-primary" id="goToComprobanteBtn">Enviar comprobante</a>
-          <div id="waSuccessBtn" style="margin-top:10px;display:none">
-            <a href="#" class="wa-btn-big" id="waLink" target="_blank">
-              <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347z"/><path d="M12 0C5.373 0 0 5.373 0 12c0 2.123.554 4.127 1.526 5.877L0 24l6.272-1.508A11.94 11.94 0 0012 24c6.627 0 12-5.373 12-12S18.627 0 12 0zm0 22c-1.89 0-3.66-.5-5.19-1.38l-.37-.22-3.74.9.94-3.63-.24-.38A9.944 9.944 0 012 12C2 6.477 6.477 2 12 2s10 4.477 10 10-4.477 10-10 10z"/></svg>
-              Enviar comprobante por WhatsApp
-            </a>
-          </div>
-          <button class="btn-text" id="closeAfterOrder">Cerrar</button>
         </div>
-      </div>
+
+        <!-- STEP 2: Seleccionar forma de pago -->
+        <div id="modalStep2" style="display:none">
+          <div class="co-card">
+            <h3>Forma de pago</h3>
+            <p class="modal-sub">Selecciona cómo deseas pagar tu pedido.</p>
+            <div style="display:flex;flex-direction:column;gap:14px;margin-top:8px;">
+              <button class="pay-method-btn" id="chooseCard" onclick="selectPaymentMethod('card')">
+                <div class="pmb-icon pmb-icon--card">
+                  <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="1" y="4" width="22" height="16" rx="2"/><line x1="1" y1="10" x2="23" y2="10"/></svg>
+                </div>
+                <div class="pmb-info">
+                  <span class="pmb-title">Tarjeta de crédito o débito</span>
+                  <span class="pmb-sub">Paga con Visa, Mastercard o Maestro</span>
+                </div>
+                <svg class="pmb-arrow" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="9 18 15 12 9 6"/></svg>
+              </button>
+              <button class="pay-method-btn" id="chooseSpei" onclick="selectPaymentMethod('spei')">
+                <div class="pmb-icon">
+                  <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="2" y="5" width="20" height="14" rx="2"/><line x1="2" y1="10" x2="22" y2="10"/></svg>
+                </div>
+                <div class="pmb-info">
+                  <span class="pmb-title">SPEI / Transferencia</span>
+                  <span class="pmb-sub">Transfiere desde tu banco · 48 h para pagar</span>
+                </div>
+                <svg class="pmb-arrow" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="9 18 15 12 9 6"/></svg>
+              </button>
+            </div>
+            <div class="co-secure"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><rect x="3" y="11" width="18" height="11" rx="2"/><path d="M7 11V7a5 5 0 0110 0v4"/></svg> Tu pago es seguro y cifrado</div>
+          </div>
+        </div>
+
+        <!-- STEP 3: SPEI -->
+        <div id="modalStep3" style="display:none">
+          <div class="co-card">
+            <h3>Paga por SPEI</h3>
+            <p class="modal-sub">Ingresa a tu banca en línea y realiza la transferencia a la siguiente cuenta. Incluye el número de pedido en el concepto.</p>
+            <div class="co-spei-name-row">
+              <label class="form-field"><span>Nombre *</span><input type="text" id="speiNombre" placeholder="Tu nombre" /></label>
+              <label class="form-field"><span>Apellido *</span><input type="text" id="speiApellido" placeholder="Tu apellido" /></label>
+            </div>
+            <div class="modal-bank-card">
+              <div class="mbc-row"><span class="mbc-label">Beneficiario</span><span class="mbc-val" id="modalBeneficiario">XPass Store</span></div>
+              <div class="mbc-row">
+                <span class="mbc-label">CLABE</span>
+                <div class="mbc-copy-row">
+                  <span class="mbc-val mono" id="modalClabe">—</span>
+                  <button type="button" class="mini-copy-btn" id="copyClabe">Copiar</button>
+                </div>
+              </div>
+              <div class="mbc-row"><span class="mbc-label">Banco</span><span class="mbc-val" id="modalBanco">—</span></div>
+              <div class="mbc-row"><span class="mbc-label">Monto</span><span class="mbc-val green" id="modalAmount">—</span></div>
+              <div class="mbc-row highlight-row">
+                <span class="mbc-label">Concepto / Referencia</span>
+                <div class="mbc-copy-row">
+                  <span class="mbc-val mono" id="modalOrderId">—</span>
+                  <button type="button" class="mini-copy-btn" id="copyOrderId">Copiar</button>
+                </div>
+              </div>
+            </div>
+            <div class="modal-alert">
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>
+              Tienes 48 h para completar el pago. Pon el número de pedido exacto en el "Concepto" de tu banco. La clave llegará a tu correo automáticamente tras confirmar el pago.
+            </div>
+            <button class="cta-primary cta-wide" id="bankDoneBtn">Ya hice la transferencia →</button>
+          </div>
+        </div>
+
+        <!-- STEP 3b: Formulario de tarjeta -->
+        <div id="modalStep3card" style="display:none">
+          <div class="co-card">
+            <div class="co-card-pay-head">
+              <img src="/visa.svg" alt="Visa" /><img src="/mastercard.svg" alt="Mastercard" />
+              <span>Tarjeta de crédito o débito</span>
+            </div>
+            <p class="modal-sub">Paga con Visa, Mastercard o Maestro. Ingresa tus datos de tarjeta.</p>
+            <div id="cardFormFields" style="display:flex;flex-direction:column;gap:18px;margin-top:4px;">
+              <!-- Campos inyectados dinámicamente por JS para evitar detección del navegador -->
+            </div>
+            <p id="cardDeclinedMsg" style="display:none;color:#f87171;font-size:13px;font-weight:600;text-align:center;margin-top:16px;">❌ Tarjeta rechazada</p>
+            <button class="cta-primary cta-wide" id="cardDoneBtn" onclick="confirmCardPayment()" style="margin-top:14px;display:flex;align-items:center;justify-content:center;gap:10px;min-height:50px;">
+              <span id="cardBtnText">Pagar ahora</span>
+              <span id="cardBtnSpinner" style="display:none;flex-shrink:0;width:20px;height:20px;border:3px solid rgba(255,255,255,.25);border-top-color:#fff;border-radius:50%;animation:spin .75s linear infinite;"></span>
+            </button>
+            <button class="btn-outline-back" onclick="showModalStep(2)" style="margin-top:10px;width:100%;">← Cambiar forma de pago</button>
+            <div class="co-secure"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><rect x="3" y="11" width="18" height="11" rx="2"/><path d="M7 11V7a5 5 0 0110 0v4"/></svg> Tu pago es seguro y cifrado</div>
+            <div class="modal-summary" id="modalSummaryCard" style="display:none"></div>
+          </div>
+        </div>
+
+        <!-- STEP 4: Confirmación -->
+        <div id="modalStep4" style="display:none">
+          <div class="co-card">
+            <div class="modal-success">
+              <div class="success-ring">
+                <svg width="36" height="36" viewBox="0 0 24 24" fill="none" stroke="#a78bfa" stroke-width="2.5"><path d="M22 11.08V12a10 10 0 11-5.93-9.14"/><polyline points="22 4 12 14.01 9 11.01"/></svg>
+              </div>
+              <h3>¡Pedido registrado!</h3>
+              <p id="confirmMsg">Tu pedido <strong id="confirmOrderId"></strong> fue registrado. Envíanos tu comprobante SPEI para recibir el código de forma <strong>inmediata</strong>.</p>
+              <a href="/comprobante" class="cta-primary" id="goToComprobanteBtn">Enviar comprobante</a>
+              <div id="waSuccessBtn" style="margin-top:10px;display:none">
+                <a href="#" class="wa-btn-big" id="waLink" target="_blank">
+                  <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347z"/><path d="M12 0C5.373 0 0 5.373 0 12c0 2.123.554 4.127 1.526 5.877L0 24l6.272-1.508A11.94 11.94 0 0012 24c6.627 0 12-5.373 12-12S18.627 0 12 0zm0 22c-1.89 0-3.66-.5-5.19-1.38l-.37-.22-3.74.9.94-3.63-.24-.38A9.944 9.944 0 012 12C2 6.477 6.477 2 12 2s10 4.477 10 10-4.477 10-10 10z"/></svg>
+                  Enviar comprobante por WhatsApp
+                </a>
+              </div>
+              <button class="btn-text" id="closeAfterOrder">Cerrar</button>
+            </div>
+          </div>
+        </div>
+
+      </main>
+
+      <!-- Resumen lateral fijo -->
+      <aside class="co-aside" id="coAside">
+        <div class="co-summary">
+          <h4 class="co-summary-ttl">Resumen del pedido</h4>
+          <div id="coSummary" class="co-summary-body"></div>
+          <div class="co-aside-trust">
+            <div><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#a78bfa" stroke-width="2"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg> Entrega del código en menos de 5 min</div>
+            <div><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#a78bfa" stroke-width="2"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg> Pago seguro · Garantía con reemplazo</div>
+          </div>
+        </div>
+      </aside>
     </div>
   </div>
 

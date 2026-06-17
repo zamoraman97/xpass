@@ -256,6 +256,32 @@ function showModalStep(n) {
     const el = document.getElementById(`modalStep${n}`);
     if (el) el.style.display = '';
   }
+  updateCheckoutStepper(n);
+  // El resumen lateral se oculta en la confirmación (paso 4)
+  const aside = document.getElementById('coAside');
+  if (aside) aside.style.display = (String(n) === '4') ? 'none' : '';
+  const body = document.querySelector('.co-body');
+  if (body) body.classList.toggle('co-body--solo', String(n) === '4');
+  const main = document.querySelector('.co-main');
+  if (main) main.scrollTop = 0;
+}
+
+// Stepper superior: Carro (1) · Pago (2, 3card) · Obtén tu producto (3 SPEI, 4)
+function updateCheckoutStepper(n) {
+  const s = String(n);
+  let phase = 'cart';
+  if (s === '2' || s === '3card') phase = 'pay';
+  else if (s === '3' || s === '4') phase = 'done';
+  const order = ['cart', 'pay', 'done'];
+  const map = { cart: 'coStepCart', pay: 'coStepPay', done: 'coStepDone' };
+  const activeIdx = order.indexOf(phase);
+  order.forEach((ph, i) => {
+    const el = document.getElementById(map[ph]);
+    if (!el) return;
+    el.classList.remove('is-active', 'is-done');
+    if (i < activeIdx) el.classList.add('is-done');
+    else if (i === activeIdx) el.classList.add('is-active');
+  });
 }
 
 function renderModalSummary() {
@@ -285,6 +311,36 @@ function renderModalSummary() {
   if (el) el.innerHTML = html;
   const el2 = document.getElementById('modalSummaryCard');
   if (el2) el2.innerHTML = html;
+
+  // Resumen lateral estilo Eneba (con miniaturas)
+  const aside = document.getElementById('coSummary');
+  if (aside) {
+    const itemsHtml = cart.map(item => {
+      const meta = {
+        ...(PLAN_META[item.months] || PLAN_META.default),
+        thumb: item.thumb || (PLAN_META[item.months] || PLAN_META.default).thumb
+      };
+      const q = item.qty || 1;
+      return `
+      <div class="co-sum-item">
+        <div class="co-sum-thumb"><img src="${meta.thumb}" alt="${escapeHtml(item.product)}" loading="lazy" /></div>
+        <div class="co-sum-info">
+          <div class="co-sum-name">${escapeHtml(item.product)}</div>
+          <div class="co-sum-meta">Código digital${q > 1 ? ' · x' + q : ''}</div>
+        </div>
+        <div class="co-sum-price">${formatPrice(item.price * q)}</div>
+      </div>`;
+    }).join('');
+
+    const rows =
+      `<div class="co-sum-row"><span>Subtotal (${getCartCount()} producto${getCartCount() > 1 ? 's' : ''})</span><span>${formatPrice(subtotal)}</span></div>` +
+      (discount > 0 ? `<div class="co-sum-row co-sum-disc"><span>Descuento${activeCoupon ? ' (' + activeCoupon.code + ')' : ''}</span><span>-${formatPrice(discount)}</span></div>` : '');
+
+    aside.innerHTML =
+      `<div class="co-sum-items">${itemsHtml}</div>` +
+      `<div class="co-sum-rows">${rows}</div>` +
+      `<div class="co-sum-total"><span>Total</span><strong>${formatPrice(total)}</strong></div>`;
+  }
 }
 
 // Step 1 → Step 2 (payment selection)
