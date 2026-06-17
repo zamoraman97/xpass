@@ -241,14 +241,18 @@
       <a href="/" class="logo">
         <img src="/logo.svg" alt="XPass" style="height:38px;width:auto;display:block;" />
       </a>
-      <div class="nav-links">
-        <a href="#planes" class="active" aria-current="page">Catálogo</a>
-        <a href="/como-funciona">¿Cómo funciona?</a>
-        <a href="/resenas" class="nav-gold">Reseñas</a>
-        <a href="/blog">Blog</a>
-        <a href="#faq">FAQ</a>
+      <!-- Buscador central estilo marketplace -->
+      <div class="nav-search">
+        <div class="ebn-search">
+          <svg class="ebn-search-ico" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
+          <input type="search" id="ebnSearchInput" placeholder="Busca recargas, gift cards y más…" autocomplete="off" aria-label="Buscar productos" />
+          <button type="button" id="ebnSearchClear" class="ebn-search-clear" aria-label="Limpiar búsqueda" style="display:none">
+            <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
+          </button>
+        </div>
       </div>
       <div class="nav-right">
+        <span class="nav-locale" title="México · Pesos mexicanos"><span class="nav-flag">🇲🇽</span> Español · MXN</span>
         <!-- Account dropdown -->
         <div class="account-menu-wrap" id="accountMenuWrap" style="display:none;">
           <button class="account-nav-btn" id="accountNavBtn" onclick="toggleAccountMenu(event)">
@@ -279,43 +283,17 @@
         </button>
       </div>
     </div>
+    <!-- Sub-barra de categorías estilo marketplace -->
+    <div class="nav-chips">
+      <div class="nav-chips-inner">
+        <a href="#planes" class="active" aria-current="page">Catálogo</a>
+        <a href="/como-funciona">¿Cómo funciona?</a>
+        <a href="/resenas" class="nav-gold">Reseñas</a>
+        <a href="/blog">Blog</a>
+        <a href="#faq">FAQ</a>
+      </div>
+    </div>
   </nav>
-
-  <!-- BUSCADOR SUPERIOR -->
-  <div class="top-search-bar">
-    <div class="top-search container">
-      <div class="ebn-search">
-        <svg class="ebn-search-ico" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
-        <input type="search" id="ebnSearchInput" placeholder="Buscar Robux, Game Pass, Xbox, Steam…" autocomplete="off" aria-label="Buscar productos" />
-        <button type="button" id="ebnSearchClear" class="ebn-search-clear" aria-label="Limpiar búsqueda" style="display:none">
-          <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
-        </button>
-      </div>
-    </div>
-  </div>
-
-  <!-- SHARE BANNER -->
-  <div class="share-banner" id="shareBanner">
-    <div class="share-banner-inner">
-      <div class="share-banner-left">
-        <span class="share-banner-emoji">🎁</span>
-        <span><strong>¡Comparte y gira la ruleta!</strong> Gana <strong>5% o 10% de descuento</strong> en tu compra</span>
-      </div>
-      <div class="share-banner-btns">
-        <button class="share-bn-btn share-bn-fb" onclick="whlShareFB()">
-          <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor"><path d="M18 2h-3a5 5 0 00-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 011-1h3z"/></svg>
-          Facebook
-        </button>
-        <button class="share-bn-btn share-bn-ig" onclick="whlShareIG()">
-          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><rect x="2" y="2" width="20" height="20" rx="5"/><circle cx="12" cy="12" r="4"/><circle cx="17.5" cy="6.5" r="1.2" fill="currentColor" stroke="none"/></svg>
-          Instagram
-        </button>
-        <button class="share-bn-btn share-bn-spin" id="shareBannerSpinBtn" onclick="document.getElementById('whlOverlay').classList.add('open')">
-          🎁 Ver ruleta
-        </button>
-      </div>
-    </div>
-  </div>
 
   <!-- HERO: banner promocional estilo marketplace -->
   <section class="ebn-hero">
@@ -1079,6 +1057,10 @@
                   <span class="pmb-title">Tarjeta de crédito o débito</span>
                   <span class="pmb-sub">Paga con Visa, Mastercard o Maestro</span>
                 </div>
+                <span class="pmb-logos">
+                  <img src="/visa.svg" alt="Visa" />
+                  <img src="/mastercard.svg" alt="Mastercard" />
+                </span>
                 <svg class="pmb-arrow" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="9 18 15 12 9 6"/></svg>
               </button>
               <button class="pay-method-btn" id="chooseSpei" onclick="selectPaymentMethod('spei')">
@@ -1089,6 +1071,9 @@
                   <span class="pmb-title">SPEI / Transferencia</span>
                   <span class="pmb-sub">Transfiere desde tu banco · 48 h para pagar</span>
                 </div>
+                <span class="pmb-logos">
+                  <img src="/spei.svg" alt="SPEI" class="pmb-logo-spei" />
+                </span>
                 <svg class="pmb-arrow" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="9 18 15 12 9 6"/></svg>
               </button>
             </div>
@@ -1192,77 +1177,6 @@
   </div>
 
   <!-- WHATSAPP FLOATING BUBBLE -->
-  <!-- ═══════════════ SPIN WHEEL MODAL ═══════════════ -->
-  <div class="whl-overlay" id="whlOverlay">
-    <div class="whl-modal">
-      <button class="whl-x-btn" id="whlXBtn" title="Cerrar">
-        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
-      </button>
-      <div class="whl-head">
-        <div class="whl-pill">Promoción exclusiva</div>
-        <h2>¡Gira y gana!</h2>
-        <p>Comparte nuestra página en redes y desbloquea la ruleta para ganar premios reales</p>
-      </div>
-      <!-- Wheel stage -->
-      <div class="whl-stage">
-        <div class="whl-arrow">▼</div>
-        <div class="whl-ring-wrap">
-          <canvas id="whlCanvas" width="280" height="280"></canvas>
-          <div class="whl-lock-veil" id="whlLockVeil">
-            <svg width="38" height="38" viewBox="0 0 24 24" fill="none" stroke="rgba(255,255,255,.75)" stroke-width="1.8"><rect x="3" y="11" width="18" height="11" rx="2"/><path d="M7 11V7a5 5 0 0110 0v4"/></svg>
-            <span>Comparte para girar</span>
-          </div>
-        </div>
-      </div>
-      <!-- Spin button -->
-      <button class="whl-spin-btn" id="whlSpinBtn" disabled>GIRAR RULETA</button>
-      <!-- Share section -->
-      <div class="whl-share-block" id="whlShareBlock">
-        <p class="whl-share-lbl">Comparte en:</p>
-        <div class="whl-share-row">
-          <button class="whl-fb-btn" onclick="whlShareFB()">
-            <svg width="15" height="15" viewBox="0 0 24 24" fill="currentColor"><path d="M18 2h-3a5 5 0 00-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 011-1h3z"/></svg>
-            Facebook
-          </button>
-          <button class="whl-ig-btn" onclick="whlShareIG()">
-            <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><rect x="2" y="2" width="20" height="20" rx="5"/><circle cx="12" cy="12" r="4"/><circle cx="17.5" cy="6.5" r="1.2" fill="currentColor" stroke="none"/></svg>
-            Instagram
-          </button>
-        </div>
-        <p class="whl-share-hint">Cuando alguien haga clic en tu enlace, la ruleta se desbloquea automáticamente</p>
-      </div>
-      <p class="whl-note whl-note--green" id="whlUnlockedNote" style="display:none">✅ ¡Ruleta desbloqueada! Toca GIRAR para ganar</p>
-      <p class="whl-note" id="whlAlreadyNote" style="display:none">🎉 Ya giraste — tu cupón está activo en el carrito</p>
-    </div>
-  </div>
-
-  <!-- ═══════════════ PRIZE MODAL ═══════════════ -->
-  <div class="prize-overlay" id="prizeOverlay" style="display:none">
-    <div class="prize-modal">
-      <!-- Emoji (solo visible al ganar descuento) -->
-      <div class="prize-confetti-ring" id="prizeEmojiWrap">
-        <span class="prize-big-emoji" id="prizeBigEmoji">💸</span>
-      </div>
-      <h2 class="prize-ttl">¡Felicidades!</h2>
-      <p class="prize-won-lbl">Ganaste:</p>
-      <div class="prize-name-big" id="prizeNameBig">10% de descuento</div>
-      <div class="prize-code-card" id="prizeCodeCard">
-        <div class="prize-code-lbl">Tu código de descuento:</div>
-        <div class="prize-code-display">
-          <span class="prize-code-txt" id="prizeCodeTxt">XPASS10</span>
-          <button class="prize-copy-btn" id="prizeCopyBtn" onclick="whlCopyCode()">📋 Copiar</button>
-        </div>
-      </div>
-      <div class="prize-xbox-note" id="prizeXboxNote" style="display:none">
-        Contáctanos por WhatsApp con el código <strong>XPASSXBOX</strong> para coordinar la entrega de tu Xbox Series X.
-      </div>
-      <div class="prize-btns">
-        <button class="prize-main-btn" id="prizeMainBtn" onclick="whlApplyAndClose()">🛒 Aplicar y comprar ahora</button>
-        <button class="prize-sec-btn" onclick="whlClosePrize()">Cerrar</button>
-      </div>
-    </div>
-  </div>
-
   <div class="wa-float" id="waFloat">
     <div class="wa-bubble-tooltip">¿Tienes dudas? ¡Escríbenos!</div>
     <a class="wa-bubble-btn" id="waFloatBtn" href="#" target="_blank" rel="noopener" aria-label="Chatear por WhatsApp">
@@ -1430,28 +1344,13 @@
   </script>
   <script>
   // ════════════════════════════════════════════════════════
-  //  SPIN WHEEL v2 — 2 Prizes · Canvas Images · Share Verify
+  //  CUPONES DE DESCUENTO
   // ════════════════════════════════════════════════════════
-
-  // 6 segments: 3 × 5% descuento + 3 × 10% descuento
-  const WHL_SEGS = [
-    { type:'10%', color:'#7c3aed' },
-    { type:'5%',  color:'#6d28d9' },
-    { type:'10%', color:'#7c3aed' },
-    { type:'5%',  color:'#6d28d9' },
-    { type:'10%', color:'#7c3aed' },
-    { type:'5%',  color:'#6d28d9' },
-  ];
   const WHL_PRIZES_MAP = {
     '10%': { label:'10% DESC', code:'XPASS10', type:'percent', value:0.10, desc:'10% de descuento en tu compra' },
     '5%':  { label:'5% DESC',  code:'XPASS5',  type:'percent', value:0.05, desc:'5% de descuento en tu compra' },
   };
 
-  let whlRot     = 0;
-  let whlSpun    = false;
-  let whlSpinning= false;
-  let whlPrize   = null;
-  let whlCode    = null;  // share code from server
   var activeCoupon = null;
 
   // ── Cart discount helper (called by script.js) ──
@@ -1459,124 +1358,6 @@
     if (!activeCoupon) return 0;
     if (activeCoupon.type === 'percent') return Math.round(sub * activeCoupon.value);
     return 0;
-  }
-
-  // ── Draw wheel ──
-  function whlDraw(rotDeg) {
-    const canvas = document.getElementById('whlCanvas');
-    if (!canvas) return;
-    const ctx = canvas.getContext('2d');
-    const S = canvas.width, cx = S/2, cy = S/2, R = cx - 6;
-    const n = WHL_SEGS.length, slice = (2*Math.PI)/n;
-    const rot = rotDeg * Math.PI / 180;
-    ctx.clearRect(0,0,S,S);
-
-    WHL_SEGS.forEach((seg, i) => {
-      const sa = rot + i*slice - Math.PI/2;
-      const ea = sa + slice;
-      const ma = sa + slice/2;
-
-      // Segment background
-      ctx.beginPath(); ctx.moveTo(cx,cy); ctx.arc(cx,cy,R,sa,ea); ctx.closePath();
-      ctx.fillStyle = seg.color; ctx.fill();
-      ctx.strokeStyle = 'rgba(255,255,255,0.08)'; ctx.lineWidth = 1.5;
-      ctx.beginPath(); ctx.moveTo(cx,cy); ctx.arc(cx,cy,R,sa,ea); ctx.closePath(); ctx.stroke();
-
-      // Draw segment image content
-      ctx.save();
-      const imgR = R * 0.57;
-      ctx.translate(cx + Math.cos(ma)*imgR, cy + Math.sin(ma)*imgR);
-      ctx.rotate(ma + Math.PI/2);
-
-      drawGPCard(ctx, seg.type);
-      ctx.restore();
-    });
-
-    // Outer glow ring
-    ctx.beginPath(); ctx.arc(cx,cy,R+2,0,2*Math.PI);
-    ctx.strokeStyle = 'rgba(167,139,250,0.3)'; ctx.lineWidth = 4; ctx.stroke();
-
-    // Center hub
-    ctx.beginPath(); ctx.arc(cx,cy,16,0,2*Math.PI);
-    ctx.fillStyle = '#07070c'; ctx.fill();
-    ctx.strokeStyle = 'rgba(167,139,250,0.5)'; ctx.lineWidth = 2; ctx.stroke();
-    ctx.font = 'bold 11px Inter'; ctx.fillStyle = '#a78bfa';
-    ctx.textAlign = 'center'; ctx.textBaseline = 'middle';
-    ctx.fillText('✕', cx, cy);
-  }
-
-  // ── Draw mini Game Pass card in segment ──
-  function drawGPCard(ctx, type) {
-    const pct = type || '10%';
-    const w = 40, h = 26;
-    // Card body
-    ctx.beginPath();
-    ctx.roundRect(-w/2, -h/2, w, h, 3);
-    ctx.fillStyle = '#0a1a0a'; ctx.fill();
-    ctx.strokeStyle = 'rgba(167,139,250,0.3)'; ctx.lineWidth = 0.8; ctx.stroke();
-    // Inner green glow
-    ctx.fillStyle = 'rgba(124,58,237,0.5)';
-    ctx.beginPath(); ctx.ellipse(8, -8, 12, 8, 0, 0, 2*Math.PI); ctx.fill();
-    // Tag icon (discount label)
-    ctx.fillStyle = 'rgba(167,139,250,0.85)';
-    ctx.beginPath(); ctx.arc(-11, -6, 5.5, 0, 2*Math.PI); ctx.fill();
-    ctx.fillStyle = '#fff'; ctx.font = 'bold 6px Arial';
-    ctx.textAlign = 'center'; ctx.textBaseline = 'middle';
-    ctx.fillText('%', -11, -6);
-    // "DESC" label
-    ctx.fillStyle = 'rgba(255,255,255,0.92)'; ctx.font = 'bold 4.5px Arial';
-    ctx.textAlign = 'left'; ctx.textBaseline = 'middle';
-    ctx.fillText('DESCUENTO', -3, -7);
-    ctx.fillStyle = 'rgba(255,255,255,0.45)'; ctx.font = '3px Arial';
-    ctx.fillText('GAME PASS ULTIMATE', -3, -2);
-    // Percentage big text
-    ctx.fillStyle = '#fff'; ctx.font = 'bold 13px Arial';
-    ctx.textAlign = 'center'; ctx.textBaseline = 'middle';
-    ctx.fillText(pct, 0, 8);
-    // Bottom strip
-    ctx.fillStyle = 'rgba(167,139,250,0.35)';
-    ctx.fillRect(-w/2, h/2 - 4, w, 4);
-  }
-
-  // ── Prize selection ──
-  function whlPick() {
-    // 50% chance 10%, 50% chance 5%
-    const prize = Math.random() < 0.50 ? '10%' : '5%';
-    const pool = WHL_SEGS
-      .map((s, i) => ({ ...s, i }))
-      .filter(s => s.type === prize);
-    return pool[Math.floor(Math.random() * pool.length)].i;
-  }
-
-  // ── Spin ──
-  function whlSpin() {
-    if (whlSpinning || whlSpun) return;
-    whlSpinning = true;
-    const btn = document.getElementById('whlSpinBtn');
-    btn.disabled = true; btn.textContent = '⏳ Girando...';
-
-    const idx      = whlPick();
-    const sliceDeg = 360 / WHL_SEGS.length;
-    const targetDeg= -(idx * sliceDeg + sliceDeg/2);
-    const totalDeg = 360*10 + targetDeg - (whlRot % 360);
-    const startRot = whlRot, endRot = startRot + totalDeg;
-    const dur = 5800, t0 = performance.now();
-    const ease = t => 1 - Math.pow(1-t, 4);
-
-    (function tick(now) {
-      const p = Math.min((now-t0)/dur, 1);
-      const r = startRot + (endRot-startRot)*ease(p);
-      whlDraw(r);
-      if (p < 1) { requestAnimationFrame(tick); return; }
-      whlRot     = endRot % 360;
-      whlSpinning= false; whlSpun = true;
-      const prize = WHL_PRIZES_MAP[WHL_SEGS[idx].type];
-      whlPrize = prize;
-      localStorage.setItem('xpass_prize_v2',    JSON.stringify(prize));
-      localStorage.setItem('xpass_whl_spun_v2', '1');
-      _applyPrize(prize);
-      setTimeout(() => _showPrize(prize), 700);
-    })(t0);
   }
 
   function _applyPrize(prize) {
@@ -1598,80 +1379,6 @@
     if (labelEl)  labelEl.textContent = '🎉 ' + activeCoupon.label;
     if (activeEl) activeEl.style.display='flex';
     if (rowEl)    rowEl.style.display='none';
-  }
-
-  function _showPrize(prize) {
-    document.getElementById('whlOverlay').classList.remove('open');
-    const emojiWrap = document.getElementById('prizeEmojiWrap');
-    if (emojiWrap) emojiWrap.style.display = '';
-    document.getElementById('prizeBigEmoji').textContent   = '💸';
-    document.getElementById('prizeNameBig').textContent    = prize.desc;
-    document.getElementById('prizeCodeCard').style.display = '';
-    const xboxNote = document.getElementById('prizeXboxNote');
-    if (xboxNote) xboxNote.style.display = 'none';
-    document.getElementById('prizeMainBtn').style.display  = '';
-    document.getElementById('prizeCodeTxt').textContent    = prize.code;
-    document.getElementById('prizeOverlay').style.display  = 'flex';
-  }
-
-  // ── Desbloqueo inmediato al compartir ──
-  const SITE_URL = 'https://xpass.digital';
-
-  function whlShareFB() {
-    const fbUrl = 'https://www.facebook.com/sharer/sharer.php?u=' + encodeURIComponent(SITE_URL);
-    window.open(fbUrl, '_blank');
-    _unlockWheel();
-  }
-
-  function whlShareIG() {
-    navigator.clipboard.writeText(SITE_URL).then(() => {
-      showToast('📋 Enlace copiado: ' + SITE_URL + ' — Pégalo en tu historia de Instagram');
-    }).catch(() => {
-      prompt('Copia este enlace y pégalo en Instagram:', SITE_URL);
-    });
-    showToast('📋 ¡Enlace copiado! Pégalo en tu historia de Instagram');
-    _unlockWheel();
-  }
-
-  function _unlockWheel() {
-    localStorage.setItem('xpass_whl_unlocked_v2', '1');
-    // Hide verify block
-    const verifyBlock = document.getElementById('whlVerifyBlock');
-    if (verifyBlock) verifyBlock.style.display = 'none';
-    // Lock overlay off
-    const lockVeil = document.getElementById('whlLockVeil');
-    if (lockVeil) lockVeil.style.display = 'none';
-    const alreadySpun = !!localStorage.getItem('xpass_whl_spun_v2');
-    const spinBtn = document.getElementById('whlSpinBtn');
-    const unlockedNote = document.getElementById('whlUnlockedNote');
-    const alreadyNote  = document.getElementById('whlAlreadyNote');
-    if (alreadySpun) {
-      if (spinBtn) { spinBtn.textContent='✓ Ya giraste'; spinBtn.disabled=true; }
-      if (alreadyNote)  alreadyNote.style.display  = '';
-      if (unlockedNote) unlockedNote.style.display = 'none';
-    } else {
-      if (spinBtn) { spinBtn.disabled=false; spinBtn.classList.add('whl-spin-btn--ready'); spinBtn.textContent='GIRAR RULETA'; }
-      if (unlockedNote) unlockedNote.style.display = '';
-    }
-    showToast('🔓 ¡Ruleta desbloqueada! Gira ahora');
-  }
-
-  function whlClose() { document.getElementById('whlOverlay').classList.remove('open'); }
-  function whlClosePrize() { document.getElementById('prizeOverlay').style.display = 'none'; }
-
-  function whlCopyCode() {
-    const code = document.getElementById('prizeCodeTxt').textContent;
-    navigator.clipboard.writeText(code).then(() => {
-      const btn = document.getElementById('prizeCopyBtn');
-      btn.textContent='✓ Copiado';
-      setTimeout(()=>btn.textContent='📋 Copiar', 2000);
-    });
-  }
-
-  function whlApplyAndClose() {
-    document.getElementById('prizeOverlay').style.display='none';
-    if (whlPrize) _applyPrize(whlPrize);
-    openCart(); showToast('🎉 Descuento aplicado al carrito');
   }
 
   // ── Manual coupon ──
@@ -1708,29 +1415,14 @@
   }
 
   // ── Init ──
-  function whlInit() {
-    whlDraw(0);
+  function couponInit() {
     _checkShareVisit();
 
-    // Restore saved prize
+    // Restore saved coupon
     try {
       const saved = localStorage.getItem('xpass_prize_v2');
-      if (saved) { whlPrize = JSON.parse(saved); _applyPrize(whlPrize); }
+      if (saved) { _applyPrize(JSON.parse(saved)); }
     } catch(_) {}
-
-    // Restore unlock state
-    if (localStorage.getItem('xpass_whl_unlocked_v2')) {
-      whlSpun = !!localStorage.getItem('xpass_whl_spun_v2');
-      _unlockWheel();
-    }
-
-    // Show modal on first visit (once per session, unless already spun)
-
-    document.getElementById('whlXBtn').addEventListener('click', whlClose);
-    document.getElementById('whlOverlay').addEventListener('click', e => {
-      if (e.target === document.getElementById('whlOverlay')) whlClose();
-    });
-    document.getElementById('whlSpinBtn').addEventListener('click', whlSpin);
 
     const applyBtn = document.getElementById('couponApplyBtn');
     if (applyBtn) applyBtn.addEventListener('click', applyCouponCode);
@@ -1740,7 +1432,7 @@
     if (removeBtn) removeBtn.addEventListener('click', removeCoupon);
   }
 
-  whlInit();
+  couponInit();
   </script>
 </body>
 </html>

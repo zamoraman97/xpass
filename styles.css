@@ -919,6 +919,10 @@ body::before {
 .pmb-title { font-size: 15px; font-weight: 700; }
 .pmb-sub { font-size: 12px; color: var(--text-2); }
 .pmb-arrow { color: var(--text-3); flex-shrink: 0; }
+.pmb-logos { display: flex; align-items: center; gap: 6px; flex-shrink: 0; }
+.pmb-logos img { height: 24px; width: auto; border-radius: 4px; display: block; }
+.pmb-logos .pmb-logo-spei { height: 18px; background: #fff; padding: 4px 6px; border-radius: 5px; }
+@media (max-width: 480px) { .pmb-logos { display: none; } }
 /* Modal card form fields */
 .modal-field-wrap { display: flex; flex-direction: column; gap: 6px; }
 .modal-field-label { font-size: 11px; font-weight: 700; color: var(--text-2); letter-spacing: .3px; }
@@ -1498,7 +1502,23 @@ select.modal-card-inp { cursor: pointer; letter-spacing: 0; }
 /* ─── COMPARATIVA / AHORRO ─── */
 
 /* ─── NAVBAR: busqueda y categorias (estilo marketplace) ─── */
-.nav-search { flex: 1; position: relative; max-width: 560px; }
+.nav-search { flex: 1; position: relative; max-width: 620px; }
+/* Buscador central dentro del navbar */
+.nav-search .ebn-search { margin-bottom: 0; width: 100%; }
+.nav-search .ebn-search input {
+  font-size: 14px; border-radius: 10px; padding: 11px 44px 11px 44px;
+  background: rgba(16,15,23,.6); border-color: rgba(167,139,250,.22);
+}
+.nav-search .ebn-search input:focus { background: rgba(24,18,38,.85); }
+.nav-search .ebn-search-ico { left: 14px; }
+/* Selector de idioma / moneda */
+.nav-locale {
+  display: inline-flex; align-items: center; gap: 6px;
+  color: var(--text-2); font-size: 12.5px; font-weight: 700; white-space: nowrap;
+  padding: 7px 12px; border-radius: 50px;
+  background: rgba(255,255,255,.04); border: 1px solid var(--border-med);
+}
+.nav-locale .nav-flag { font-size: 14px; line-height: 1; }
 .ns-icon { position: absolute; left: 13px; top: 50%; transform: translateY(-50%); color: var(--text-3); pointer-events: none; }
 .nav-search input {
   width: 100%; background: var(--bg3); border: 1px solid var(--border-med);
@@ -1520,7 +1540,10 @@ select.modal-card-inp { cursor: pointer; letter-spacing: 0; }
 }
 .nav-search-sug a:hover { background: rgba(167,139,250,.08); color: var(--text); }
 .nav-search-sug a .tag { margin-left: auto; font-size: 10.5px; font-weight: 800; letter-spacing: 1px; color: var(--text-3); text-transform: uppercase; }
-.nav-chips { border-top: 1px solid var(--border); }
+.nav-chips {
+  border-top: 1px solid rgba(167,139,250,.16);
+  background: linear-gradient(180deg, rgba(124,58,237,.16), rgba(91,33,182,.10));
+}
 .nav-chips-inner {
   max-width: 1160px; margin: 0 auto; padding: 9px 28px;
   display: flex; gap: 6px; overflow-x: auto; scrollbar-width: none;
@@ -1529,11 +1552,13 @@ select.modal-card-inp { cursor: pointer; letter-spacing: 0; }
 .nav-chips-inner a {
   flex-shrink: 0; color: var(--text-2); text-decoration: none;
   font-size: 12.5px; font-weight: 700; padding: 6px 13px;
-  background: var(--bg3); border: 1px solid var(--border); border-radius: 50px;
+  background: rgba(255,255,255,.04); border: 1px solid transparent; border-radius: 50px;
   transition: all .15s;
 }
-.nav-chips-inner a:hover { color: var(--text); border-color: rgba(167,139,250,.4); }
+.nav-chips-inner a:hover { color: var(--text); background: rgba(167,139,250,.12); border-color: rgba(167,139,250,.4); }
 .nav-chips-inner a.hot { background: rgba(167,139,250,.1); border-color: rgba(167,139,250,.3); color: var(--green-light); }
+.nav-chips-inner a.nav-gold { color: #fbbf24; }
+.nav-chips-inner a.nav-gold:hover { color: #fcd34d; }
 
 /* ─── GUIAS (teaser del blog) ─── */
 .ebn-guides { padding: 0 0 70px; }
@@ -1726,6 +1751,7 @@ select.modal-card-inp { cursor: pointer; letter-spacing: 0; }
   .nav-right { margin-left: auto; }
   .nav-chips-inner { padding: 8px 18px; }
   .nav-search { max-width: none; }
+  .nav-locale { display: none; }
   .ebn-banner { min-height: 0; display: block; }
   .ebn-banner-content { padding: 30px 24px 6px; }
   .ebn-hero-cards {
