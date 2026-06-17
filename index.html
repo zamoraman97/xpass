@@ -285,12 +285,13 @@
     </div>
     <!-- Sub-barra de categorías estilo marketplace -->
     <div class="nav-chips">
-      <div class="nav-chips-inner">
-        <a href="#planes" class="active" aria-current="page">Catálogo</a>
-        <a href="/como-funciona">¿Cómo funciona?</a>
-        <a href="/resenas" class="nav-gold">Reseñas</a>
-        <a href="/blog">Blog</a>
-        <a href="#faq">FAQ</a>
+      <div class="nav-chips-inner" id="navCats" role="tablist" aria-label="Categorías">
+        <a href="#planes" class="nav-cat active" data-cat="all" role="tab" aria-selected="true">Todo</a>
+        <a href="#planes" class="nav-cat" data-cat="gaming" role="tab" aria-selected="false">Suscripciones</a>
+        <a href="#planes" class="nav-cat" data-cat="recargas" role="tab" aria-selected="false">Recargas in-game</a>
+        <a href="#planes" class="nav-cat" data-cat="giftcards" role="tab" aria-selected="false">Gift cards</a>
+        <a href="#planes" class="nav-cat" data-cat="streaming" role="tab" aria-selected="false">Streaming</a>
+        <a href="#planes" class="nav-cat" data-cat="egifts" role="tab" aria-selected="false">eGifts</a>
       </div>
     </div>
   </nav>
@@ -356,14 +357,6 @@
       <div class="ebn-row-head">
         <h2>Catálogo digital</h2>
         <span class="sub">Gaming, streaming, recargas y gift cards con entrega por correo</span>
-      </div>
-      <div class="ebn-filters" id="ebnFilters" role="tablist" aria-label="Filtrar por categoría">
-        <button class="ebn-filter active" data-filter="all" role="tab" aria-selected="true">Todo</button>
-        <button class="ebn-filter" data-filter="gaming" role="tab" aria-selected="false">🎮 Suscripciones</button>
-        <button class="ebn-filter" data-filter="recargas" role="tab" aria-selected="false">💎 Recargas in-game</button>
-        <button class="ebn-filter" data-filter="giftcards" role="tab" aria-selected="false">🎁 Gift cards</button>
-        <button class="ebn-filter" data-filter="streaming" role="tab" aria-selected="false">📺 Streaming</button>
-        <button class="ebn-filter" data-filter="egifts" role="tab" aria-selected="false">🛒 eGifts</button>
       </div>
       <div class="ebn-noresults" id="ebnNoResults" style="display:none">
         <svg width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" opacity=".35"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
@@ -927,8 +920,15 @@
             <a href="#planes">Suscripciones y streaming</a>
           </div>
           <div class="footer-col">
-            <h5>Soporte</h5>
+            <h5>Navegación</h5>
+            <a href="#planes">Catálogo</a>
             <a href="/como-funciona">¿Cómo funciona?</a>
+            <a href="/resenas">Reseñas</a>
+            <a href="/blog">Blog</a>
+            <a href="#faq">FAQ</a>
+          </div>
+          <div class="footer-col">
+            <h5>Soporte</h5>
             <a href="/contacto">Contacto</a>
             <a href="/comprobante">Enviar comprobante</a>
             <a href="#faq">Preguntas frecuentes</a>
@@ -1242,25 +1242,33 @@
     });
   })();
 
-  // ── Buscador + filtro de categorías del catálogo ──
+  // ── Buscador + categorías (barra del navbar) ──
   (function () {
-    var filters = Array.from(document.querySelectorAll('.ebn-filter'));
+    var cats = Array.from(document.querySelectorAll('.nav-cat'));
     var cards = Array.from(document.querySelectorAll('.ebn-grid .ebn-card'));
     var input = document.getElementById('ebnSearchInput');
     var clearBtn = document.getElementById('ebnSearchClear');
     var noRes = document.getElementById('ebnNoResults');
-    if (!filters.length || !cards.length) return;
+    var planes = document.getElementById('planes');
+    if (!cards.length) return;
 
     var activeCat = 'all';
     function norm(s) {
       return (s || '').toLowerCase().normalize('NFD').replace(/[̀-ͯ]/g, '');
     }
-    // texto buscable de cada card (título + categoría + plataforma)
     cards.forEach(function (card) {
       var h3 = card.querySelector('h3');
       var plat = card.querySelector('.ebn-platform');
       card._search = norm((h3 ? h3.textContent : '') + ' ' + (plat ? plat.textContent : '') + ' ' + (card.getAttribute('data-category') || ''));
     });
+
+    function setActiveChip() {
+      cats.forEach(function (a) {
+        var on = a.getAttribute('data-cat') === activeCat;
+        a.classList.toggle('active', on);
+        a.setAttribute('aria-selected', on ? 'true' : 'false');
+      });
+    }
 
     function apply() {
       var q = input ? norm(input.value.trim()) : '';
@@ -1276,64 +1284,39 @@
       if (clearBtn) clearBtn.style.display = (input && input.value) ? '' : 'none';
     }
 
-    filters.forEach(function (btn) {
-      btn.addEventListener('click', function () {
-        filters.forEach(function (b) { b.classList.remove('active'); b.setAttribute('aria-selected', 'false'); });
-        btn.classList.add('active');
-        btn.setAttribute('aria-selected', 'true');
-        activeCat = btn.getAttribute('data-filter');
+    function scrollToCatalog() {
+      if (!planes) return;
+      var top = planes.getBoundingClientRect().top + window.pageYOffset - 80;
+      if (Math.abs(window.pageYOffset - top) > 8) window.scrollTo({ top: top, behavior: 'smooth' });
+    }
+
+    cats.forEach(function (a) {
+      a.addEventListener('click', function (e) {
+        e.preventDefault();
+        activeCat = a.getAttribute('data-cat') || 'all';
+        setActiveChip();
         apply();
+        scrollToCatalog();
       });
     });
 
-    // Al buscar desde el buscador superior, lleva al catálogo para ver resultados
-    var planes = document.getElementById('planes');
+    // Búsqueda: filtra y baja al catálogo
     var scrolledForSearch = false;
-    function maybeScroll() {
-      if (!planes) return;
-      var hasQ = input && input.value.trim().length > 0;
-      if (hasQ && !scrolledForSearch) {
-        var top = planes.getBoundingClientRect().top + window.pageYOffset - 70;
-        if (window.pageYOffset < top - 10) window.scrollTo({ top: top, behavior: 'smooth' });
-        scrolledForSearch = true;
-      }
+    if (input) input.addEventListener('input', function () {
+      apply();
+      var hasQ = input.value.trim().length > 0;
+      if (hasQ && !scrolledForSearch) { scrollToCatalog(); scrolledForSearch = true; }
       if (!hasQ) scrolledForSearch = false;
-    }
-
-    if (input) input.addEventListener('input', function () { apply(); maybeScroll(); });
+    });
     if (clearBtn) clearBtn.addEventListener('click', function () {
       input.value = ''; input.focus(); apply(); scrolledForSearch = false;
     });
-  })();
 
-  // Estado activo de las pestañas/chips de navegación.
-  (function () {
-    var links = Array.from(document.querySelectorAll('.nav-chips-inner a, .nav-links a'));
-    function clear() { links.forEach(function (a) { a.classList.remove('active'); a.removeAttribute('aria-current'); }); }
-    function setActive(hash) {
-      clear();
-      links.forEach(function (a) {
-        var href = a.getAttribute('href') || '';
-        if (href === hash || href === '/' + hash) {
-          a.classList.add('active');
-          a.setAttribute('aria-current', 'true');
-        }
-      });
-    }
-    var sections = ['planes', 'como-funciona', 'resenas', 'faq']
-      .map(function (id) { return document.getElementById(id); })
-      .filter(Boolean);
-    if (!('IntersectionObserver' in window) || !sections.length) {
-      setActive(location.hash || '#planes');
-      return;
-    }
-    var observer = new IntersectionObserver(function (entries) {
-      var visible = entries
-        .filter(function (entry) { return entry.isIntersecting; })
-        .sort(function (a, b) { return b.intersectionRatio - a.intersectionRatio; })[0];
-      if (visible) setActive('#' + visible.target.id);
-    }, { rootMargin: '-30% 0px -55% 0px', threshold: [0.1, 0.35, 0.6] });
-    sections.forEach(function (section) { observer.observe(section); });
+    // Soporte a hash #cat=xyz (al llegar desde otra página)
+    (function () {
+      var m = (location.hash || '').match(/cat=([a-z]+)/i);
+      if (m) { activeCat = m[1]; setActiveChip(); apply(); setTimeout(scrollToCatalog, 60); }
+    })();
   })();
   </script>
   <script>
