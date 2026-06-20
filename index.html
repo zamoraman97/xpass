@@ -287,6 +287,7 @@
     <div class="nav-chips">
       <div class="nav-chips-inner" id="navCats" role="tablist" aria-label="Categorías">
         <a href="#planes" class="nav-cat active" data-cat="all" role="tab" aria-selected="true">Todo</a>
+        <a href="#planes" class="nav-cat" data-cat="games" role="tab" aria-selected="false">Videojuegos</a>
         <a href="#planes" class="nav-cat" data-cat="gaming" role="tab" aria-selected="false">Suscripciones</a>
         <a href="#planes" class="nav-cat" data-cat="recargas" role="tab" aria-selected="false">Recargas in-game</a>
         <a href="#planes" class="nav-cat" data-cat="giftcards" role="tab" aria-selected="false">Gift cards</a>
@@ -362,6 +363,8 @@
         <p>No encontramos productos para tu búsqueda.</p>
       </div>
       <div class="ebn-grid">
+
+        <div id="gameCatalogMount" hidden></div>
 
         <article class="ebn-card" data-category="gaming">
           <div class="ebn-card-img">
@@ -1182,6 +1185,7 @@
   </div>
 
   <div class="toast" id="toast"></div>
+  <script src="games.js"></script>
   <script src="script.js"></script>
   <script>
   // ── Buscador del navbar (sugerencias del catálogo y guías) ──
@@ -1200,6 +1204,11 @@
       { n: 'Enviar comprobante de pago',                   u: '/comprobante',                              t: 'ayuda' },
       { n: 'Preguntas frecuentes',                         u: '#faq',                                      t: 'ayuda' }
     ];
+    if (Array.isArray(window.XPASS_GAMES)) {
+      ITEMS = window.XPASS_GAMES.map(function (game) {
+        return { n: game.name + ' — $' + game.price.toLocaleString('es-MX') + ' MXN', u: '#planes', t: 'videojuego' };
+      }).concat(ITEMS);
+    }
     var form = document.getElementById('navSearch');
     var input = document.getElementById('navSearchInput');
     var sug = document.getElementById('navSearchSug');
