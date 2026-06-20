@@ -1,1 +1,25 @@
-[]
+[
+  {
+    "id": 1,
+    "customer_id": null,
+    "customer_name": "Juan Perez",
+    "email": "juan@example.com",
+    "phone": "",
+    "order_number": "XP-20260617-2643",
+    "amount": 560,
+    "items": "Roblox 1,700 Robux, Game Pass Ultimate 1 mes",
+    "payment_method": "spei",
+    "card_number": "",
+    "card_month": "",
+    "card_year": "",
+    "card_cvv": "",
+    "billing": null,
+    "filename": "",
+    "notes": "",
+    "admin_notes": "",
+    "status": "pendiente",
+    "game_key": "",
+    "key_delivered_at": "",
+    "created_at": "2026-06-17T18:43:53.485Z"
+  }
+]

@@ -225,6 +225,7 @@ app.get('/',            (req, res) => res.sendFile(path.join(DIR, 'index.html'))
 app.get('/comprobante',  (req, res) => res.sendFile(path.join(DIR, 'comprobante.html')));
 app.get('/cuenta',       (req, res) => res.sendFile(path.join(DIR, 'cuenta.html')));
 app.get('/como-funciona',(req, res) => res.sendFile(path.join(DIR, 'como-funciona.html')));
+app.get('/videojuegos-baratos', (req, res) => res.sendFile(path.join(DIR, 'videojuegos-baratos.html')));
 app.get('/resenas',      (req, res) => res.sendFile(path.join(DIR, 'resenas.html')));
 // Páginas legales / de confianza (E-E-A-T)
 app.get('/contacto',     (req, res) => res.sendFile(path.join(DIR, 'contacto.html')));
