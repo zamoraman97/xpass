@@ -5,13 +5,9 @@ import { fileURLToPath } from 'node:url';
 const ROOT = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '..');
 const ASSET_DIR = path.join(ROOT, 'assets', 'games');
 const OUTPUT = path.join(ROOT, 'games.js');
-const TARGET_COUNT = 100;
-
-const SOURCES = [
-  'https://api.steampowered.com/ISteamChartsService/GetMostPlayedGames/v1/',
-  'https://steamspy.com/api.php?request=top100in2weeks',
-  'https://steamspy.com/api.php?request=top100forever'
-];
+const TARGET_COUNT = Number(process.env.XPASS_GAME_TARGET || 1100);
+const SEARCH_PAGE_SIZE = 100;
+const SEARCH_URL = 'https://store.steampowered.com/search/results/';
 
 const sleep = ms => new Promise(resolve => setTimeout(resolve, ms));
 
@@ -32,93 +28,140 @@ async function fetchWithRetry(url, attempts = 4) {
   throw lastError;
 }
 
-async function getCandidateIds() {
-  const [chartsResponse, recentResponse, foreverResponse] = await Promise.all(
-    SOURCES.map(url => fetchWithRetry(url).then(response => response.json()))
-  );
-
-  const charts = chartsResponse?.response?.ranks || [];
-  const recent = Object.values(recentResponse || {});
-  const forever = Object.values(foreverResponse || {});
-
-  const ranked = [
-    ...charts.map(item => Number(item.appid)),
-    ...recent.map(item => Number(item.appid)),
-    ...forever.map(item => Number(item.appid))
-  ];
-
-  return [...new Set(ranked.filter(Number.isInteger))];
+function decodeHtml(value) {
+  const named = {
+    amp: '&', apos: "'", gt: '>', lt: '<', quot: '"',
+    nbsp: ' ', reg: '®', trade: '™', copy: '©'
+  };
+  return String(value || '')
+    .replace(/<[^>]+>/g, '')
+    .replace(/&#(x?[0-9a-f]+);/gi, (_, code) => {
+      const radix = code[0].toLowerCase() === 'x' ? 16 : 10;
+      const value = parseInt(radix === 16 ? code.slice(1) : code, radix);
+      return Number.isFinite(value) ? String.fromCodePoint(value) : '';
+    })
+    .replace(/&([a-z]+);/gi, (_, name) => named[name.toLowerCase()] || `&${name};`)
+    .trim();
 }
 
-async function getSteamProduct(appid) {
-  const url = `https://store.steampowered.com/api/appdetails?appids=${appid}&cc=mx&l=spanish`;
+async function readExistingProducts() {
   try {
-    const response = await fetchWithRetry(url, 3);
-    const payload = await response.json();
-    const data = payload?.[appid]?.data;
-    const price = data?.price_overview?.final;
-
-    if (!payload?.[appid]?.success || data?.type !== 'game') return null;
-    if (!data?.platforms?.windows || !Number.isInteger(price) || price <= 0) return null;
-    if (!data?.header_image) return null;
-
-    return {
-      appid,
-      name: data.name,
-      sourcePriceCents: price,
-      price: Math.max(1, Math.floor((price * 0.8) / 100)),
-      imageUrl: data.header_image,
-      genres: (data.genres || []).slice(0, 2).map(item => item.description),
-      description: data.short_description || ''
-    };
-  } catch (error) {
-    console.warn(`No se pudo consultar ${appid}: ${error.message}`);
-    return null;
+    const source = await fs.readFile(OUTPUT, 'utf8');
+    const match = source.match(/const games = (\[[\s\S]*?\]);\n  window\.XPASS_GAMES/);
+    return match ? JSON.parse(match[1]) : [];
+  } catch {
+    return [];
   }
 }
 
-async function collectProducts(candidateIds) {
-  const products = [];
-  const batchSize = 6;
+function parseSearchRows(html) {
+  const rows = String(html || '').match(/<a\b[^>]*class="[^"]*search_result_row[^"]*"[\s\S]*?<\/a>/gi) || [];
+  return rows.map(row => {
+    const appid = Number(row.match(/data-ds-appid="(\d+)"/i)?.[1]);
+    const name = decodeHtml(row.match(/<span class="title">([\s\S]*?)<\/span>/i)?.[1]);
+    const sourcePriceCents = Number(row.match(/data-price-final="(\d+)"/i)?.[1]);
+    const searchImage = decodeHtml(row.match(/<img[^>]+src="([^"]+)"/i)?.[1]);
+    const windows = /platform_img win/i.test(row);
+    if (!Number.isInteger(appid) || !name || !windows || sourcePriceCents <= 0 || !searchImage) return null;
+    return {
+      appid,
+      name,
+      sourcePriceCents,
+      price: Math.max(1, Math.floor((sourcePriceCents * 0.8) / 100)),
+      searchImage,
+      genres: ['Videojuego para PC'],
+      description: ''
+    };
+  }).filter(Boolean);
+}
 
-  for (let offset = 0; offset < candidateIds.length && products.length < TARGET_COUNT; offset += batchSize) {
-    const batch = candidateIds.slice(offset, offset + batchSize);
-    const results = await Promise.all(batch.map(getSteamProduct));
-    products.push(...results.filter(Boolean));
-    process.stdout.write(`\rProductos válidos: ${products.length}/${TARGET_COUNT}`);
+async function collectSearchCandidates(existingIds, requiredCount) {
+  const candidates = [];
+  const seen = new Set(existingIds);
+  let start = 0;
+
+  while (candidates.length < requiredCount + 250) {
+    const params = new URLSearchParams({
+      query: '',
+      start: String(start),
+      count: String(SEARCH_PAGE_SIZE),
+      dynamic_data: '',
+      filter: 'topsellers',
+      category1: '998',
+      supportedlang: 'spanish',
+      cc: 'MX',
+      infinite: '1'
+    });
+    const response = await fetchWithRetry(`${SEARCH_URL}?${params}`);
+    const payload = await response.json();
+    const products = parseSearchRows(payload.results_html);
+    if (!products.length) break;
+
+    for (const product of products) {
+      if (seen.has(product.appid)) continue;
+      seen.add(product.appid);
+      candidates.push(product);
+    }
+    process.stdout.write(`\rCandidatos nuevos: ${candidates.length}/${requiredCount}`);
+    start += SEARCH_PAGE_SIZE;
     await sleep(180);
   }
 
   console.log('');
-  if (products.length < TARGET_COUNT) {
-    throw new Error(`Sólo se encontraron ${products.length} juegos de pago válidos.`);
+  if (candidates.length < requiredCount) {
+    throw new Error(`Sólo se encontraron ${candidates.length} candidatos nuevos.`);
   }
-  return products.slice(0, TARGET_COUNT);
+  return candidates;
 }
 
 async function downloadImage(product) {
-  const response = await fetchWithRetry(product.imageUrl, 3);
-  const type = response.headers.get('content-type') || '';
-  if (!type.startsWith('image/')) throw new Error(`Contenido no válido para ${product.appid}`);
-  const bytes = Buffer.from(await response.arrayBuffer());
-  if (bytes.length < 1000) throw new Error(`Imagen demasiado pequeña para ${product.appid}`);
+  const urls = [
+    `https://cdn.akamai.steamstatic.com/steam/apps/${product.appid}/header.jpg`,
+    product.searchImage
+  ].filter(Boolean);
+  let bytes;
+  let lastError;
+  for (const url of urls) {
+    try {
+      const response = await fetchWithRetry(url, 2);
+      const type = response.headers.get('content-type') || '';
+      if (!type.startsWith('image/')) throw new Error('El contenido no es una imagen');
+      const candidate = Buffer.from(await response.arrayBuffer());
+      if (candidate.length < 1000) throw new Error('La imagen es demasiado pequeña');
+      bytes = candidate;
+      break;
+    } catch (error) {
+      lastError = error;
+    }
+  }
+  if (!bytes) throw lastError || new Error(`Sin imagen para ${product.appid}`);
   const filename = `${product.appid}.jpg`;
   await fs.writeFile(path.join(ASSET_DIR, filename), bytes);
   return { ...product, image: `/assets/games/${filename}` };
 }
 
-async function downloadImages(products) {
+async function downloadImages(products, requiredCount) {
   await fs.mkdir(ASSET_DIR, { recursive: true });
   const completed = [];
   const batchSize = 8;
+  let cursor = 0;
 
-  for (let offset = 0; offset < products.length; offset += batchSize) {
-    const batch = products.slice(offset, offset + batchSize);
-    completed.push(...await Promise.all(batch.map(downloadImage)));
-    process.stdout.write(`\rImágenes descargadas: ${completed.length}/${products.length}`);
+  while (cursor < products.length && completed.length < requiredCount) {
+    const remaining = requiredCount - completed.length;
+    const batch = products.slice(cursor, cursor + Math.min(batchSize, remaining));
+    cursor += batch.length;
+    const settled = await Promise.allSettled(batch.map(downloadImage));
+    for (const result of settled) {
+      if (result.status === 'fulfilled') completed.push(result.value);
+      else console.warn(`\nImagen omitida: ${result.reason?.message || result.reason}`);
+    }
+    process.stdout.write(`\rImágenes descargadas: ${completed.length}/${requiredCount}`);
   }
   console.log('');
-  return completed;
+  if (completed.length < requiredCount) {
+    throw new Error(`Sólo se descargaron ${completed.length} de ${requiredCount} imágenes nuevas.`);
+  }
+  return completed.slice(0, requiredCount);
 }
 
 function buildBrowserScript(products) {
@@ -198,12 +241,20 @@ function buildBrowserScript(products) {
 }
 
 async function main() {
-  const candidateIds = await getCandidateIds();
-  console.log(`Candidatos únicos: ${candidateIds.length}`);
-  const products = await collectProducts(candidateIds);
-  const downloaded = await downloadImages(products);
-  await fs.writeFile(OUTPUT, buildBrowserScript(downloaded), 'utf8');
-  console.log(`Catálogo actualizado: ${OUTPUT}`);
+  const existing = await readExistingProducts();
+  const retained = existing.slice(0, TARGET_COUNT);
+  const requiredCount = TARGET_COUNT - retained.length;
+  console.log(`Catálogo actual: ${retained.length}; objetivo: ${TARGET_COUNT}; nuevos: ${requiredCount}`);
+  if (requiredCount <= 0) {
+    console.log('El catálogo ya alcanzó el objetivo.');
+    return;
+  }
+  const existingIds = retained.map(product => Number(product.appid));
+  const candidates = await collectSearchCandidates(existingIds, requiredCount);
+  const downloaded = await downloadImages(candidates, requiredCount);
+  const completeCatalog = [...retained, ...downloaded];
+  await fs.writeFile(OUTPUT, buildBrowserScript(completeCatalog), 'utf8');
+  console.log(`Catálogo actualizado: ${completeCatalog.length} juegos en ${OUTPUT}`);
 }
 
 main().catch(error => {
