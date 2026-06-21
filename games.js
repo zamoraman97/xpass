@@ -4,15 +4,47 @@
   const games = [
   {
     "appid": "gta6",
-    "name": "Grand Theft Auto VI (GTA 6) PlayStation 5",
+    "name": "Grand Theft Auto VI (GTA 6) PlayStation 5 — Preventa",
     "price": 1399,
     "image": "/assets/games/gta6.jpg",
     "platform": "PS5",
+    "note": "Preventa: el código se enviará a tu correo electrónico el día del lanzamiento del juego.",
     "genres": [
       "Acción",
       "Aventura"
     ],
-    "description": "Grand Theft Auto VI para PlayStation 5. La nueva entrega de Rockstar Games ambientada en Vice City, con Jason y Lucia como protagonistas."
+    "description": "Grand Theft Auto VI para PlayStation 5. La nueva entrega de Rockstar Games ambientada en Vice City, con Jason y Lucia como protagonistas. Compra en preventa y recibe tu código por correo electrónico en cuanto el juego esté disponible."
+  },
+  {
+    "appid": 1808500,
+    "name": "ARC Raiders",
+    "price": 575,
+    "image": "/assets/games/1808500.jpg",
+    "genres": [
+      "Acción"
+    ],
+    "description": "ARC Raiders es un juego multijugador de aventura y extracción ambientado en un mortífero planeta Tierra del futuro, devastado por una misteriosa amenaza mecánica llamada ARC."
+  },
+  {
+    "appid": 3240220,
+    "name": "Grand Theft Auto V Enhanced",
+    "price": 479,
+    "image": "/assets/games/3240220.jpg",
+    "genres": [
+      "Acción",
+      "Aventura"
+    ],
+    "description": "Disfruta de los superventas del entretenimiento Grand Theft Auto V y Grand Theft Auto Online, ahora mejorados para una nueva generación, con impresionantes gráficos, carga más rápida, audio 3D y mucho más, además de contenido exclusivo para los jugadores de GTA Online."
+  },
+  {
+    "appid": 2807960,
+    "name": "Battlefield™ 6",
+    "price": 519,
+    "image": "/assets/games/2807960.jpg",
+    "genres": [
+      "Acción"
+    ],
+    "description": "La experiencia bélica definitiva. En una guerra de tanques, cazas y gigantescos arsenales de combate, el arma más mortífera es tu patrulla."
   },
   {
     "appid": 431960,
@@ -59,16 +91,6 @@
     "description": "Jump and fly your way through danger in this rhythm-based action platformer!"
   },
   {
-    "appid": 1808500,
-    "name": "ARC Raiders",
-    "price": 575,
-    "image": "/assets/games/1808500.jpg",
-    "genres": [
-      "Acción"
-    ],
-    "description": "ARC Raiders es un juego multijugador de aventura y extracción ambientado en un mortífero planeta Tierra del futuro, devastado por una misteriosa amenaza mecánica llamada ARC."
-  },
-  {
     "appid": 252490,
     "name": "Rust",
     "price": 179,
@@ -112,16 +134,6 @@
     "description": "Acabas de heredar la vieja parcela agrícola de tu abuelo de Stardew Valley. Decides partir hacia una nueva vida con unas herramientas usadas y algunas monedas. ¿Te ves capaz de vivir de la tierra y convertir estos campos descuidados en un hogar próspero?"
   },
   {
-    "appid": 2807960,
-    "name": "Battlefield™ 6",
-    "price": 519,
-    "image": "/assets/games/2807960.jpg",
-    "genres": [
-      "Acción"
-    ],
-    "description": "La experiencia bélica definitiva. En una guerra de tanques, cazas y gigantescos arsenales de combate, el arma más mortífera es tu patrulla."
-  },
-  {
     "appid": 553850,
     "name": "HELLDIVERS™ 2",
     "price": 559,
@@ -130,17 +142,6 @@
       "Acción"
     ],
     "description": "La última línea de ataque de la galaxia. Alístate en los Helldivers y únete a la lucha por la libertad en una galaxia hostil en un juego de disparos en tercera persona rápido, frenético y feroz."
-  },
-  {
-    "appid": 3240220,
-    "name": "Grand Theft Auto V Enhanced",
-    "price": 479,
-    "image": "/assets/games/3240220.jpg",
-    "genres": [
-      "Acción",
-      "Aventura"
-    ],
-    "description": "Disfruta de los superventas del entretenimiento Grand Theft Auto V y Grand Theft Auto Online, ahora mejorados para una nueva generación, con impresionantes gráficos, carga más rápida, audio 3D y mucho más, además de contenido exclusivo para los jugadores de GTA Online."
   },
   {
     "appid": 105600,
@@ -1093,16 +1094,6 @@
     "name": "MECCHA CHAMELEON",
     "price": 70,
     "image": "/assets/games/4704690.jpg",
-    "genres": [
-      "Videojuego para PC"
-    ],
-    "description": ""
-  },
-  {
-    "appid": 730,
-    "name": "Counter-Strike 2",
-    "price": 211,
-    "image": "/assets/games/730.jpg",
     "genres": [
       "Videojuego para PC"
     ],
@@ -11104,11 +11095,9 @@
   const mount = document.getElementById('gameCatalogMount');
   if (mount) {
     const cards = games.map(function (game, index) {
-      const genre = game.genres && game.genres.length ? game.genres.join(' · ') : 'Videojuego para PC';
       const platform = game.platform || 'STEAM · PC';
       const platformLabel = game.platform || 'Steam · PC';
-      const featCode = game.platform ? '✔ Código digital para ' + esc(platform) : '✔ Código digital para PC';
-      const featActivation = game.platform ? '✔ Activación en tu cuenta' : '✔ Activación en Steam';
+      const note = game.note ? '<p class="ebn-note">' + esc(game.note) + '</p>' : '';
       return '<article class="ebn-card" data-category="games">' +
         (index < 3 ? '<div class="ebn-hot-ribbon">★ POPULAR</div>' : '') +
         '<div class="ebn-card-img">' +
@@ -11117,7 +11106,7 @@
         '</div>' +
         '<div class="ebn-card-body">' +
           '<h3>' + esc(game.name) + '</h3>' +
-          '<ul class="ebn-feat"><li>' + featCode + '</li><li>✔ ' + esc(genre) + '</li><li>' + featActivation + '</li></ul>' +
+          note +
           '<div class="ebn-price-row"><span class="ebn-price">$' + money(game.price) + '<small>MXN</small></span></div>' +
           '<button class="plan-add-btn" data-sku="game-' + game.appid + '" data-product="' + esc(game.name) + '" data-price="' + game.price + '" data-badge="' + esc(platformLabel) + '" data-thumb="' + esc(game.image) + '">Añadir al carrito</button>' +
         '</div>' +
