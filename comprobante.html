@@ -6,7 +6,7 @@
   <title>Enviar Comprobante de Pago SPEI | XPass</title>
   <meta name="description" content="Sube tu comprobante de pago SPEI para recibir tu código de Xbox Game Pass Ultimate. Verificamos tu transferencia y entregamos tu código de inmediato." />
   <meta name="robots" content="index, follow" />
-  <meta name="theme-color" content="#7c3aed" />
+  <meta name="theme-color" content="#7c5cfc" />
   <link rel="canonical" href="https://xpass.digital/comprobante" />
   <link rel="icon" type="image/svg+xml" href="/logo.svg" />
   <meta property="og:type" content="website" />
@@ -32,17 +32,18 @@
   <style>
     *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
     :root {
-      --green: #6d28d9; --green-mid: #6d28d9; --green-light: #b9a3ec;
-      --bg: #18181b; --bg2: #202023; --bg3: #292a2d; --bg4: #34353a;
-      --border: rgba(255,255,255,.08); --border-med: rgba(255,255,255,.14);
-      --text: #f0f0f2; --text-2: #9898a8; --text-3: #55555f;
+      --green: #7c5cfc; --green-mid: #8b6cff; --green-light: #b9a6ff;
+      --grad: linear-gradient(135deg, #8b6cff 0%, #7c5cfc 55%, #6a3ff0 100%);
+      --bg: #15131d; --bg2: #1d1a28; --bg3: #262234; --bg4: #322d44;
+      --border: rgba(255,255,255,.07); --border-med: rgba(255,255,255,.12);
+      --text: #f3f1fa; --text-2: #a7a2ba; --text-3: #6f6a85;
       --radius-sm: 8px; --radius: 14px; --radius-lg: 20px;
     }
     html { scroll-behavior: smooth; }
     body { font-family: 'Inter', sans-serif; background: var(--bg); color: var(--text); line-height: 1.6; -webkit-font-smoothing: antialiased; min-height: 100vh; }
 
     /* Navbar */
-    .navbar { position: sticky; top: 0; z-index: 100; background: var(--bg2); border-bottom: 1px solid var(--border); }
+    .navbar { position: sticky; top: 0; z-index: 100; background: #18151f; border-bottom: 1px solid var(--border-med); }
     .nav-inner { max-width: 900px; margin: 0 auto; padding: 0 24px; height: 62px; display: flex; align-items: center; gap: 20px; }
     .logo { display: flex; align-items: center; gap: 9px; font-size: 16px; font-weight: 700; color: var(--text); text-decoration: none; }
     .logo strong { color: var(--green-light); font-weight: 900; }
@@ -62,7 +63,7 @@
 
     /* Bank card */
     .bank-card { background: var(--bg2); border: 1px solid var(--border); border-radius: var(--radius-lg); overflow: hidden; position: sticky; top: 80px; }
-    .bank-card-header { display: flex; align-items: center; gap: 10px; padding: 16px 20px; background: var(--bg3); border-bottom: 1px solid var(--border); font-size: 13px; font-weight: 700; color: var(--green-light); }
+    .bank-card-header { display: flex; align-items: center; gap: 10px; padding: 16px 20px; background: linear-gradient(135deg, rgba(124,92,252,.14), rgba(106,63,240,.05)), var(--bg3); border-bottom: 1px solid var(--border); font-size: 13px; font-weight: 700; color: var(--green-light); }
     .bank-field { padding: 14px 20px; border-bottom: 1px solid var(--border); }
     .bank-field:last-of-type { border-bottom: none; }
     .bank-label { display: block; font-size: 10.5px; font-weight: 700; color: var(--text-3); text-transform: uppercase; letter-spacing: 1.2px; margin-bottom: 5px; }
@@ -120,8 +121,8 @@
     .remove-file { background: none; border: none; color: #f87171; font-size: 12px; cursor: pointer; font-family: inherit; padding: 0; }
 
     /* Submit */
-    .submit-btn { display: flex; align-items: center; justify-content: center; gap: 8px; background: var(--green); color: #fff; border: none; padding: 15px; border-radius: var(--radius-sm); font-size: 15px; font-weight: 800; font-family: inherit; cursor: pointer; transition: background .15s; margin-top: 4px; width: 100%; }
-    .submit-btn:hover { background: var(--green-mid); }
+    .submit-btn { display: flex; align-items: center; justify-content: center; gap: 8px; background: var(--grad); color: #fff; border: none; padding: 15px; border-radius: var(--radius-sm); font-size: 15px; font-weight: 800; font-family: inherit; cursor: pointer; transition: filter .15s, box-shadow .15s; margin-top: 4px; width: 100%; box-shadow: 0 14px 38px rgba(124,92,252,.32); }
+    .submit-btn:hover { filter: brightness(1.08); box-shadow: 0 16px 40px rgba(124,92,252,.45); }
     .submit-btn:disabled { opacity: .6; cursor: not-allowed; }
 
     /* Success */
