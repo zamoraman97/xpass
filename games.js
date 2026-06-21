@@ -3,6 +3,18 @@
   'use strict';
   const games = [
   {
+    "appid": "gta6",
+    "name": "Grand Theft Auto VI (GTA 6) PlayStation 5",
+    "price": 1399,
+    "image": "/assets/games/gta6.jpg",
+    "platform": "PS5",
+    "genres": [
+      "Acción",
+      "Aventura"
+    ],
+    "description": "Grand Theft Auto VI para PlayStation 5. La nueva entrega de Rockstar Games ambientada en Vice City, con Jason y Lucia como protagonistas."
+  },
+  {
     "appid": 431960,
     "name": "Wallpaper Engine",
     "price": 51,
@@ -11093,17 +11105,21 @@
   if (mount) {
     const cards = games.map(function (game, index) {
       const genre = game.genres && game.genres.length ? game.genres.join(' · ') : 'Videojuego para PC';
+      const platform = game.platform || 'STEAM · PC';
+      const platformLabel = game.platform || 'Steam · PC';
+      const featCode = game.platform ? '✔ Código digital para ' + esc(platform) : '✔ Código digital para PC';
+      const featActivation = game.platform ? '✔ Activación en tu cuenta' : '✔ Activación en Steam';
       return '<article class="ebn-card" data-category="games">' +
         (index < 3 ? '<div class="ebn-hot-ribbon">★ POPULAR</div>' : '') +
         '<div class="ebn-card-img">' +
-          '<img src="' + esc(game.image) + '" width="320" height="195" loading="lazy" decoding="async" alt="' + esc(game.name) + ' para PC" />' +
-          '<span class="ebn-platform">STEAM · PC</span><span class="ebn-dur">JUEGO</span>' +
+          '<img src="' + esc(game.image) + '" width="320" height="195" loading="lazy" decoding="async" alt="' + esc(game.name) + '" />' +
+          '<span class="ebn-platform">' + esc(platform) + '</span><span class="ebn-dur">JUEGO</span>' +
         '</div>' +
         '<div class="ebn-card-body">' +
           '<h3>' + esc(game.name) + '</h3>' +
-          '<ul class="ebn-feat"><li>✔ Código digital para PC</li><li>✔ ' + esc(genre) + '</li><li>✔ Activación en Steam</li></ul>' +
+          '<ul class="ebn-feat"><li>' + featCode + '</li><li>✔ ' + esc(genre) + '</li><li>' + featActivation + '</li></ul>' +
           '<div class="ebn-price-row"><span class="ebn-price">$' + money(game.price) + '<small>MXN</small></span></div>' +
-          '<button class="plan-add-btn" data-sku="game-' + game.appid + '" data-product="' + esc(game.name) + ' para PC" data-price="' + game.price + '" data-badge="Steam · PC" data-thumb="' + esc(game.image) + '">Añadir al carrito</button>' +
+          '<button class="plan-add-btn" data-sku="game-' + game.appid + '" data-product="' + esc(game.name) + '" data-price="' + game.price + '" data-badge="' + esc(platformLabel) + '" data-thumb="' + esc(game.image) + '">Añadir al carrito</button>' +
         '</div>' +
       '</article>';
     }).join('');
