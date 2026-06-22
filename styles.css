@@ -1,3 +1,5 @@
+@import url('https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500;600;700&display=swap');
+
 *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 
 /* Paleta estilo Eneba: morado-carbón oscuro, acento violeta,
@@ -31,6 +33,7 @@
   --shadow:       0 10px 30px rgba(0,0,0,.45);
   --shadow-lg:    0 24px 60px rgba(0,0,0,.6);
   --shadow-violet: 0 14px 38px rgba(124,92,252,.32);
+  --font-display: 'Space Grotesk', 'Inter', sans-serif;
 }
 
 html { scroll-behavior: smooth; }
@@ -1901,4 +1904,63 @@ select.modal-card-inp { cursor: pointer; letter-spacing: 0; }
   .co-step-line { width: 40px; }
   .co-locale { display: none; }
   .co-steps { gap: 8px; }
+}
+
+/* ════════════════════════════════════════════════════════
+   REFRESH VISUAL — dirección de diseño
+   · Tipografía display (Space Grotesk) con personalidad tech/gaming
+   · Firma: retícula de puntos + barra de acento en titulares
+   · Pulido de tarjetas y precios
+   ════════════════════════════════════════════════════════ */
+
+/* — Tipografía display: titulares, nombres y PRECIOS (lo que importa) — */
+.ebn-banner-content h1,
+.section-header h2,
+.ebn-row-head h2,
+.ebn-card-body h3,
+.ebn-help-body .q,
+.ebn-price,
+.ebn-price-chip .amt,
+.ebn-price-tag .amt {
+  font-family: var(--font-display);
+  font-weight: 700; /* Space Grotesk llega a 700; evita negrita sintética */
+}
+.ebn-banner-content h1 { letter-spacing: -1.8px; font-weight: 700; }
+.section-header h2,
+.ebn-row-head h2 { font-weight: 700; }
+.ebn-price { letter-spacing: -1px; }
+
+/* — Firma 1: barra de acento junto a cada título de fila/sección — */
+.ebn-row-head h2 { position: relative; padding-left: 16px; }
+.ebn-row-head h2::before {
+  content: ""; position: absolute; left: 0; top: 50%; transform: translateY(-50%);
+  width: 5px; height: 1.05em; border-radius: 3px; background: var(--grad);
+  box-shadow: 0 0 14px rgba(180,90,255,.5);
+}
+
+/* — Firma 2: retícula de puntos "digital" que se desvanece desde arriba — */
+body::after {
+  content: ""; position: fixed; inset: 0; z-index: -1; pointer-events: none;
+  background-image: radial-gradient(rgba(199,179,255,.05) 1px, transparent 1px);
+  background-size: 24px 24px;
+  -webkit-mask-image: radial-gradient(90% 55% at 50% 0%, #000, transparent 72%);
+          mask-image: radial-gradient(90% 55% at 50% 0%, #000, transparent 72%);
+}
+
+/* — Pulido de tarjetas: línea de acento en gradiente al hover — */
+.ebn-card::before {
+  content: ""; position: absolute; top: 0; left: 0; right: 0; height: 2px;
+  background: var(--grad); opacity: 0; z-index: 3;
+  transition: opacity .22s ease;
+}
+.ebn-card:hover::before { opacity: 1; }
+
+/* — Ribbon "más vendido/popular" más nítido — */
+.ebn-hot-ribbon {
+  font-family: var(--font-display);
+  box-shadow: 0 6px 16px rgba(0,0,0,.35);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .ebn-card, .ebn-card::before, .ebn-hero-cards .hc { transition: none; }
 }
