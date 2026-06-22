@@ -11105,8 +11105,7 @@
       return '<article class="ebn-card" data-category="games"' + (index >= LANDING_GAMES ? ' data-extra="1"' : '') + '>' +
         (index < 3 ? '<div class="ebn-hot-ribbon">★ POPULAR</div>' : '') +
         '<div class="ebn-card-img">' +
-          '<img src="' + esc(game.image) + '" width="320" height="195" loading="lazy" decoding="async" alt="' + esc(game.name) + '" />' +
-          '<span class="ebn-platform">' + esc(platform) + '</span><span class="ebn-dur">JUEGO</span>' +
+          '<img src="/assets/games/portrait/' + game.appid + '.jpg" onerror="this.onerror=null;this.src=&quot;' + esc(game.image) + '&quot;" width="300" height="450" loading="lazy" decoding="async" alt="' + esc(game.name) + '" />' +
         '</div>' +
         '<div class="ebn-card-body">' +
           '<h3>' + esc(game.name) + '</h3>' +

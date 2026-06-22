@@ -410,6 +410,9 @@ body::before {
 .ebn-card[data-category="recargas"] .ebn-card-img { aspect-ratio: 3 / 4; background: #0c0d10; }
 .ebn-card[data-category="giftcards"] .ebn-card-img img,
 .ebn-card[data-category="recargas"] .ebn-card-img img { object-fit: cover; object-position: center; }
+/* Videojuegos: portada vertical estilo Steam (600x900), título debajo */
+.ebn-card[data-category="games"] .ebn-card-img { aspect-ratio: 2 / 3; background: #0c0d10; }
+.ebn-card[data-category="games"] .ebn-card-img img { object-fit: cover; object-position: center; }
 .ebn-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 16px; }
 .ebn-card {
   background: var(--bg2); border: 1px solid var(--border); border-radius: var(--radius);
