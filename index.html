@@ -825,6 +825,9 @@
         </article>
 
       </div>
+      <div class="ebn-showall-wrap" id="ebnShowAllWrap">
+        <button type="button" class="ebn-showall-btn" id="ebnShowAllBtn">Ver todos los videojuegos →</button>
+      </div>
     </div>
   </section>
 
@@ -1280,18 +1283,25 @@
       });
     }
 
+    var showAll = document.getElementById('ebnShowAllWrap');
     function apply() {
       var q = input ? norm(input.value.trim()) : '';
+      // Vista por defecto de la portada: sin búsqueda y con "Todo" activo.
+      // Aquí ocultamos los videojuegos "extra" para no listarlos todos.
+      var landing = activeCat === 'all' && !q;
       var visible = 0;
       cards.forEach(function (card) {
         var catOk = activeCat === 'all' || card.getAttribute('data-category') === activeCat;
         var qOk = !q || card._search.indexOf(q) !== -1;
         var show = catOk && qOk;
+        if (show && landing && card.getAttribute('data-extra') === '1') show = false;
         card.classList.toggle('is-hidden', !show);
         if (show) visible++;
       });
       if (noRes) noRes.style.display = visible === 0 ? '' : 'none';
       if (clearBtn) clearBtn.style.display = (input && input.value) ? '' : 'none';
+      // El botón "Ver todos" solo tiene sentido en la vista por defecto.
+      if (showAll) showAll.style.display = landing ? '' : 'none';
     }
 
     function scrollToCatalog() {
@@ -1310,6 +1320,21 @@
       });
     });
 
+    // Botón "Ver todos los videojuegos": abre la categoría completa.
+    var showAllBtn = document.getElementById('ebnShowAllBtn');
+    if (showAllBtn) {
+      var extraCount = cards.filter(function (c) { return c.getAttribute('data-extra') === '1'; }).length;
+      if (extraCount > 0) {
+        showAllBtn.textContent = 'Ver todos los videojuegos (' + (extraCount + 12) + '+) →';
+      }
+      showAllBtn.addEventListener('click', function () {
+        activeCat = 'games';
+        setActiveChip();
+        apply();
+        scrollToCatalog();
+      });
+    }
+
     // Búsqueda: filtra y baja al catálogo
     var scrolledForSearch = false;
     if (input) input.addEventListener('input', function () {
@@ -1321,6 +1346,9 @@
     if (clearBtn) clearBtn.addEventListener('click', function () {
       input.value = ''; input.focus(); apply(); scrolledForSearch = false;
     });
+
+    // Estado inicial de la portada: oculta los videojuegos extra.
+    apply();
 
     // Permite enlazar directamente a un juego desde páginas SEO y resultados externos.
     var initialQuery = new URLSearchParams(location.search).get('q');

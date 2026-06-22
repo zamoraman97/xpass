@@ -11092,13 +11092,17 @@
     return new Intl.NumberFormat('es-MX', { maximumFractionDigits: 0 }).format(value);
   }
 
+  // Cuántos juegos se muestran en la portada por defecto. El resto solo
+  // aparece al buscar por nombre o al entrar a la categoría "Videojuegos".
+  const LANDING_GAMES = 12;
+
   const mount = document.getElementById('gameCatalogMount');
   if (mount) {
     const cards = games.map(function (game, index) {
       const platform = game.platform || 'STEAM · PC';
       const platformLabel = game.platform || 'Steam · PC';
       const note = game.note ? '<p class="ebn-note">' + esc(game.note) + '</p>' : '';
-      return '<article class="ebn-card" data-category="games">' +
+      return '<article class="ebn-card" data-category="games"' + (index >= LANDING_GAMES ? ' data-extra="1"' : '') + '>' +
         (index < 3 ? '<div class="ebn-hot-ribbon">★ POPULAR</div>' : '') +
         '<div class="ebn-card-img">' +
           '<img src="' + esc(game.image) + '" width="320" height="195" loading="lazy" decoding="async" alt="' + esc(game.name) + '" />' +

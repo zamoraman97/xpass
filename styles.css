@@ -390,6 +390,21 @@ body::before {
   box-shadow: 0 4px 14px rgba(124,92,252,.3);
 }
 .ebn-card.is-hidden { display: none; }
+/* Botón "Ver todos los videojuegos" bajo el catálogo */
+.ebn-showall-wrap { display: flex; justify-content: center; margin-top: 28px; }
+.ebn-showall-btn {
+  display: inline-flex; align-items: center; gap: 8px;
+  background: transparent; color: var(--text);
+  border: 1px solid var(--border-med); border-radius: var(--radius-sm);
+  padding: 13px 30px; font-size: 14px; font-weight: 800; cursor: pointer;
+  font-family: inherit; letter-spacing: .1px;
+  transition: border-color .15s, background .15s, transform .12s;
+}
+.ebn-showall-btn:hover {
+  border-color: rgba(124,92,252,.6);
+  background: rgba(124,92,252,.08);
+  transform: translateY(-2px);
+}
 /* Imagenes verticales (gift cards / recargas): cajas verticales que se llenan por completo */
 .ebn-card[data-category="giftcards"] .ebn-card-img,
 .ebn-card[data-category="recargas"] .ebn-card-img { aspect-ratio: 3 / 4; background: #0c0d10; }
