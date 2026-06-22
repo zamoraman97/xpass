@@ -32,18 +32,18 @@
   <style>
     *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
     :root {
-      --green: #7c5cfc; --green-mid: #8b6cff; --green-light: #b9a6ff;
-      --grad: linear-gradient(135deg, #8b6cff 0%, #7c5cfc 55%, #6a3ff0 100%);
-      --bg: #15131d; --bg2: #1d1a28; --bg3: #262234; --bg4: #322d44;
-      --border: rgba(255,255,255,.07); --border-med: rgba(255,255,255,.12);
-      --text: #f3f1fa; --text-2: #a7a2ba; --text-3: #6f6a85;
+      --green: #8b5cff; --green-mid: #9d6bff; --green-light: #c7b3ff;
+      --grad: linear-gradient(135deg, #a45cff 0%, #8b5cff 48%, #d24bff 100%);
+      --bg: #2a1a52; --bg2: #362460; --bg3: #41306f; --bg4: #4f3c82;
+      --border: rgba(190,160,255,.14); --border-med: rgba(190,160,255,.24);
+      --text: #f5f2ff; --text-2: #b1aac8; --text-3: #7a7396;
       --radius-sm: 8px; --radius: 14px; --radius-lg: 20px;
     }
     html { scroll-behavior: smooth; }
     body { font-family: 'Inter', sans-serif; background: var(--bg); color: var(--text); line-height: 1.6; -webkit-font-smoothing: antialiased; min-height: 100vh; }
 
     /* Navbar */
-    .navbar { position: sticky; top: 0; z-index: 100; background: #18151f; border-bottom: 1px solid var(--border-med); }
+    .navbar { position: sticky; top: 0; z-index: 100; background: rgba(38,24,72,.82); backdrop-filter: blur(12px); -webkit-backdrop-filter: blur(12px); border-bottom: 1px solid var(--border-med); }
     .nav-inner { max-width: 900px; margin: 0 auto; padding: 0 24px; height: 62px; display: flex; align-items: center; gap: 20px; }
     .logo { display: flex; align-items: center; gap: 9px; font-size: 16px; font-weight: 700; color: var(--text); text-decoration: none; }
     .logo strong { color: var(--green-light); font-weight: 900; }
