@@ -3,25 +3,27 @@
 /* Paleta estilo Eneba: morado-carbón oscuro, acento violeta,
    precios en ámbar, descuentos en verde. */
 :root {
-  --green:        #7c5cfc;   /* acento violeta primario (nombre legado) */
-  --green-mid:    #8b6cff;   /* hover */
-  --green-light:  #b9a6ff;   /* texto / realces claros */
-  --green-glow:   rgba(124,92,252,.45);
-  --grad:         linear-gradient(135deg, #8b6cff 0%, #7c5cfc 55%, #6a3ff0 100%);
-  --grad-soft:    linear-gradient(135deg, rgba(124,92,252,.16), rgba(106,63,240,.08));
-  --violet-2:     #a855f7;   /* magenta acento */
-  --gold:         #ffb321;   /* precios y destacados */
-  --gold-soft:    rgba(255,179,33,.12);
-  --green-deal:   #20c477;   /* badges de descuento (ahorro) */
-  --bg:           #15131d;   /* fondo morado-carbón muy oscuro */
-  --bg2:          #1d1a28;   /* superficies / tarjetas */
-  --bg3:          #262234;   /* inputs / elevado */
-  --bg4:          #322d44;   /* hover / bordes */
-  --border:       rgba(255,255,255,.07);
-  --border-med:   rgba(255,255,255,.12);
-  --text:         #f3f1fa;
-  --text-2:       #a7a2ba;
-  --text-3:       #6f6a85;
+  --green:        #8b5cff;   /* acento violeta primario (nombre legado) */
+  --green-mid:    #9d6bff;   /* hover */
+  --green-light:  #c7b3ff;   /* texto / realces claros */
+  --green-glow:   rgba(139,92,255,.5);
+  --grad:         linear-gradient(135deg, #a45cff 0%, #8b5cff 48%, #d24bff 100%);
+  --grad-soft:    linear-gradient(135deg, rgba(139,92,255,.20), rgba(210,75,255,.10));
+  --violet-2:     #c04dff;   /* magenta acento */
+  --pink:         #ff5cc8;   /* rosa vibrante secundario */
+  --cyan:         #41e0ff;   /* cian de acento (destellos) */
+  --gold:         #ffc24b;   /* precios y destacados */
+  --gold-soft:    rgba(255,194,75,.14);
+  --green-deal:   #22d67f;   /* badges de descuento (ahorro) */
+  --bg:           #16121f;   /* fondo morado-carbón muy oscuro */
+  --bg2:          #211c30;   /* superficies / tarjetas */
+  --bg3:          #2c2640;   /* inputs / elevado */
+  --bg4:          #3a3252;   /* hover / bordes */
+  --border:       rgba(168,139,255,.10);
+  --border-med:   rgba(168,139,255,.18);
+  --text:         #f5f2ff;
+  --text-2:       #b1aac8;
+  --text-3:       #7a7396;
   --radius-sm:    10px;
   --radius:       16px;
   --radius-lg:    22px;
@@ -41,8 +43,17 @@ body {
   overflow-x: hidden;
   position: relative;
 }
-/* Fondo morado sólido (sin gradientes) */
-body::before { content: none; }
+/* Fondo atmosférico: destellos de color morado/fucsia/cian fijos
+   que dan profundidad y vida sin estorbar (estilo marketplace). */
+body::before {
+  content: "";
+  position: fixed; inset: 0; z-index: -1; pointer-events: none;
+  background:
+    radial-gradient(48% 40% at 12% 0%,   rgba(139,92,255,.22),  transparent 60%),
+    radial-gradient(42% 38% at 92% 6%,   rgba(210,75,255,.16),  transparent 62%),
+    radial-gradient(55% 45% at 50% 100%, rgba(65,224,255,.07),  transparent 60%),
+    var(--bg);
+}
 
 /* ─── SCROLLBAR ─── */
 ::-webkit-scrollbar { width: 6px; }
@@ -194,9 +205,10 @@ body::before { content: none; }
   display: inline-block;
   color: var(--green-light); font-size: 11px; font-weight: 800;
   letter-spacing: 2.5px; text-transform: uppercase; margin-bottom: 14px;
-  background: var(--bg3);
+  background: var(--grad-soft), var(--bg3);
   border: 1px solid var(--border-med); border-radius: 999px;
   padding: 6px 14px;
+  box-shadow: 0 0 0 1px rgba(139,92,255,.06), 0 6px 18px rgba(139,92,255,.12);
 }
 .section-header h2 {
   font-size: 36px; font-weight: 900;
@@ -214,8 +226,9 @@ body::before { content: none; }
   min-height: 440px; display: flex; align-items: center;
   border: none; border-bottom: 1px solid var(--border-med);
   background:
-    radial-gradient(75% 120% at 85% 8%, rgba(124,92,252,.34), transparent 55%),
-    linear-gradient(135deg, #251d44 0%, #1d1730 55%, #161122 100%);
+    radial-gradient(70% 130% at 88% 0%, rgba(210,75,255,.40), transparent 58%),
+    radial-gradient(60% 120% at 8% 100%, rgba(65,224,255,.16), transparent 60%),
+    linear-gradient(135deg, #3a1f6b 0%, #2a1b52 50%, #1a1330 100%);
 }
 .ebn-banner-content { padding-left: clamp(24px, 6vw, 110px) !important; padding-right: clamp(24px, 4vw, 60px) !important; }
 .ebn-banner-glow {
