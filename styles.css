@@ -15,12 +15,12 @@
   --gold:         #ffc24b;   /* precios y destacados */
   --gold-soft:    rgba(255,194,75,.14);
   --green-deal:   #22d67f;   /* badges de descuento (ahorro) */
-  --bg:           #16121f;   /* fondo morado-carbón muy oscuro */
-  --bg2:          #211c30;   /* superficies / tarjetas */
-  --bg3:          #2c2640;   /* inputs / elevado */
-  --bg4:          #3a3252;   /* hover / bordes */
-  --border:       rgba(168,139,255,.10);
-  --border-med:   rgba(168,139,255,.18);
+  --bg:           #2a1a52;   /* fondo morado pleno */
+  --bg2:          #362460;   /* superficies / tarjetas */
+  --bg3:          #41306f;   /* inputs / elevado */
+  --bg4:          #4f3c82;   /* hover / bordes */
+  --border:       rgba(190,160,255,.14);
+  --border-med:   rgba(190,160,255,.24);
   --text:         #f5f2ff;
   --text-2:       #b1aac8;
   --text-3:       #7a7396;
@@ -49,10 +49,10 @@ body::before {
   content: "";
   position: fixed; inset: 0; z-index: -1; pointer-events: none;
   background:
-    radial-gradient(48% 40% at 12% 0%,   rgba(139,92,255,.22),  transparent 60%),
-    radial-gradient(42% 38% at 92% 6%,   rgba(210,75,255,.16),  transparent 62%),
-    radial-gradient(55% 45% at 50% 100%, rgba(65,224,255,.07),  transparent 60%),
-    var(--bg);
+    radial-gradient(70% 55% at 50% 0%,   rgba(150,95,255,.30),  transparent 60%),
+    radial-gradient(45% 40% at 90% 8%,   rgba(210,75,255,.18),  transparent 62%),
+    radial-gradient(60% 50% at 50% 100%, rgba(90,55,180,.20),   transparent 62%),
+    linear-gradient(180deg, #34216a 0%, #2a1a52 55%, #221643 100%);
 }
 
 /* ─── SCROLLBAR ─── */
@@ -65,7 +65,8 @@ body::before {
 /* ─── NAVBAR (barra oscura estilo Eneba) ─── */
 .navbar {
   position: sticky; top: 0; z-index: 100;
-  background: #18151f;
+  background: rgba(38,24,72,.82);
+  backdrop-filter: blur(12px); -webkit-backdrop-filter: blur(12px);
   border-bottom: 1px solid var(--border-med);
   box-shadow: var(--shadow-sm);
 }
@@ -1882,109 +1883,4 @@ select.modal-card-inp { cursor: pointer; letter-spacing: 0; }
   .co-step-line { width: 40px; }
   .co-locale { display: none; }
   .co-steps { gap: 8px; }
-}
-
-/* ════════════════════════════════════════════════════════
-   HERO BANNER "BURST" — abanico de juegos + rayos de luz
-   (estilo banner promocional tipo marketplace)
-   ════════════════════════════════════════════════════════ */
-.ebn-banner--burst {
-  justify-content: center;
-  text-align: center;
-  overflow: hidden;
-  background:
-    radial-gradient(60% 90% at 50% 0%, rgba(210,75,255,.42), transparent 60%),
-    radial-gradient(70% 120% at 50% 110%, rgba(124,55,240,.30), transparent 65%),
-    linear-gradient(160deg, #3a1f6b 0%, #2a1a52 48%, #160f2b 100%);
-}
-
-/* rayos de luz dorados detrás del título */
-.ebn-rays {
-  position: absolute; top: 50%; left: 50%;
-  width: 1100px; height: 1100px;
-  transform: translate(-50%, -54%);
-  z-index: 1; pointer-events: none; opacity: .55;
-  background: repeating-conic-gradient(from 0deg at 50% 50%,
-    rgba(255,224,130,.16) 0deg 3.5deg,
-    transparent 3.5deg 11deg);
-  -webkit-mask: radial-gradient(circle at 50% 50%, #000 0%, rgba(0,0,0,.5) 34%, transparent 60%);
-          mask: radial-gradient(circle at 50% 50%, #000 0%, rgba(0,0,0,.5) 34%, transparent 60%);
-  animation: ebnSpin 90s linear infinite;
-}
-@keyframes ebnSpin { to { transform: translate(-50%, -54%) rotate(360deg); } }
-@media (prefers-reduced-motion: reduce) { .ebn-rays { animation: none; } }
-
-/* abanico de portadas a la izquierda */
-.ebn-fan {
-  position: absolute; left: 0; top: 50%;
-  transform: translateY(-50%);
-  width: 48%; height: 100%; z-index: 2; pointer-events: none;
-}
-.ebn-fan .fan {
-  position: absolute; width: 190px; aspect-ratio: 460 / 215;
-  object-fit: cover; border-radius: 12px;
-  border: 1px solid rgba(255,255,255,.18);
-  box-shadow: 0 18px 42px rgba(0,0,0,.6);
-  transition: transform .4s ease;
-}
-.ebn-fan .fan-1 { left: 30%; top: 31%; width: 214px; transform: rotate(-6deg);  z-index: 6; }
-.ebn-fan .fan-2 { left: 6%;  top: 13%; transform: rotate(-17deg); z-index: 5; }
-.ebn-fan .fan-3 { left: 3%;  top: 51%; transform: rotate(9deg);   z-index: 4; }
-.ebn-fan .fan-4 { left: 31%; top: 60%; transform: rotate(7deg);   z-index: 3; }
-.ebn-fan .fan-5 { left: 15%; top: -1%; transform: rotate(-4deg);  z-index: 2; }
-.ebn-fan .fan-6 { left: 19%; top: 71%; transform: rotate(15deg);  z-index: 1; opacity: .96; }
-.ebn-banner--burst:hover .fan-1 { transform: rotate(-6deg) translateY(-8px); }
-.ebn-banner--burst:hover .fan-2 { transform: rotate(-17deg) translateY(-6px) translateX(-4px); }
-
-/* contenido central */
-.ebn-banner-content--center {
-  position: relative; z-index: 3; margin: 0 auto;
-  max-width: 540px; text-align: center;
-  padding: 44px 24px !important;
-}
-.ebn-banner-content--center h1 {
-  font-size: clamp(36px, 5vw, 64px); font-weight: 900;
-  line-height: .96; letter-spacing: -2px; text-transform: uppercase;
-  margin-bottom: 8px; text-shadow: 0 4px 24px rgba(0,0,0,.45);
-}
-.ebn-banner-content--center h1 em {
-  font-style: normal;
-  background: linear-gradient(180deg, #ffe65c 0%, #ffb321 100%);
-  -webkit-background-clip: text; background-clip: text; color: transparent;
-}
-.ebn-cashback {
-  font-size: clamp(18px, 2.6vw, 30px); font-weight: 900;
-  letter-spacing: -.4px; margin: 0 0 24px; color: var(--text);
-}
-.ebn-cashback b {
-  font-weight: 900;
-  background: linear-gradient(90deg, #4ade80, #22d67f);
-  -webkit-background-clip: text; background-clip: text; color: transparent;
-}
-.ebn-banner-content--center .ebn-cta-row { justify-content: center; }
-.ebn-banner-content--center .ebn-hero-brands { justify-content: center; margin-top: 24px; }
-
-/* botón verde tipo "BUY NOW" */
-.cta-buy {
-  display: inline-flex; align-items: center; justify-content: center; gap: 8px;
-  background: linear-gradient(135deg, #34e57f, #16c46a);
-  color: #04220f; font-family: inherit; font-weight: 900;
-  font-size: 16px; letter-spacing: .6px; text-transform: uppercase;
-  padding: 15px 46px; border-radius: 12px; text-decoration: none;
-  box-shadow: 0 14px 34px rgba(34,214,127,.42);
-  transition: transform .12s, box-shadow .15s, filter .15s;
-}
-.cta-buy:hover { transform: translateY(-2px); filter: brightness(1.06); box-shadow: 0 20px 48px rgba(34,214,127,.55); }
-.cta-buy:active { transform: none; }
-
-/* responsive */
-@media (max-width: 860px) {
-  .ebn-fan { width: 42%; opacity: .5; }
-  .ebn-fan .fan { width: 150px; }
-  .ebn-fan .fan-1 { width: 168px; }
-}
-@media (max-width: 640px) {
-  .ebn-fan { display: none; }
-  .ebn-rays { opacity: .4; }
-  .ebn-banner-content--center { padding: 40px 18px !important; }
 }
