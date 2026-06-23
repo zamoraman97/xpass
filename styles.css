@@ -2619,3 +2619,75 @@ body,
     transform: translateY(0) scale(1.05);
   }
 }
+
+/* ─── HEADER MÓVIL (consolidado) ─── */
+@media (max-width: 768px) {
+  /* Fila 1: logo + acciones · Fila 2: buscador full-width */
+  .nav-inner {
+    height: auto;
+    min-height: 0;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 12px;
+    padding: 12px 16px;
+  }
+  .logo { flex: 0 0 auto; }
+  .logo img { height: 30px !important; }
+
+  /* Buscador ocupa toda la segunda fila */
+  .nav-search {
+    order: 3;
+    flex: 1 0 100%;
+    max-width: none;
+  }
+  .nav-search .ebn-search input {
+    height: 46px;
+    font-size: 15px;
+    border-radius: 12px;
+  }
+  .nav-search .ebn-search-ico { width: 20px; height: 20px; }
+
+  /* Acciones a la derecha, compactas */
+  .nav-right {
+    margin-left: auto;
+    gap: 10px;
+    flex: 0 0 auto;
+  }
+  .nav-locale { display: none; }
+
+  /* Solo iconos: ocultamos los textos (incluido el nodo suelto "Iniciar sesión") */
+  .account-nav-ghost,
+  .account-nav-btn {
+    font-size: 0;
+    gap: 0;
+    padding: 8px;
+    border-radius: 10px;
+  }
+  .account-nav-btn { background: rgba(255,255,255,.06); }
+  .account-nav-ghost .account-chevron,
+  .account-nav-btn .account-chevron { display: none; }
+
+  .cart-btn { padding: 8px 6px; }
+
+  /* Chips de categorías: scroll horizontal cómodo */
+  .nav-chips-inner {
+    gap: 20px;
+    padding: 11px 16px;
+    flex-wrap: nowrap;
+  }
+  .nav-chips-inner a {
+    flex: 0 0 auto;
+    font-size: 14px;
+    white-space: nowrap;
+  }
+  .nav-chips-inner a::after { bottom: -11px; }
+}
+
+@media (max-width: 420px) {
+  .nav-inner { gap: 10px; padding: 10px 12px; }
+  .logo img { height: 26px !important; }
+  .nav-right { gap: 8px; }
+  .nav-search .ebn-search input { height: 44px; }
+  .nav-chips-inner { gap: 16px; padding: 10px 12px; }
+  .nav-chips-inner a { font-size: 13px; }
+}
