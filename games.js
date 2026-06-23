@@ -11141,16 +11141,21 @@
       const platformLabel = game.platformLabel || getPlatformLabel(game);
       const displayName = game.displayName || getDisplayName(game);
       const note = game.note ? '<p class="ebn-note">' + esc(game.note) + '</p>' : '';
+      const gameUrl = '/juego/' + encodeURIComponent(String(game.appid));
       return '<article class="ebn-card" data-category="games"' + (index >= LANDING_GAMES ? ' data-extra="1"' : '') + '>' +
         (index < 3 ? '<div class="ebn-hot-ribbon">★ POPULAR</div>' : '') +
-        '<div class="ebn-card-img">' +
-          '<img src="/assets/games/portrait/' + game.appid + '.jpg" onerror="this.onerror=null;this.src=&quot;' + esc(game.image) + '&quot;" width="300" height="450" loading="lazy" decoding="async" alt="' + esc(displayName) + '" />' +
-        '</div>' +
-        '<div class="ebn-card-body">' +
-          '<h3>' + esc(displayName) + '</h3>' +
-          note +
-          '<div class="ebn-region">GLOBAL</div>' +
-          '<div class="ebn-price-row"><span class="ebn-from">Desde</span><span class="ebn-price">$' + money(game.price) + '<small>MXN</small></span></div>' +
+        '<a class="game-card-link" href="' + gameUrl + '" aria-label="Ver detalles de ' + esc(displayName) + '">' +
+          '<div class="ebn-card-img">' +
+            '<img src="/assets/games/portrait/' + game.appid + '.jpg" onerror="this.onerror=null;this.src=&quot;' + esc(game.image) + '&quot;" width="300" height="450" loading="lazy" decoding="async" alt="' + esc(displayName) + '" />' +
+          '</div>' +
+          '<div class="ebn-card-body">' +
+            '<h3>' + esc(displayName) + '</h3>' +
+            note +
+            '<div class="ebn-region">GLOBAL</div>' +
+            '<div class="ebn-price-row"><span class="ebn-from">Desde</span><span class="ebn-price">$' + money(game.price) + '<small>MXN</small></span></div>' +
+          '</div>' +
+        '</a>' +
+        '<div class="ebn-card-actions">' +
           '<button class="plan-add-btn" data-sku="game-' + game.appid + '" data-product="' + esc(displayName) + '" data-price="' + game.price + '" data-badge="' + esc(platformLabel) + '" data-thumb="' + esc(game.image) + '">Añadir al carrito</button>' +
         '</div>' +
       '</article>';
@@ -11180,7 +11185,7 @@
             price: String(game.price),
             priceCurrency: 'MXN',
             availability: 'https://schema.org/InStock',
-            url: 'https://xpass.digital/#planes'
+            url: 'https://xpass.digital/juego/' + encodeURIComponent(String(game.appid))
           }
         }
       };

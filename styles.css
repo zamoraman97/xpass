@@ -2488,6 +2488,21 @@ body,
 .ebn-card[data-category="games"] .plan-add-btn {
   margin-top: 12px;
 }
+.game-card-link {
+  color: inherit;
+  display: flex;
+  flex-direction: column;
+  text-decoration: none;
+}
+.game-card-link:hover h3 {
+  color: #c8ff4d;
+}
+.ebn-card-actions {
+  padding: 0 15px 16px;
+}
+.ebn-card[data-category="games"] .ebn-card-actions .plan-add-btn {
+  margin-top: 0;
+}
 
 /* Game Pass cards: compact the discount row instead of making all cards taller */
 .ebn-card[data-category="gaming"] .ebn-card-body {

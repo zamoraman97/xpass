@@ -1,0 +1,163 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Videojuego | XPass</title>
+  <meta name="description" content="Compra videojuegos digitales en XPass con precios en MXN y entrega por correo." />
+  <meta name="robots" content="index, follow, max-image-preview:large" />
+  <meta name="theme-color" content="#05090b" />
+  <link rel="icon" type="image/svg+xml" href="/logo.svg" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&family=Space+Grotesk:wght@500;600;700&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="/styles.css" />
+  <style>
+    body { background: #05090b; color: #fff; }
+    .product-shell { max-width: 1180px; margin: 0 auto; padding: 34px 24px 70px; }
+    .product-topbar { height: 78px; border-bottom: 1px solid rgba(205,255,108,.10); background: rgba(5,9,11,.92); }
+    .product-topbar-inner { max-width: 1180px; height: 100%; margin: 0 auto; padding: 0 24px; display: flex; align-items: center; justify-content: space-between; gap: 18px; }
+    .product-back { color: #fff; text-decoration: none; border: 1px solid rgba(205,255,108,.18); border-radius: 999px; padding: 9px 14px; font-size: 13px; font-weight: 800; }
+    .product-back:hover { background: #c8ff4d; color: #071004; }
+    .product-layout { display: grid; grid-template-columns: 360px minmax(0, 1fr); gap: 34px; align-items: start; }
+    .product-cover { background: #0b1115; border: 1px solid rgba(205,255,108,.20); padding: 14px; }
+    .product-cover img { width: 100%; aspect-ratio: 2 / 3; display: block; object-fit: cover; background: #111; }
+    .product-info { min-width: 0; }
+    .breadcrumbs { color: #9da69a; font-size: 13px; font-weight: 700; margin-bottom: 18px; }
+    .breadcrumbs a { color: #c8ff4d; text-decoration: none; }
+    .product-kicker { display: inline-flex; align-items: center; gap: 8px; color: #c8ff4d; border: 1px solid rgba(200,255,77,.22); background: rgba(200,255,77,.06); padding: 7px 10px; font-size: 12px; font-weight: 900; letter-spacing: 1px; text-transform: uppercase; margin-bottom: 16px; }
+    .product-info h1 { font-family: 'Space Grotesk', 'Inter', sans-serif; font-size: clamp(34px, 5vw, 58px); line-height: 1.02; letter-spacing: -2px; margin-bottom: 16px; }
+    .product-desc { color: #d8ded4; font-size: 16px; line-height: 1.75; max-width: 760px; margin-bottom: 24px; }
+    .product-facts { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 10px; margin: 24px 0; }
+    .product-fact { background: #0b1115; border: 1px solid rgba(205,255,108,.16); padding: 14px; min-height: 88px; }
+    .product-fact span { display: block; color: #8b9587; font-size: 11px; font-weight: 900; letter-spacing: 1.2px; text-transform: uppercase; margin-bottom: 6px; }
+    .product-fact strong { color: #fff; font-size: 14px; line-height: 1.25; }
+    .buy-panel { background: #0b1115; border: 1px solid rgba(205,255,108,.22); padding: 20px; max-width: 420px; }
+    .buy-price-row { display: flex; align-items: baseline; gap: 8px; margin-bottom: 14px; }
+    .buy-from { color: #fff; font-size: 12px; font-weight: 900; text-transform: uppercase; }
+    .buy-price { color: #fff; font-size: 34px; font-weight: 900; letter-spacing: -1px; }
+    .buy-price small { font-size: 13px; margin-left: 5px; }
+    .product-add-btn { display: flex; align-items: center; justify-content: center; width: 100%; min-height: 48px; background: #c8ff4d; color: #071004; border: 0; font: inherit; font-weight: 900; cursor: pointer; }
+    .product-add-btn:hover { background: #b7ff3c; }
+    .buy-note { color: #b9c0b6; font-size: 12px; line-height: 1.55; margin-top: 12px; }
+    .product-missing { max-width: 720px; margin: 80px auto; text-align: center; }
+    .product-missing h1 { font-size: 36px; margin-bottom: 12px; }
+    @media (max-width: 860px) {
+      .product-layout { grid-template-columns: 1fr; }
+      .product-cover { max-width: 360px; }
+      .product-facts { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+    }
+    @media (max-width: 520px) {
+      .product-shell { padding-inline: 18px; }
+      .product-topbar-inner { padding-inline: 18px; }
+      .product-facts { grid-template-columns: 1fr; }
+    }
+  </style>
+</head>
+<body>
+  <header class="product-topbar">
+    <div class="product-topbar-inner">
+      <a href="/" class="logo"><img src="/logo.svg" alt="XPass" style="height:38px;width:auto;display:block;" /></a>
+      <a class="product-back" href="/#planes">Volver a la tienda</a>
+    </div>
+  </header>
+
+  <main class="product-shell" id="productShell">
+    <div class="loading-spin" aria-label="Cargando"></div>
+  </main>
+
+  <script src="/games.js"></script>
+  <script>
+    (function () {
+      const CART_STORAGE_KEY = 'xpass_cart_v2';
+      const id = decodeURIComponent(location.pathname.split('/').filter(Boolean).pop() || '');
+      const games = Array.isArray(window.XPASS_GAMES) ? window.XPASS_GAMES : [];
+      const game = games.find(function (item) { return String(item.appid) === id; });
+      const shell = document.getElementById('productShell');
+
+      function esc(value) {
+        return String(value || '').replace(/[&<>"']/g, function (char) {
+          return ({ '&':'&amp;', '<':'&lt;', '>':'&gt;', '"':'&quot;', "'":'&#39;' })[char];
+        });
+      }
+
+      function money(value) {
+        return new Intl.NumberFormat('es-MX', { maximumFractionDigits: 0 }).format(value);
+      }
+
+      function cartItems() {
+        try {
+          const saved = JSON.parse(localStorage.getItem(CART_STORAGE_KEY) || '[]');
+          return Array.isArray(saved) ? saved : [];
+        } catch (_) {
+          return [];
+        }
+      }
+
+      function addGameToCart(btn) {
+        const items = cartItems();
+        const sku = 'game-' + game.appid;
+        const existing = items.find(function (item) { return item.id === sku || item.sku === sku; });
+        if (existing) {
+          existing.qty = Math.max(1, Number(existing.qty) || 1) + 1;
+        } else {
+          items.push({
+            id: sku,
+            sku: sku,
+            product: game.displayName || game.name,
+            price: Number(game.price),
+            months: 0,
+            qty: 1,
+            badge: game.platformLabel || game.platform || 'PC Steam',
+            thumb: game.image || ('/assets/games/' + game.appid + '.jpg')
+          });
+        }
+        localStorage.setItem(CART_STORAGE_KEY, JSON.stringify(items));
+        btn.textContent = 'Añadido al carrito';
+        setTimeout(function () { btn.textContent = 'Añadir al carrito'; }, 1600);
+      }
+
+      if (!game) {
+        document.title = 'Juego no encontrado | XPass';
+        shell.innerHTML = '<section class="product-missing"><h1>Juego no encontrado</h1><p class="product-desc">No encontramos este producto en el catalogo.</p><a class="product-back" href="/#planes">Volver a videojuegos</a></section>';
+        return;
+      }
+
+      const displayName = game.displayName || game.name;
+      const platform = game.platformLabel || game.platform || 'PC Steam';
+      const image = '/assets/games/portrait/' + game.appid + '.jpg';
+      const description = game.description || 'Codigo digital con entrega por correo. Revisa la plataforma y region antes de comprar.';
+      document.title = displayName + ' | XPass';
+      document.querySelector('meta[name="description"]').setAttribute('content', description.slice(0, 155));
+
+      shell.innerHTML =
+        '<div class="breadcrumbs"><a href="/">Inicio</a> / <a href="/#planes">Videojuegos</a> / ' + esc(displayName) + '</div>' +
+        '<section class="product-layout">' +
+          '<div class="product-cover">' +
+            '<img src="' + esc(image) + '" onerror="this.onerror=null;this.src=&quot;' + esc(game.image) + '&quot;" alt="' + esc(displayName) + '" width="360" height="540" />' +
+          '</div>' +
+          '<div class="product-info">' +
+            '<div class="product-kicker">Codigo digital</div>' +
+            '<h1>' + esc(displayName) + '</h1>' +
+            '<p class="product-desc">' + esc(description) + '</p>' +
+            '<div class="product-facts">' +
+              '<div class="product-fact"><span>Plataforma</span><strong>' + esc(platform) + '</strong></div>' +
+              '<div class="product-fact"><span>Region</span><strong>Global</strong></div>' +
+              '<div class="product-fact"><span>Entrega</span><strong>Codigo digital por correo</strong></div>' +
+              '<div class="product-fact"><span>Categoria</span><strong>' + esc((game.genres || ['Videojuego']).slice(0, 2).join(', ')) + '</strong></div>' +
+            '</div>' +
+            '<div class="buy-panel">' +
+              '<div class="buy-price-row"><span class="buy-from">Desde</span><span class="buy-price">$' + money(game.price) + '<small>MXN</small></span></div>' +
+              '<button class="product-add-btn" id="productAddBtn" type="button">Añadir al carrito</button>' +
+              '<p class="buy-note">Antes de comprar, confirma que la plataforma coincide con tu cuenta o consola. Si tienes dudas, escribenos por WhatsApp.</p>' +
+            '</div>' +
+          '</div>' +
+        '</section>';
+
+      document.getElementById('productAddBtn').addEventListener('click', function () {
+        addGameToCart(this);
+      });
+    })();
+  </script>
+</body>
+</html>
