@@ -455,7 +455,9 @@ body::before {
 .ebn-feat { list-style: none; display: flex; flex-direction: column; gap: 5px; font-size: 12.5px; color: var(--text-2); }
 .ebn-feat li { display: flex; gap: 7px; align-items: center; }
 .ebn-note { font-size: 12px; color: var(--text-2); line-height: 1.35; margin: 0; }
-.ebn-price-row { display: flex; align-items: center; gap: 9px; margin-top: auto; padding-top: 6px; }
+.ebn-region { font-size: 11.5px; font-weight: 800; letter-spacing: 1.2px; text-transform: uppercase; color: #fff; }
+.ebn-from { font-size: 11px; font-weight: 700; letter-spacing: .6px; text-transform: uppercase; color: #fff; }
+.ebn-price-row { display: flex; align-items: baseline; gap: 9px; margin-top: auto; padding-top: 6px; }
 .ebn-disc {
   background: var(--green-deal); border: none;
   color: #052b1d; font-size: 12px; font-weight: 900; padding: 2px 7px; border-radius: 5px;
@@ -463,6 +465,11 @@ body::before {
 .ebn-old { font-size: 13px; color: var(--text-3); text-decoration: line-through; }
 .ebn-price { font-size: 24px; font-weight: 900; color: var(--gold); letter-spacing: -.8px; }
 .ebn-price small { font-size: 12px; font-weight: 700; color: var(--text-3); margin-left: 2px; }
+/* Tarjetas de juegos: estilo marketplace con todo el texto en blanco */
+.ebn-card[data-category="games"] .ebn-card-body h3,
+.ebn-card[data-category="games"] .ebn-price,
+.ebn-card[data-category="games"] .ebn-price small,
+.ebn-card[data-category="games"] .ebn-note { color: #fff; }
 .plan-add-btn {
   display: flex; align-items: center; justify-content: center; gap: 8px;
   background: var(--grad); border: none; color: #fff; padding: 12px;

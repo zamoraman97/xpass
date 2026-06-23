@@ -11110,7 +11110,8 @@
         '<div class="ebn-card-body">' +
           '<h3>' + esc(game.name) + '</h3>' +
           note +
-          '<div class="ebn-price-row"><span class="ebn-price">$' + money(game.price) + '<small>MXN</small></span></div>' +
+          '<div class="ebn-region">GLOBAL</div>' +
+          '<div class="ebn-price-row"><span class="ebn-from">Desde</span><span class="ebn-price">$' + money(game.price) + '<small>MXN</small></span></div>' +
           '<button class="plan-add-btn" data-sku="game-' + game.appid + '" data-product="' + esc(game.name) + '" data-price="' + game.price + '" data-badge="' + esc(platformLabel) + '" data-thumb="' + esc(game.image) + '">Añadir al carrito</button>' +
         '</div>' +
       '</article>';
