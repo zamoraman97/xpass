@@ -206,6 +206,275 @@
     .wa-notif-dot{position:absolute;top:2px;right:2px;width:14px;height:14px;border-radius:50%;background:#ff3b3b;border:2px solid #060608;animation:wa-dot-bounce .6s ease infinite alternate}
     @keyframes wa-dot-bounce{from{transform:scale(1)}to{transform:scale(1.25)}}
     @keyframes wa-pulse{0%{box-shadow:0 4px 20px rgba(37,211,102,.5),0 0 0 0 rgba(37,211,102,.4)}70%{box-shadow:0 4px 20px rgba(37,211,102,.5),0 0 0 14px rgba(37,211,102,0)}100%{box-shadow:0 4px 20px rgba(37,211,102,.5),0 0 0 0 rgba(37,211,102,0)}}
+
+    /* XPass account refresh */
+    :root {
+      --green: #c8ff4d;
+      --green-mid: #b7ff3c;
+      --green-light: #c8ff4d;
+      --bg: #05090b;
+      --bg2: #0b1115;
+      --bg3: #111a20;
+      --bg4: #18242b;
+      --border: rgba(205,255,108,.12);
+      --border-med: rgba(205,255,108,.24);
+      --text: #f7f8f3;
+      --text-2: #c9d0c5;
+      --text-3: #8b9587;
+      --radius-sm: 2px;
+      --radius: 4px;
+      --radius-lg: 8px;
+    }
+    body {
+      background:
+        radial-gradient(64% 62% at 18% 0%, rgba(155,226,45,.11), transparent 58%),
+        radial-gradient(46% 58% at 86% 10%, rgba(41,140,255,.08), transparent 60%),
+        linear-gradient(180deg, #060a0d 0%, #05090b 58%, #080d10 100%);
+      color: #fff;
+    }
+    .navbar {
+      background: rgba(5,9,11,.92);
+      border-bottom: 1px solid rgba(205,255,108,.10);
+      backdrop-filter: blur(18px);
+      -webkit-backdrop-filter: blur(18px);
+    }
+    .nav-inner {
+      max-width: 1220px;
+      height: 82px;
+    }
+    .nav-back {
+      color: #fff;
+      border: 1px solid rgba(205,255,108,.18);
+      background: rgba(255,255,255,.035);
+      border-radius: 999px;
+      padding: 9px 14px;
+      font-weight: 800;
+    }
+    .nav-back:hover {
+      color: #071004;
+      background: #c8ff4d;
+    }
+    .page {
+      max-width: 1220px;
+      padding: 48px 28px 90px;
+    }
+    .page-header {
+      text-align: left;
+      max-width: 640px;
+      margin-bottom: 26px;
+    }
+    .page-header .section-label {
+      color: #c8ff4d;
+      letter-spacing: 2px;
+    }
+    .page-header h1 {
+      color: #fff;
+      font-size: clamp(34px, 4vw, 58px);
+      line-height: 1.02;
+      letter-spacing: -2px;
+      margin-bottom: 14px;
+    }
+    .page-header p {
+      color: #c9d0c5;
+      font-size: 16px;
+      max-width: 560px;
+    }
+    .auth-layout {
+      display: grid;
+      grid-template-columns: minmax(320px, 440px);
+      gap: 22px;
+      align-items: stretch;
+    }
+    .auth-card {
+      max-width: none;
+      margin: 0;
+      background: #0b1115;
+      border-color: rgba(205,255,108,.20);
+      border-radius: 0;
+      box-shadow: 0 24px 55px rgba(0,0,0,.42);
+    }
+    .auth-tabs {
+      border-bottom-color: rgba(255,255,255,.08);
+      background: #071014;
+    }
+    .auth-tab {
+      color: #aeb8aa;
+      padding: 16px;
+    }
+    .auth-tab.active {
+      color: #c8ff4d;
+      background: rgba(200,255,77,.06);
+      border-bottom-color: #c8ff4d;
+    }
+    .auth-form-wrap { padding: 26px 28px 28px; }
+    .form-field { color: #fff; }
+    .form-field input,
+    .cred-inp {
+      background: #111a20;
+      border-color: rgba(205,255,108,.18);
+      border-radius: 0;
+      color: #fff;
+      min-height: 46px;
+    }
+    .form-field input:focus,
+    .cred-inp:focus {
+      border-color: rgba(200,255,77,.75);
+      box-shadow: 0 0 0 4px rgba(155,226,45,.10);
+    }
+    .btn-submit,
+    .btn-shop,
+    .btn-cred-submit {
+      background: #c8ff4d;
+      color: #071004;
+      border-radius: 0;
+      font-weight: 900;
+      min-height: 46px;
+    }
+    .btn-submit:hover,
+    .btn-shop:hover,
+    .btn-cred-submit:hover {
+      background: #b7ff3c;
+    }
+    .auth-notice {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      margin-bottom: 18px;
+      padding: 13px 16px;
+      background: rgba(200,255,77,.07);
+      border: 1px solid rgba(200,255,77,.22);
+      color: #c8ff4d;
+      font-size: 13px;
+      font-weight: 900;
+    }
+    .account-aside {
+      position: relative;
+      overflow: hidden;
+      background:
+        linear-gradient(90deg, rgba(5,9,11,.95), rgba(5,9,11,.68)),
+        url('/assets/gpu-poster.jpg') center / cover;
+      border: 1px solid rgba(205,255,108,.20);
+      min-height: 420px;
+      padding: 30px;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      box-shadow: 0 24px 55px rgba(0,0,0,.42);
+    }
+    .account-aside::after {
+      content: "";
+      position: absolute;
+      inset: 0;
+      background: radial-gradient(70% 80% at 88% 20%, rgba(200,255,77,.16), transparent 62%);
+      pointer-events: none;
+    }
+    .aside-kicker,
+    .aside-copy,
+    .aside-steps { position: relative; z-index: 1; }
+    .aside-kicker {
+      color: #c8ff4d;
+      font-size: 12px;
+      font-weight: 900;
+      letter-spacing: 1.5px;
+      text-transform: uppercase;
+      margin-bottom: 12px;
+    }
+    .aside-copy h2 {
+      font-size: clamp(28px, 3vw, 44px);
+      line-height: 1.04;
+      letter-spacing: -1.6px;
+      max-width: 480px;
+      margin-bottom: 12px;
+    }
+    .aside-copy p {
+      color: #dfe6db;
+      max-width: 430px;
+      font-size: 14px;
+    }
+    .aside-steps {
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 10px;
+    }
+    .aside-step {
+      background: rgba(5,9,11,.72);
+      border: 1px solid rgba(255,255,255,.10);
+      padding: 13px;
+      min-height: 96px;
+    }
+    .aside-step strong {
+      display: block;
+      color: #c8ff4d;
+      font-size: 20px;
+      line-height: 1;
+      margin-bottom: 9px;
+    }
+    .aside-step span {
+      color: #fff;
+      font-size: 12px;
+      font-weight: 800;
+      line-height: 1.35;
+    }
+    .account-header,
+    .order-card,
+    .cred-card,
+    .cred-form {
+      background: #0b1115;
+      border-color: rgba(205,255,108,.18);
+      border-radius: 0;
+      box-shadow: 0 18px 42px rgba(0,0,0,.36);
+    }
+    .account-avatar {
+      background: #111a20;
+      border-color: rgba(200,255,77,.32);
+      color: #c8ff4d;
+    }
+    .account-name,
+    .orders-title,
+    .cred-title,
+    .order-product {
+      color: #fff;
+    }
+    .account-email,
+    .order-meta,
+    .status-msg,
+    .orders-empty p,
+    .orders-empty span,
+    .cred-form-title {
+      color: #c9d0c5;
+    }
+    .orders-count,
+    .order-amount,
+    .key-label,
+    .key-value {
+      color: #c8ff4d;
+    }
+    .key-section,
+    .order-status-info,
+    .order-tracker {
+      border-top-color: rgba(205,255,108,.12);
+    }
+    .key-section,
+    .key-box {
+      background: #111a20;
+      border-color: rgba(205,255,108,.18);
+    }
+    .btn-logout {
+      border-color: rgba(205,255,108,.22);
+      color: #fff;
+      border-radius: 0;
+    }
+    .btn-logout:hover {
+      background: rgba(200,255,77,.08);
+      color: #c8ff4d;
+    }
+    @media (max-width: 880px) {
+      .page { padding: 34px 18px 80px; }
+      .auth-layout { grid-template-columns: 1fr; }
+      .account-aside { min-height: 360px; padding: 24px; }
+      .aside-steps { grid-template-columns: 1fr; }
+      .page-header { text-align: left; }
+    }
   </style>
 </head>
 <body>
@@ -237,7 +506,9 @@
 
     <!-- Auth (not logged in) -->
     <div id="authView" style="display:none;">
-      <div style="text-align:center;margin-bottom:20px;padding:14px 20px;background:var(--bg3);border:1px solid var(--border-med);border-radius:12px;max-width:440px;margin:0 auto 20px;">
+      <div class="auth-layout">
+        <div>
+      <div class="auth-notice">
         <p style="color:var(--green-light);font-size:14px;font-weight:700;">🔐 Inicia sesión para ver tus pedidos y claves</p>
       </div>
       <div class="auth-card">
@@ -286,6 +557,8 @@
               Crear cuenta
             </button>
           </form>
+        </div>
+      </div>
         </div>
       </div>
     </div>

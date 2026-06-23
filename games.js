@@ -11080,6 +11080,45 @@
     "description": ""
   }
 ];
+
+  function getPlatformLabel(game) {
+    if (game.platform) {
+      const platform = String(game.platform).trim();
+      if (platform.toUpperCase() === 'PS5') return 'PS5';
+      if (/pc\s*steam/i.test(platform)) return 'PC Steam';
+      return platform;
+    }
+    return 'PC Steam';
+  }
+
+  function getDisplayName(game) {
+    const platform = getPlatformLabel(game);
+    const name = String(game.name || '');
+    if (platform === 'PC Steam' && /-\s*pc\s*steam$/i.test(name)) return name;
+    if (platform === 'PS5' && /-\s*ps5$/i.test(name)) return name;
+    if (platform === 'PS5') {
+      const isPreorder = /preventa/i.test(name);
+      const cleanName = name
+        .replace(/\s*PlayStation\s*5\s*/i, ' ')
+        .replace(/\s*[\u2014-]\s*Preventa\s*$/i, '')
+        .trim();
+      return cleanName + ' - PS5' + (isPreorder ? ' Preventa' : '');
+    }
+    return name + ' - ' + platform;
+  }
+
+  function getGameCategory(game) {
+    const platform = getPlatformLabel(game);
+    if (platform === 'PC Steam') return 'Juego para PC Steam';
+    if (platform === 'PS5') return 'Juego para PlayStation 5';
+    return 'Juego digital ' + platform;
+  }
+
+  games.forEach(function (game) {
+    game.platformLabel = getPlatformLabel(game);
+    game.displayName = getDisplayName(game);
+  });
+
   window.XPASS_GAMES = games;
 
   function esc(value) {
@@ -11099,20 +11138,20 @@
   const mount = document.getElementById('gameCatalogMount');
   if (mount) {
     const cards = games.map(function (game, index) {
-      const platform = game.platform || 'STEAM · PC';
-      const platformLabel = game.platform || 'Steam · PC';
+      const platformLabel = game.platformLabel || getPlatformLabel(game);
+      const displayName = game.displayName || getDisplayName(game);
       const note = game.note ? '<p class="ebn-note">' + esc(game.note) + '</p>' : '';
       return '<article class="ebn-card" data-category="games"' + (index >= LANDING_GAMES ? ' data-extra="1"' : '') + '>' +
         (index < 3 ? '<div class="ebn-hot-ribbon">★ POPULAR</div>' : '') +
         '<div class="ebn-card-img">' +
-          '<img src="/assets/games/portrait/' + game.appid + '.jpg" onerror="this.onerror=null;this.src=&quot;' + esc(game.image) + '&quot;" width="300" height="450" loading="lazy" decoding="async" alt="' + esc(game.name) + '" />' +
+          '<img src="/assets/games/portrait/' + game.appid + '.jpg" onerror="this.onerror=null;this.src=&quot;' + esc(game.image) + '&quot;" width="300" height="450" loading="lazy" decoding="async" alt="' + esc(displayName) + '" />' +
         '</div>' +
         '<div class="ebn-card-body">' +
-          '<h3>' + esc(game.name) + '</h3>' +
+          '<h3>' + esc(displayName) + '</h3>' +
           note +
           '<div class="ebn-region">GLOBAL</div>' +
           '<div class="ebn-price-row"><span class="ebn-from">Desde</span><span class="ebn-price">$' + money(game.price) + '<small>MXN</small></span></div>' +
-          '<button class="plan-add-btn" data-sku="game-' + game.appid + '" data-product="' + esc(game.name) + '" data-price="' + game.price + '" data-badge="' + esc(platformLabel) + '" data-thumb="' + esc(game.image) + '">Añadir al carrito</button>' +
+          '<button class="plan-add-btn" data-sku="game-' + game.appid + '" data-product="' + esc(displayName) + '" data-price="' + game.price + '" data-badge="' + esc(platformLabel) + '" data-thumb="' + esc(game.image) + '">Añadir al carrito</button>' +
         '</div>' +
       '</article>';
     }).join('');
@@ -11133,9 +11172,9 @@
         position: index + 1,
         item: {
           '@type': 'Product',
-          name: game.name,
+          name: game.displayName || getDisplayName(game),
           image: 'https://xpass.digital' + game.image,
-          category: 'Juego para PC',
+          category: getGameCategory(game),
           offers: {
             '@type': 'Offer',
             price: String(game.price),

@@ -253,7 +253,7 @@
         </div>
       </div>
       <div class="nav-right">
-        <span class="nav-locale" title="México · Pesos mexicanos"><span class="nav-flag">🇲🇽</span> Español · MXN</span>
+        <span class="nav-locale" title="México · Pesos mexicanos"><span class="nav-flag">🇲🇽</span> Español Latinoamericano | MXN</span>
         <!-- Account dropdown -->
         <div class="account-menu-wrap" id="accountMenuWrap" style="display:none;">
           <button class="account-nav-btn" id="accountNavBtn" onclick="toggleAccountMenu(event)">
@@ -275,11 +275,10 @@
         </div>
         <a href="/cuenta" class="account-nav-ghost" id="loginNavBtn">
           <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20 21v-2a4 4 0 00-4-4H8a4 4 0 00-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
-          Ingresar
+          Iniciar sesión
         </a>
         <button class="cart-btn" id="cartBtn">
           <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><circle cx="9" cy="21" r="1"/><circle cx="20" cy="21" r="1"/><path d="M1 1h4l2.68 13.39a2 2 0 001.99 1.61h9.72a2 2 0 001.99-1.61L23 6H6"/></svg>
-          <span>Carrito</span>
           <span class="cart-count" id="cartCount">0</span>
         </button>
       </div>
@@ -287,11 +286,10 @@
     <!-- Sub-barra de categorías estilo marketplace -->
     <div class="nav-chips">
       <div class="nav-chips-inner" id="navCats" role="tablist" aria-label="Categorías">
-        <a href="#planes" class="nav-cat active" data-cat="all" role="tab" aria-selected="true">Todo</a>
         <a href="#planes" class="nav-cat" data-cat="games" role="tab" aria-selected="false">Videojuegos</a>
-        <a href="#planes" class="nav-cat" data-cat="gaming" role="tab" aria-selected="false">Suscripciones</a>
-        <a href="#planes" class="nav-cat" data-cat="recargas" role="tab" aria-selected="false">Recargas in-game</a>
-        <a href="#planes" class="nav-cat" data-cat="giftcards" role="tab" aria-selected="false">Gift cards</a>
+        <a href="#planes" class="nav-cat" data-cat="gaming" role="tab" aria-selected="false">Xbox Game Pass</a>
+        <a href="#planes" class="nav-cat" data-cat="giftcards" role="tab" aria-selected="false">eTarjetas</a>
+        <a href="#planes" class="nav-cat" data-cat="recargas" role="tab" aria-selected="false">Robux y Free Fire</a>
         <a href="#planes" class="nav-cat" data-cat="streaming" role="tab" aria-selected="false">Streaming</a>
         <a href="#planes" class="nav-cat" data-cat="egifts" role="tab" aria-selected="false">eGifts</a>
       </div>
@@ -305,21 +303,17 @@
         <div class="ebn-banner-glow"></div>
         <div class="ebn-banner-glow ebn-banner-glow--2"></div>
         <div class="ebn-banner-content">
-          <h1>Videojuegos baratos y<br /><em>códigos digitales</em></h1>
-          <p>Más de 1,100 juegos para PC, Robux, Free Fire, Game Pass, gift cards y más. Precios en MXN y entrega digital por correo.</p>
+          <h1>Claves digitales, recargas y <em>Game Pass barato</em></h1>
+          <p>Compra videojuegos, gift cards, Robux, Free Fire y suscripciones con entrega digital rápida en México.</p>
+          <a class="ebn-banner-cta" href="#planes">Compra ahora</a>
           <div class="ebn-hero-brands">
             <span>Steam PC</span><i>·</i><span>Robux</span><i>·</i><span>Free Fire</span><i>·</i><span>Xbox</span><i>·</i><span>PlayStation</span>
           </div>
         </div>
-        <div class="ebn-hero-cards" aria-hidden="true">
-          <img class="hc hc-4" src="assets/xbox-giftcard.jpg" alt="" loading="eager" />
-          <img class="hc hc-3" src="assets/googleplay.jpg" alt="" loading="eager" />
-          <img class="hc hc-2" src="assets/freefire.jpg" alt="" loading="eager" />
-          <img class="hc hc-1" src="assets/robux.jpg" alt="" loading="eager" />
-          <div class="ebn-price-chip">
-            <span class="from">Desde</span>
-            <span class="amt">$200 <small>MXN</small></span>
-          </div>
+        <div class="hero-game-posters" aria-hidden="true">
+          <img class="hero-poster hero-poster-1" src="assets/games/portrait/3240220.jpg" alt="" loading="eager" />
+          <img class="hero-poster hero-poster-2" src="assets/gpu-poster.jpg" alt="" loading="eager" />
+          <img class="hero-poster hero-poster-3" src="assets/games/portrait/1808500.jpg" alt="" loading="eager" />
         </div>
       </div>
     </div>
@@ -329,8 +323,8 @@
   <section class="ebn-products" id="planes">
     <div class="container">
       <div class="ebn-row-head">
-        <h2>Videojuegos, recargas y códigos digitales</h2>
-        <span class="sub">Más de 1,100 juegos para PC, streaming, recargas y gift cards en México</span>
+        <h2>Lo que te recomendamos</h2>
+        <span class="sub">Ofertas populares con entrega digital y precios en MXN</span>
       </div>
       <div class="ebn-noresults" id="ebnNoResults" style="display:none">
         <svg width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" opacity=".35"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
@@ -803,30 +797,6 @@
     </div>
   </section>
 
-  <!-- GUÍAS -->
-  <section class="ebn-guides">
-    <div class="container">
-      <div class="ebn-row-head">
-        <h2>Guías y tutoriales</h2>
-        <a href="/blog" class="more">Ver todas las guías →</a>
-      </div>
-      <div class="ebn-guides-grid">
-        <a href="/blog/como-canjear-codigo-xbox-game-pass" class="ebn-guide">
-          <span class="k">Guía paso a paso</span>
-          <h3>Cómo canjear un código de Xbox Game Pass</h3>
-          <p>Activa tu código de 25 caracteres en la consola, en PC o desde la web en menos de dos minutos.</p>
-          <span class="more">Leer guía →</span>
-        </a>
-        <a href="/blog/game-pass-vs-game-pass-ultimate" class="ebn-guide">
-          <span class="k">Comparativa</span>
-          <h3>Game Pass vs Game Pass Ultimate</h3>
-          <p>Qué incluye cada plan de Xbox y por qué Ultimate suele ser la mejor relación precio-beneficio.</p>
-          <span class="more">Leer comparativa →</span>
-        </a>
-      </div>
-    </div>
-  </section>
-
   <!-- FAQ -->
   <section class="faq-section" id="faq">
     <div class="container">
@@ -890,6 +860,19 @@
             <span class="spei">SPEI</span>
           </div>
         </div>
+        <div class="footer-newsletter">
+          <h5>Ofertas personalizadas</h5>
+          <p>Recibe promos de Game Pass, Robux, gift cards y videojuegos populares.</p>
+          <form class="footer-news-form">
+            <input type="email" placeholder="Ingresa tu email" aria-label="Email para ofertas" />
+            <button type="button">Suscribirse</button>
+          </form>
+          <div class="footer-trust">
+            <span>Entrega digital</span>
+            <span>Pago seguro</span>
+            <span>Soporte en México</span>
+          </div>
+        </div>
         <div class="footer-links">
           <div class="footer-col">
             <h5>Catálogo</h5>
@@ -911,7 +894,6 @@
             <a href="/contacto">Contacto</a>
             <a href="/comprobante">Enviar comprobante</a>
             <a href="#faq">Preguntas frecuentes</a>
-            <a href="/blog">Blog y guías</a>
           </div>
           <div class="footer-col">
             <h5>Legal</h5>
@@ -1165,7 +1147,7 @@
   <script src="games.js"></script>
   <script src="script.js"></script>
   <script>
-  // ── Buscador del navbar (sugerencias del catálogo y guías) ──
+  // ── Buscador del navbar (sugerencias del catálogo) ──
   (function () {
     var ITEMS = [
       { n: 'Xbox Game Pass Ultimate 1 Mes — $220 MXN',     u: '/game-pass-ultimate-1-mes',                 t: 'plan' },
@@ -1176,14 +1158,12 @@
       { n: 'Xbox Tarjeta de saldo — desde $200 MXN',       u: '#planes',                                   t: 'gift card' },
       { n: 'PlayStation Store Gift Card — desde $250 MXN', u: '#planes',                                   t: 'gift card' },
       { n: 'Steam Wallet — desde $200 MXN',                u: '#planes',                                   t: 'gift card' },
-      { n: 'Cómo canjear un código de Xbox Game Pass',     u: '/blog/como-canjear-codigo-xbox-game-pass',  t: 'guía' },
-      { n: 'Game Pass vs Game Pass Ultimate',              u: '/blog/game-pass-vs-game-pass-ultimate',     t: 'guía' },
       { n: 'Enviar comprobante de pago',                   u: '/comprobante',                              t: 'ayuda' },
       { n: 'Preguntas frecuentes',                         u: '#faq',                                      t: 'ayuda' }
     ];
     if (Array.isArray(window.XPASS_GAMES)) {
       ITEMS = window.XPASS_GAMES.map(function (game) {
-        return { n: game.name + ' — $' + game.price.toLocaleString('es-MX') + ' MXN', u: '#planes', t: 'videojuego' };
+        return { n: (game.displayName || game.name) + ' — $' + game.price.toLocaleString('es-MX') + ' MXN', u: '#planes', t: 'videojuego' };
       }).concat(ITEMS);
     }
     var form = document.getElementById('navSearch');
@@ -1259,13 +1239,14 @@
     function apply() {
       var q = input ? norm(input.value.trim()) : '';
       // Vista por defecto de la portada: sin búsqueda y con "Todo" activo.
-      // Aquí ocultamos los videojuegos "extra" para no listarlos todos.
+      // Priorizamos recargas, gift cards y suscripciones; videojuegos se abren desde su categoría.
       var landing = activeCat === 'all' && !q;
       var visible = 0;
       cards.forEach(function (card) {
         var catOk = activeCat === 'all' || card.getAttribute('data-category') === activeCat;
         var qOk = !q || card._search.indexOf(q) !== -1;
         var show = catOk && qOk;
+        if (show && landing && card.getAttribute('data-category') === 'games') show = false;
         if (show && landing && card.getAttribute('data-extra') === '1') show = false;
         card.classList.toggle('is-hidden', !show);
         if (show) visible++;
