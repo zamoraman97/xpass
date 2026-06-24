@@ -49,6 +49,9 @@ const itemList = {
       name: game.name,
       image: `https://xpass.digital${game.image}`,
       category: 'Videojuego para PC',
+      brand: { '@type': 'Brand', name: /^\d+$/.test(String(game.appid)) ? 'Steam' : (game.platform || 'PC') },
+      sku: `XPASS-GAME-${game.appid}`,
+      mpn: String(game.appid),
       offers: {
         '@type': 'Offer',
         price: String(game.price),

@@ -11180,6 +11180,9 @@
           name: game.displayName || getDisplayName(game),
           image: 'https://xpass.digital' + game.image,
           category: getGameCategory(game),
+          brand: { '@type': 'Brand', name: /^\d+$/.test(String(game.appid)) ? 'Steam' : (game.platform || 'PC') },
+          sku: 'XPASS-GAME-' + game.appid,
+          mpn: String(game.appid),
           offers: {
             '@type': 'Offer',
             price: String(game.price),

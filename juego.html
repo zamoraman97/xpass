@@ -130,6 +130,33 @@
       document.title = displayName + ' | XPass';
       document.querySelector('meta[name="description"]').setAttribute('content', description.slice(0, 155));
 
+      (function injectProductSchema() {
+        const isNumericId = /^\d+$/.test(String(game.appid));
+        const productLd = {
+          '@context': 'https://schema.org',
+          '@type': 'Product',
+          name: displayName,
+          image: 'https://xpass.digital' + image,
+          description: description,
+          brand: { '@type': 'Brand', name: isNumericId ? 'Steam' : (platform || 'PC') },
+          sku: 'XPASS-GAME-' + game.appid,
+          mpn: String(game.appid),
+          category: 'Videojuego',
+          offers: {
+            '@type': 'Offer',
+            price: String(game.price),
+            priceCurrency: 'MXN',
+            availability: 'https://schema.org/InStock',
+            url: 'https://xpass.digital' + location.pathname,
+            seller: { '@type': 'Organization', name: 'XPass' }
+          }
+        };
+        const script = document.createElement('script');
+        script.type = 'application/ld+json';
+        script.textContent = JSON.stringify(productLd);
+        document.head.appendChild(script);
+      })();
+
       shell.innerHTML =
         '<div class="breadcrumbs"><a href="/">Inicio</a> / <a href="/#planes">Videojuegos</a> / ' + esc(displayName) + '</div>' +
         '<section class="product-layout">' +
